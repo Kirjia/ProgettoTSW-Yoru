@@ -33,7 +33,7 @@ public class AutoreDAO implements GenericDBOp<Autore> {
 	}
 
     @Override
-    public Collection<Autore> getAll(){
+    public Collection<Autore> getAll()throws SQLException{
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -58,23 +58,21 @@ public class AutoreDAO implements GenericDBOp<Autore> {
             }
 
 
-        }catch (SQLException e){
-        	LOGGER.log(Level.SEVERE, "AutoreDAO", e);
         } finally {
-            try {
 
-                if (ps != null)
-                    ps.close();
-                connection.close();
-            } catch (SQLException s) {
-            	LOGGER.log(Level.SEVERE, "AutoreDAO", s);
-            }
+            if (rs != null)
+                rs.close();
+
+            if (ps != null)
+                ps.close();
+            connection.close();
+             
         }
         return autori;
     }
 
     @Override
-    public Autore getById(int id){
+    public Autore getById(int id) throws SQLException{
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -98,23 +96,21 @@ public class AutoreDAO implements GenericDBOp<Autore> {
             }
 
 
-        }catch (SQLException e){
-        	LOGGER.log(Level.SEVERE, "AutoreDAO", e);
         } finally {
-            try {
 
-                if (ps != null)
-                    ps.close();
-                connection.close();
-            } catch (SQLException s) {
-            	LOGGER.log(Level.SEVERE, "AutoreDAO", s);
-            }
+            if (rs != null)
+                rs.close();
+
+            if (ps != null)
+                ps.close();
+            connection.close();
+             
         }
         return autore;
     }
 
     @Override
-    public synchronized boolean insert(Autore autore){
+    public synchronized boolean insert(Autore autore)throws SQLException{
         Connection connection =null;
         PreparedStatement ps = null;
         boolean statement = false;
@@ -140,23 +136,18 @@ public class AutoreDAO implements GenericDBOp<Autore> {
 
             connection.commit();
 
-        }catch (SQLException e){
-        	LOGGER.log(Level.SEVERE, "AutoreDAO", e);
         } finally {
-            try {
 
-                if (ps != null)
-                    ps.close();
-                connection.close();
-            } catch (SQLException s) {
-            	LOGGER.log(Level.SEVERE, "AutoreDAO", s);
-            }
+            if (ps != null)
+                ps.close();
+            connection.close();
+             
         }
         return statement;
     }
 
     @Override
-    public synchronized boolean update(Autore autore){
+    public synchronized boolean update(Autore autore)throws SQLException{
         Connection connection =null;
         PreparedStatement ps = null;
         boolean statement = false;
@@ -185,23 +176,18 @@ public class AutoreDAO implements GenericDBOp<Autore> {
 
             connection.commit();
 
-        }catch (SQLException e){
-        	LOGGER.log(Level.SEVERE, "AutoreDAO", e);
         } finally {
-            try {
 
-                if (ps != null)
-                    ps.close();
-                connection.close();
-            } catch (SQLException s) {
-                System.err.println(s.getMessage());
-            }
+            if (ps != null)
+                ps.close();
+            connection.close();
+             
         }
         return statement;
     }
 
     @Override
-    public synchronized boolean remove(Autore autore){
+    public synchronized boolean remove(Autore autore)throws SQLException{
         Connection connection =null;
         PreparedStatement ps = null;
         boolean statement = false;
@@ -224,22 +210,17 @@ public class AutoreDAO implements GenericDBOp<Autore> {
 
             connection.commit();
 
-        }catch (SQLException e){
-        	LOGGER.log(Level.SEVERE, "AutoreDAO", e);
         } finally {
-            try {
 
-                if (ps != null)
-                    ps.close();
-                connection.close();
-            } catch (SQLException s) {
-            	LOGGER.log(Level.SEVERE, "AutoreDAO", s);
-            }
+            if (ps != null)
+                ps.close();
+            connection.close();
+             
         }
         return statement;
     }
 
-    public Collection<Libro> getAuthorBook(Autore autore){
+    public Collection<Libro> getAuthorBook(Autore autore) throws SQLException{
         Connection connection =null;
         PreparedStatement preparedStatement=null;
         ResultSet rs=null;
@@ -272,18 +253,15 @@ public class AutoreDAO implements GenericDBOp<Autore> {
             }
 
 
-        }catch (SQLException e){
-            LOGGER.log(Level.SEVERE, "AutoreDAO", e);
         } finally {
-            try {
-                if (rs != null)
-                    rs.close();
-                if (preparedStatement!= null)
-                    preparedStatement.close();
-               connection.close();
-            } catch (SQLException s) {
-            	LOGGER.log(Level.SEVERE, "AutoreDAO", s);
-            }
+
+            if (rs != null)
+                rs.close();
+
+            if (preparedStatement != null)
+                preparedStatement.close();
+            connection.close();
+             
         }
 
         return libri;

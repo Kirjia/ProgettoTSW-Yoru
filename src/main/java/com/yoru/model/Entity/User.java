@@ -14,6 +14,7 @@ public class User {
     private String nome;
     private String cognome;
     private String telefono;
+    private Role role;
 
 
 
@@ -58,9 +59,16 @@ public class User {
     }
 
     
-    
 
-    public int getId() {
+    public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
+	public int getId() {
 		return id;
 	}
 

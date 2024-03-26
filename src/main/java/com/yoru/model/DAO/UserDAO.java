@@ -12,6 +12,7 @@ import java.util.Collection;
 import javax.sql.DataSource;
 
 import com.yoru.DBServices.GenericDBOp;
+import com.yoru.model.Entity.Role;
 import com.yoru.model.Entity.User;
 
 public class UserDAO implements GenericDBOp<User> {
@@ -19,10 +20,12 @@ public class UserDAO implements GenericDBOp<User> {
 
     private static int passCode = 256;
     private static final String LOGIN = "bool";
+    public static final String TABLE_NAME = "user";
     private DataSource ds;
     
     public UserDAO(DataSource ds) {
     	this.ds = ds;
+    	
     }
 
     @Override
@@ -36,7 +39,7 @@ public class UserDAO implements GenericDBOp<User> {
     }
 
 
-    public User getById(String email){
+    public User getById(String email)throws SQLException{
         Connection connection =null;
         PreparedStatement ps = null;
         User user = new User();
@@ -45,7 +48,8 @@ public class UserDAO implements GenericDBOp<User> {
 
         try {
             connection = ds.getConnection();
-            String sql = "SELECT nome, cognome FROM user WHERE email = ?";
+            connection.setAutoCommit(false);
+            String sql = "SELECT nome, cognome FROM "+ UserDAO.TABLE_NAME + " WHERE email = ?";
             ps = connection.prepareStatement(sql);
             ps.setString(1, email);
 
@@ -63,24 +67,21 @@ public class UserDAO implements GenericDBOp<User> {
 
             connection.commit();
 
-        }catch (SQLException e){
-            e.printStackTrace();
         } finally {
-            try {
-                if(rs != null)
-                    rs.close();
-                if (ps != null)
-                    ps.close();
-                connection.close();
-            } catch (SQLException s) {
-                System.err.println(s.getMessage());
-            }
+
+            if (rs != null)
+                rs.close();
+
+            if (ps != null)
+                ps.close();
+            connection.close();
+             
         }
         return user;
     }
 
     @Override
-    public synchronized boolean insert(User user) {
+    public synchronized boolean insert(User user) throws SQLException{
         Connection connection =null;
         PreparedStatement ps = null;
         boolean statement = false;
@@ -88,8 +89,9 @@ public class UserDAO implements GenericDBOp<User> {
 
         try {
             connection = ds.getConnection();
+            connection.setAutoCommit(false);
 
-            String sql = "INSERT INTO user (email, password, nome, cognome, telefono)" +
+            String sql = "INSERT INTO "  + UserDAO.TABLE_NAME + " (email, password, nome, cognome, telefono)" +
                     "VALUE (?,SHA2(?, ?),?,?,?)";
             ps = connection.prepareStatement(sql);
             ps.setString(1, user.getEmail());
@@ -112,23 +114,18 @@ public class UserDAO implements GenericDBOp<User> {
 
             connection.commit();
 
-        }catch (SQLException e){
-            e.printStackTrace();
         } finally {
-            try {
 
-                if (ps != null)
-                    ps.close();
-                connection.close();
-            } catch (SQLException s) {
-                System.err.println(s.getMessage());
-            }
+            if (ps != null)
+                ps.close();
+            connection.close();
+             
         }
         return statement;
     }
 
     @Override
-    public synchronized boolean update(User user){
+    public synchronized boolean update(User user)throws SQLException{
         Connection connection =null;
         PreparedStatement ps = null;
         boolean statement = false;
@@ -136,7 +133,8 @@ public class UserDAO implements GenericDBOp<User> {
 
         try {
             connection = ds.getConnection();
-            String sql = "UPDATE user SET password = sha2(?, ?), telefono=?";
+            connection.setAutoCommit(false);
+            String sql = "UPDATE "+ UserDAO.TABLE_NAME + " SET password = sha2(?, ?), telefono=?";
             ps = connection.prepareStatement(sql);
             ps.setString(1, user.getPassword());
             ps.setInt(2, passCode);
@@ -154,23 +152,18 @@ public class UserDAO implements GenericDBOp<User> {
 
             connection.commit();
 
-        }catch (SQLException e){
-            e.printStackTrace();
         } finally {
-            try {
 
-                if (ps != null)
-                    ps.close();
-                connection.close();
-            } catch (SQLException s) {
-                System.err.println(s.getMessage());
-            }
+            if (ps != null)
+                ps.close();
+            connection.close();
+             
         }
         return statement;
     }
 
     @Override
-    public synchronized boolean remove(User user) {
+    public synchronized boolean remove(User user)throws SQLException {
         Connection connection =null;
         PreparedStatement ps = null;
         boolean statement = false;
@@ -178,7 +171,8 @@ public class UserDAO implements GenericDBOp<User> {
 
         try {
             connection = ds.getConnection();
-            String sql = "DELETE FROM user WHERE email = ?";
+            connection.setAutoCommit(false);
+            String sql = "DELETE FROM "+ UserDAO.TABLE_NAME + " WHERE email = ?";
             ps = connection.prepareStatement(sql);
             ps.setString(1, user.getEmail());
 
@@ -194,64 +188,63 @@ public class UserDAO implements GenericDBOp<User> {
 
             connection.commit();
 
-        }catch (SQLException e){
-            e.printStackTrace();
         } finally {
-            try {
 
-                if (ps != null)
-                    ps.close();
-                connection.close();
-            } catch (SQLException s) {
-                System.err.println(s.getMessage());
-            }
+            if (ps != null)
+                ps.close();
+            connection.close();
+             
         }
         return statement;
     }
 
-    public boolean login(User user){
-        boolean login = false;
+    public User login(String email, String  password)throws SQLException{
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
+        User user = new User();
 
         try {
             connection = ds.getConnection();
-            connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+            connection.setAutoCommit(false);
 
-            String sql = "SELECT count(*) AS bool FROM user WHERE email = ? AND password = sha2(?, ?)";
+            String sql = "SELECT id, nome, cognome, role FROM "+ UserDAO.TABLE_NAME + " WHERE email = ? AND password = sha2(?, ?)";
             ps = connection.prepareStatement(sql);
-            ps.setString(1, user.getEmail());
-            ps.setString(2, user.getPassword());
+            ps.setString(1, email);
+            ps.setString(2, password);
             ps.setInt(3, passCode);
+            
 
 
             rs = ps.executeQuery();
-
+            
             if (rs.next()){
 
-                int result = rs.getInt(LOGIN);
-                if (result == 1)
-                    login = true;
+               user.setId(rs.getInt("id"));
+               user.setNome(rs.getString(User.COLUMNLABEL2));
+               user.setCognome(rs.getString(User.COLUMNLABEL3));
+               String roleString = rs.getString("role");
+               if (roleString.equals(Role.ADMIN)) {
+				user.setRole(Role.ADMIN);
+               }else {
+				user.setRole(Role.USER);
+               }
             }
 
             connection.commit();
 
-        }catch (SQLException e){
-            e.printStackTrace();
+        
         } finally {
-            try {
-                if (rs != null)
-                    rs.close();
 
-                if (ps != null)
-                    ps.close();
-                connection.close();
-            } catch (SQLException s) {
-                System.err.println(s.getMessage());
-            }
+            if (rs != null)
+                rs.close();
+
+            if (ps != null)
+                ps.close();
+            connection.close();
+             
         }
-        return login;
+        return user;
     }
 
 }
