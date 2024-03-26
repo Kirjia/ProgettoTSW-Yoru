@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context> 
+	<Resource name="jdbc/YoruDB"
+		 auth="Container" 
+		 driverClassName="com.mysql.cj.jdbc.Driver" 
+		 type="javax.sql.DataSource" 
+		 username="shiruser" 
+		 password="shiruser" 
+		 url="jdbc:mysql://localhost:3306/shiru?useUnicode=true&amp; useJDBCCompliantTimezoneShift=true&amp; useLegacyDatetimeCode=false&amp;autoReconnect=true&amp; serverTimezone=UTC&amp;useSSL=false&amp; allowPublicKeyRetrieval=true"/> 
+</Context>
