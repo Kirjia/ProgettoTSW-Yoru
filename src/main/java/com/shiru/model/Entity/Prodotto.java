@@ -7,14 +7,14 @@ public class Prodotto {
     public static final String COLUMNLABEL2 = "nome";
     public static final String COLUMNLABEL3 = "peso";
     public static final String COLUMNLABEL4 = "prezzo";
-    public static final String COLUMNLABEL5 = "quantit‡";
+    public static final String COLUMNLABEL5 = "quantitÔøΩ";
     public static final String COLUMNLABEL6 = "ID_casa_produttrice";
 
     private int SKU;
     private String nome;
     private float peso;
     private float prezzo;
-    private int quantit‡;
+    private int quantit√†;
     private int id_produttore;
 
     public  Prodotto(){
@@ -57,12 +57,12 @@ public class Prodotto {
         this.prezzo = prezzo;
     }
 
-    public int getQuantit‡() {
-        return quantit‡;
+    public int getQuantit√†() {
+        return quantit√†;
     }
 
-    public void setQuantit‡(int quantit‡) {
-        this.quantit‡ = quantit‡;
+    public void setQuantit√†(int quantit√†) {
+        this.quantit√† = quantit√†;
     }
 
     public int getId_produttore() {
@@ -75,6 +75,6 @@ public class Prodotto {
 
     @Override
     public String toString() {
-        return this.getClass().getName() + "(" + SKU + "): " + nome + " " + peso + " " + prezzo + " " + quantit‡ + " " + id_produttore;
+        return this.getClass().getName() + "(" + SKU + "): " + nome + " " + peso + " " + prezzo + " " + quantit√† + " " + id_produttore;
     }
 }
