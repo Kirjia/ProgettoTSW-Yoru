@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+        
     <wb-module deploy-name="Yoru-TSW">
+                
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
+                
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
-        <property name="context-root" value="Yoru-TSW"/>
+        <dependent-module archiveName="org.json.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/E:/GitHubProjects/ProgettoTSW/ExternalLibraries/org.json.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+                
         <property name="java-output-path" value="/Yoru-TSW/build/classes"/>
+        <property name="context-root" value="Yoru"/>
+            
     </wb-module>
+    
 </project-modules>

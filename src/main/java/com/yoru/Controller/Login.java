@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
+
+import org.json.JSONObject;
 
 import com.yoru.model.DAO.AutoreDAO;
 import com.yoru.model.DAO.UserDAO;
@@ -68,7 +71,7 @@ public class Login extends HttpServlet {
 		String password = request.getParameter("password");
 		User user = null;
 		
-		if(email.isEmpty() && password.isEmpty())
+		if(email == null && password == null)
 			System.out.println("login fallita");
 		else {
 			UserDAO userDAO = new UserDAO(ds);
@@ -81,8 +84,21 @@ public class Login extends HttpServlet {
 			if (user != null) {
 				HttpSession session = request.getSession(true);
 				session.setAttribute("User", user);
-				request.getRequestDispatcher("../home.jsp");
-			}
+				response.setContentType("text/html");
+				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/home.jsp");
+				dispatcher.forward(request, response);
+				
+				return;
+			}/*else {
+				response.setContentType("application/json");
+				JSONObject jsonObject = new JSONObject();
+		        try {
+		        	jsonObject.append("outcome", false);
+		        } catch (Exception e) {
+		        	LOGGER.log(Level.SEVERE, "Login error", e);
+		        }
+		        response.getWriter().print(jsonObject);
+			}*/
 			
 		}
 		

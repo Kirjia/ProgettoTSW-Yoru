@@ -16,6 +16,12 @@ public class Prodotto {
     private float prezzo;
     private int quantità;
     private int id_produttore;
+    private ItemType itemType;
+    
+    public enum ItemType{
+    	Libro,
+    	Gadget
+    }
 
     public  Prodotto(){
         SKU=-1;
@@ -72,8 +78,19 @@ public class Prodotto {
     public void setId_produttore(int id_produttore) {
         this.id_produttore = id_produttore;
     }
+    
 
-    @Override
+    public ItemType getItemType() {
+		return itemType;
+	}
+
+
+	public void setItemType(ItemType itemType) {
+		this.itemType = itemType;
+	}
+
+
+	@Override
     public String toString() {
         return this.getClass().getName() + "(" + SKU + "): " + nome + " " + peso + " " + prezzo + " " + quantità + " " + id_produttore;
     }
