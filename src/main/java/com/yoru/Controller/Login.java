@@ -1,6 +1,7 @@
 package com.yoru.Controller;
 
 import java.io.IOException;
+import java.security.SecureRandom;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,6 +22,10 @@ import org.json.JSONObject;
 import com.yoru.model.DAO.AutoreDAO;
 import com.yoru.model.DAO.UserDAO;
 import com.yoru.model.Entity.User;
+
+
+import org.bouncycastle.crypto.generators.Argon2BytesGenerator;
+import org.bouncycastle.crypto.params.Argon2Parameters;
 
 /**
  * Servlet implementation class Login
@@ -65,6 +70,7 @@ public class Login extends HttpServlet {
 		String password = request.getParameter("password");
 		User user = null;
 		
+
 		if(email == null && password == null) {
 			System.out.println("login fallita");
 			try {
@@ -104,5 +110,7 @@ public class Login extends HttpServlet {
 		
 		
 	}
+	
+
 
 }
