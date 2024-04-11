@@ -1,9 +1,12 @@
 package com.yoru.model.Entity;
 
+import java.util.List;
+
 public class Gadgets extends Prodotto {
 
 	private String modello;
 	private String marchio;
+	private List<String> materiali;
 
     public Gadgets(){
         super();
@@ -24,6 +27,16 @@ public class Gadgets extends Prodotto {
     public void setMarchio(String marchio) {
         this.marchio = marchio;
     }
+    
+    
+
+	public List<String> getMateriali() {
+		return materiali;
+	}
+
+	public void setMateriali(List<String> materiali) {
+		this.materiali = materiali;
+	}
 
 	@Override
 	public String toString() {

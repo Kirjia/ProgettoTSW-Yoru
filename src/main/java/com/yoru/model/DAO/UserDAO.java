@@ -134,11 +134,15 @@ public class UserDAO implements GenericDBOp<User> {
         try {
             connection = ds.getConnection();
             connection.setAutoCommit(false);
-            String sql = "UPDATE "+ UserDAO.TABLE_NAME + " SET password = sha2(?, ?), telefono=?";
+            String sql = "UPDATE "+ UserDAO.TABLE_NAME + " SET password = sha2(?, ?), nome=?, cognome=?, telefono=? where id= ?";
             ps = connection.prepareStatement(sql);
             ps.setString(1, user.getPassword());
             ps.setInt(2, passCode);
-            ps.setString(3, user.getTelefono());
+            ps.setString(3, user.getNome());
+            ps.setString(4, user.getCognome());
+            ps.setString(5, user.getTelefono());
+            ps.setInt(6, user.getId());
+            
 
 
             int result = ps.executeUpdate();
@@ -202,7 +206,7 @@ public class UserDAO implements GenericDBOp<User> {
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        User user = new User();
+        User user = null;
 
         try {
             connection = ds.getConnection();
@@ -219,16 +223,16 @@ public class UserDAO implements GenericDBOp<User> {
             rs = ps.executeQuery();
             
             if (rs.next()){
-
-               user.setId(rs.getInt("id"));
-               user.setNome(rs.getString(User.COLUMNLABEL2));
-               user.setCognome(rs.getString(User.COLUMNLABEL3));
-               String roleString = rs.getString("role");
-               if (roleString.equals(Role.ADMIN)) {
+            	user = new User();
+            	user.setId(rs.getInt("id"));
+            	user.setNome(rs.getString(User.COLUMNLABEL2));
+            	user.setCognome(rs.getString(User.COLUMNLABEL3));
+            	String roleString = rs.getString("role");
+            	if (roleString.equals(Role.ADMIN)) {
 				user.setRole(Role.ADMIN);
-               }else {
+	           }else {
 				user.setRole(Role.USER);
-               }
+	           }
             }
 
             connection.commit();

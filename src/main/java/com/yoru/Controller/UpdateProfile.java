@@ -10,7 +10,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import com.yoru.model.DAO.UserDAO;
 import com.yoru.model.Entity.User;
@@ -47,31 +51,46 @@ public class UpdateProfile extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		response.setContentType("application/json");
 		String passwordString = request.getParameter("upPassword");
-		String nameString = request.getParameter("upname");
+		String nameString = request.getParameter("upName");
 		String surnameString = request.getParameter("upSurname");
 		String numString = request.getParameter("upNumber");
+		JSONObject jsonObject = new JSONObject();
+		
 		
 		
 		if(passwordString != null && nameString != null && surnameString != null) {
-			User updateUser = new User();
-			updateUser.setNome(nameString);
-			updateUser.setCognome(surnameString);
-			updateUser.setPassword(passwordString);
-			updateUser.setTelefono(numString);
+			HttpSession session = request.getSession(false);
+			if (session != null) {
+				User updateUser = (User) session.getAttribute("user");
+				updateUser.setNome(nameString);
+				updateUser.setCognome(surnameString);
+				updateUser.setPassword(passwordString);
+				updateUser.setTelefono(numString);
 
 			
-			try {
-				userDAO.update(updateUser);
-				
-			} catch (SQLException e) {
-				LOGGER.log(Level.WARNING, "update profilo fallito", e);
+			
+
+			
+				try {
+					Boolean result = userDAO.update(updateUser);
+					jsonObject.append("result", result);
+					if (result) {
+						session.setAttribute("Profile", updateUser);
+					}
+				} catch (SQLException e) {
+					LOGGER.log(Level.WARNING, "update profilo fallito", e);
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					LOGGER.log(Level.WARNING, "json fallito", e);
+				}
 			}
 			
 			
 		}
 		
+		response.getWriter().print(jsonObject);
 		
 	}
 

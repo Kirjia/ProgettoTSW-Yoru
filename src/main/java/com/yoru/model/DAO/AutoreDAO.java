@@ -15,7 +15,6 @@ import java.util.logging.Logger;
 
 import javax.sql.DataSource;
 
-import com.yoru.DBServices.DBConnectionPool;
 import com.yoru.DBServices.GenericDBOp;
 import com.yoru.model.Entity.Autore;
 import com.yoru.model.Entity.Libro;

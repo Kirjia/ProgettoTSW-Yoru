@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.yoru.model.DAO.AutoreDAO;
@@ -38,41 +39,40 @@ public class Login extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see Servlet#init(ServletConfig)
-	 */
+    
 	public void init() throws ServletException {
 		super.init();
 		ds = (DataSource) super.getServletContext().getAttribute("DataSource");
 	}
 
-	/**
-	 * @see Servlet#destroy()
-	 */
+
 	public void destroy() {
 		// TODO Auto-generated method stub
 	}
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doPost(request, response);
 		
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		response.setContentType("application/json");
+		JSONObject jsonObject = new JSONObject();
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 		User user = null;
 		
-		if(email == null && password == null)
+		if(email == null && password == null) {
 			System.out.println("login fallita");
+			try {
+				jsonObject.append("outcome", false);
+			} catch (JSONException e) {
+				LOGGER.log(Level.SEVERE, "Login error", e);
+			}
+		}
 		else {
 			UserDAO userDAO = new UserDAO(ds);
 			try {
@@ -81,24 +81,22 @@ public class Login extends HttpServlet {
 				LOGGER.log(Level.SEVERE, "Login error", e);
 			}
 			
-			if (user != null) {
-				HttpSession session = request.getSession(true);
-				session.setAttribute("User", user);
-				response.setContentType("text/html");
-				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/home.jsp");
-				dispatcher.forward(request, response);
-				
-				return;
-			}/*else {
-				response.setContentType("application/json");
-				JSONObject jsonObject = new JSONObject();
-		        try {
-		        	jsonObject.append("outcome", false);
-		        } catch (Exception e) {
-		        	LOGGER.log(Level.SEVERE, "Login error", e);
-		        }
-		        response.getWriter().print(jsonObject);
-			}*/
+			 try {
+			
+				if (user != null) {
+					System.out.println("login");
+					HttpSession session = request.getSession(true);
+					session.setAttribute("user", user);
+					jsonObject.append("outcome", true);
+				}else {
+					jsonObject.append("outcome", false);
+				}
+	        } catch (Exception e) {
+	        	LOGGER.log(Level.SEVERE, "Login error", e);
+	        }
+
+	        response.getWriter().print(jsonObject);
+			
 			
 		}
 		

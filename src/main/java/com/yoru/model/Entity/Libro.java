@@ -1,5 +1,6 @@
 package com.yoru.model.Entity;
 
+import java.util.List;
 
 public class Libro extends Prodotto {
 
@@ -10,6 +11,7 @@ public class Libro extends Prodotto {
     private int pagine;
     private String ISBN;
     private String lingua;
+    private List<Autore> autori;
 
 
     public int getNumeroPagine() {
@@ -35,8 +37,18 @@ public class Libro extends Prodotto {
     public void setLingua(String lingua) {
         this.lingua = lingua;
     }
+    
+    
 
-    @Override
+    public List<Autore> getAutori() {
+		return autori;
+	}
+
+	public void setAutori(List<Autore> autori) {
+		this.autori = autori;
+	}
+
+	@Override
     public String toString() {
         return super.toString();
     }

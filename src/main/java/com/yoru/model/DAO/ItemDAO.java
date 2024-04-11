@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Savepoint;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import com.yoru.DBServices.GenericDBOp;
+import com.yoru.model.Entity.Autore;
 import com.yoru.model.Entity.Gadgets;
 import com.yoru.model.Entity.Libro;
 import com.yoru.model.Entity.Prodotto;
@@ -70,6 +72,53 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
     }
     
     
+    public Collection<Prodotto> getBestSellerBook(int limit) throws SQLException{
+    	PreparedStatement  ps = null;
+    	Connection connection = null;
+    	ResultSet resultSet = null;
+    	String sql = "SELECT sum(o.quantità) as vendite, p.* from order_items o inner join prodotto p on o.SKU=p.SKU group by p.sku  order by vendite desc limit ?";
+    	List<Prodotto> books = new ArrayList<>();
+    	try {
+			connection = dSource.getConnection();
+			connection.setAutoCommit(false);
+			ps = connection.prepareStatement(sql);
+			
+			ps.setInt(1, limit);
+			resultSet = ps.executeQuery();
+			
+			while(resultSet.next()) {
+				Prodotto book = new Prodotto();
+				book.setSKU(resultSet.getInt(Prodotto.COLUMNLABEL1));
+				book.setNome(resultSet.getString(Prodotto.COLUMNLABEL2));
+				book.setPrezzo(resultSet.getFloat(Prodotto.COLUMNLABEL4));
+				book.setQuantità(resultSet.getInt(Prodotto.COLUMNLABEL5));
+				book.setId_produttore(resultSet.getInt(Prodotto.COLUMNLABEL6));
+				String typeString = resultSet.getString("category");
+				if (typeString.equalsIgnoreCase(Prodotto.ItemType.Libro.toString())) {
+					book.setItemType(Prodotto.ItemType.Libro);
+					
+				}else {
+					book.setItemType(Prodotto.ItemType.Gadget);
+				}
+				
+			}
+			
+			
+    		
+		} finally {
+			if (ps != null) {
+				ps.close();
+			}
+			if (resultSet != null) {
+				resultSet.close();
+			}
+			connection.close();
+		}
+    	
+    	
+    	return books;
+    }
+    
     public Collection<Libro> getAllBooks(int page)throws SQLException{
     	PreparedStatement ps = null;
     	Connection connection = null;
@@ -119,7 +168,165 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
 
     @Override
     public synchronized boolean insert(Prodotto entity) throws SQLException{
-        return false;
+    	Connection connection =null;
+        PreparedStatement ps = null;
+        PreparedStatement prodId = null;
+        PreparedStatement autor = null;
+        Savepoint savepoint = null;
+        ResultSet rs = null;
+        boolean statement = false;
+
+
+
+        try {
+            connection = dSource.getConnection();
+            connection.setAutoCommit(false);
+            connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+            savepoint = connection.setSavepoint("insertProduct");
+            String sql = "INSERT INTO prodotto (nome, peso, prezzo, quantità, ID_casa_produttrice, category)" +
+                    "VALUE (?,?,?,?,?, ?)";
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, entity.getNome());
+            ps.setFloat(2, entity.getPeso());
+            ps.setFloat(3, entity.getPrezzo());
+            ps.setInt(4, entity.getQuantità());
+            ps.setInt(5, entity.getId_produttore());
+
+            int result = ps.executeUpdate();
+
+            if (result > 0) {
+                System.out.println("Inserimento effettuato con successo\n");
+                String productIdSql = "SELECT MAX(SKU) AS lastID FROM prodotto";
+                prodId = connection.prepareStatement(productIdSql);
+                rs = prodId.executeQuery();
+                int SKU = -1;
+                if (rs.next()) {
+                    SKU = rs.getInt("lastID");
+                    System.out.println("SKU: " + SKU);
+                    if (entity.getItemType() == Prodotto.ItemType.Libro) {
+						
+                    	Libro book = (Libro) entity;
+	                	int resultChild = insertBook(book, connection, SKU);
+	                    
+	                    if(resultChild > 0) {
+	                        sql = "INSERT INTO realizza(ID_autore, SKU) VALUES (?,?)";
+	                        autor = connection.prepareStatement(sql);
+	                        
+                        	List<Autore> autoriList =  book.getAutori();
+	                        for (Autore a : autoriList) {
+	                            int id = a.getID();
+	                            autor.setInt(1, id);
+	                            autor.setInt(2, SKU);
+	                            autor.addBatch();
+	                        }
+	
+	                        autor.executeBatch();
+	                        System.out.println("Inserimento effettuato con successo\n");
+	                        statement = true;
+	
+	                    }
+	                    else
+	                        connection.rollback(savepoint);
+                    }else if (entity.getItemType() == Prodotto.ItemType.Gadget) {
+                    	Gadgets gadget = (Gadgets) entity;
+                    	int resultChild = insertGadget(gadget, connection, SKU);
+                    	if(resultChild > 0) {
+                            sql = "INSERT INTO costituito(SKU, Materiale) VALUES (?, ?)";
+
+                            PreparedStatement psMateriali = connection.prepareStatement(sql);
+
+                            for (String s : gadget.getMateriali()) {
+                                psMateriali.setInt(1, SKU);
+                                psMateriali.setString(2, s);
+                                psMateriali.addBatch();
+                            }
+
+                            psMateriali.executeBatch();
+
+
+                            System.out.println("Inserimento effettuato con successo\n");
+                            statement = true;
+                        }
+                        else
+                            connection.rollback(savepoint);
+					}
+
+                }
+                else {
+                    connection.rollback(savepoint);
+
+                }
+
+            }
+            else {
+                System.out.println("Impossibile inserire il record \n");
+                connection.rollback(savepoint);
+            }
+
+            connection.commit();
+
+
+       
+
+        } finally {
+
+			if (rs != null)
+			    rs.close();
+			
+			    if(prodId != null)
+			        prodId.close();
+			
+		    	if (ps != null)
+                    ps.close();
+		    	connection.close();
+            
+        }
+        return statement;
+    }
+    
+    private int insertBook(Libro book, Connection connection, int SKU) throws SQLException{
+		PreparedStatement bookSt = null;
+		String sql = "INSERT INTO Libro(SKU, ISBN, pagine, lingua)" +
+		         "VALUE (?,?,?,?)";
+		try {
+			
+		
+		bookSt = connection.prepareStatement(sql);
+		bookSt.setInt(1, SKU);
+		bookSt.setString(2, book.getISBN());
+		bookSt.setInt(3, book.getNumeroPagine());
+		bookSt.setString(4, book.getLingua());
+
+        return bookSt.executeUpdate();
+		}finally {
+			if (bookSt!= null) {
+				bookSt.close();
+			}
+		}
+        
+	}
+    
+    
+    private int insertGadget(Gadgets gadget, Connection connection, int SKU) throws SQLException{
+    	PreparedStatement gadSt = null;
+    	String sql = "INSERT INTO gadgets(SKU, modello, Marchio)" +
+                "VALUE (?,?,?)";
+
+    	try {
+        gadSt = connection.prepareStatement(sql);
+        gadSt.setInt(1, SKU);
+        gadSt.setString(2, gadget.getMarchio());
+        gadSt.setString(3, gadget.getModello());
+
+
+        return gadSt.executeUpdate();
+    	}finally {
+			if (gadSt != null) {
+				gadSt.close();
+			}
+		}
+
+        
     }
 
     @Override
