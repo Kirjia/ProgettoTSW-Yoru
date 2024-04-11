@@ -15,6 +15,7 @@ import com.yoru.DBServices.GenericDBOp;
 import com.yoru.model.Entity.Autore;
 import com.yoru.model.Entity.Gadgets;
 import com.yoru.model.Entity.Libro;
+import com.yoru.model.Entity.OrderItem;
 import com.yoru.model.Entity.Prodotto;
 
 import static com.yoru.model.Entity.Prodotto.*;
@@ -32,7 +33,7 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
 	
 	
     @Override
-    public Collection<Prodotto> getAll()  throws SQLException{
+    public synchronized Collection<Prodotto> getAll()  throws SQLException{
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -72,11 +73,11 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
     }
     
     
-    public Collection<Prodotto> getBestSellerBook(int limit) throws SQLException{
+    public synchronized Collection<Prodotto> getBestSellerBook(int limit) throws SQLException{
     	PreparedStatement  ps = null;
     	Connection connection = null;
     	ResultSet resultSet = null;
-    	String sql = "SELECT sum(o.quantità) as vendite, p.* from order_items o inner join prodotto p on o.SKU=p.SKU group by p.sku  order by vendite desc limit ?";
+    	String sql = "SELECT sum(o.quantità) as vendite, p.* from " + OrderItem.TABLE_NAME + " o inner join" + Prodotto.TABLE_NAME + " p on o.SKU=p.SKU group by p.sku  order by vendite desc limit ?";
     	List<Prodotto> books = new ArrayList<>();
     	try {
 			connection = dSource.getConnection();
@@ -119,16 +120,38 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
     	return books;
     }
     
-    public Collection<Libro> getAllBooks(int page)throws SQLException{
+    public synchronized Collection<Prodotto> getAllBooks(int page, int limit)throws SQLException{
     	PreparedStatement ps = null;
     	Connection connection = null;
         ResultSet rs = null;
-        List<Libro> items = new ArrayList<>();
-        String queryString = "SELECT * from" + LIBRIVIEW;
-
+        List<Prodotto> items = new ArrayList<>();
+        int offset = (page - 1)*limit;
+        String queryString = "SELECT SKU, nome, prezzo, quantità FROM "+ LIBRIVIEW + "\r\n"
+        		+ "    INNER JOIN (\r\n"
+        		+ "      SELECT SKU FROM " + LIBRIVIEW + " ORDER BY SKU LIMIT ? OFFSET ?\r\n"
+        		+ "    ) AS tmp USING (SKU)\r\n"
+        		+ "ORDER BY\r\n"
+        		+ "  SKU";
+        
     	
     	try {
     		connection = dSource.getConnection();
+    		ps = connection.prepareStatement(queryString);
+    		ps.setInt(1, limit);
+    		ps.setInt(2, offset);
+    		
+    		
+    		rs = ps.executeQuery();
+    		while(rs.next()) {
+    			Prodotto item = new Prodotto();
+    			item.setSKU(rs.getInt(Prodotto.COLUMNLABEL1));
+    			item.setNome(rs.getString(Prodotto.COLUMNLABEL2));
+    			item.setPrezzo(rs.getFloat(Prodotto.COLUMNLABEL4));
+    			item.setQuantità(rs.getInt(Prodotto.COLUMNLABEL5));
+    			item.setItemType(Prodotto.ItemType.Libro);
+    			items.add(item);
+    			
+    		}
         	
 			
 		} finally {
@@ -137,10 +160,10 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
 			rs.close();
 		}
     	
-    	return null;
+    	return items;
     }
     
-    public Collection<Gadgets> getAllGadgets(int page)throws SQLException{
+    public synchronized Collection<Gadgets> getAllGadgets(int page)throws SQLException{
     	PreparedStatement ps = null;
     	Connection connection = null;
         ResultSet rs = null;
@@ -162,7 +185,7 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
     }
 
     @Override
-    public Prodotto getById(int id)throws SQLException{
+    public synchronized Prodotto getById(int id)throws SQLException{
         return null;
     }
 
@@ -284,7 +307,7 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
         return statement;
     }
     
-    private int insertBook(Libro book, Connection connection, int SKU) throws SQLException{
+    private synchronized int insertBook(Libro book, Connection connection, int SKU) throws SQLException{
 		PreparedStatement bookSt = null;
 		String sql = "INSERT INTO Libro(SKU, ISBN, pagine, lingua)" +
 		         "VALUE (?,?,?,?)";
@@ -307,7 +330,7 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
 	}
     
     
-    private int insertGadget(Gadgets gadget, Connection connection, int SKU) throws SQLException{
+    private synchronized int insertGadget(Gadgets gadget, Connection connection, int SKU) throws SQLException{
     	PreparedStatement gadSt = null;
     	String sql = "INSERT INTO gadgets(SKU, modello, Marchio)" +
                 "VALUE (?,?,?)";

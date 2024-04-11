@@ -7,8 +7,9 @@ public class Prodotto {
     public static final String COLUMNLABEL2 = "nome";
     public static final String COLUMNLABEL3 = "peso";
     public static final String COLUMNLABEL4 = "prezzo";
-    public static final String COLUMNLABEL5 = "quantit�";
+    public static final String COLUMNLABEL5 = "quantità";
     public static final String COLUMNLABEL6 = "ID_casa_produttrice";
+    public static final String TABLE_NAME = "Prodotto";
 
     private int SKU;
     private String nome;

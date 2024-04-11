@@ -1,6 +1,9 @@
 package com.yoru.model.Entity;
 
 public class OrderItem {
+	
+	public static final String TABLE_NAME = "order_items";
+	
 
 	private int SKU;
 	private int quantity;
