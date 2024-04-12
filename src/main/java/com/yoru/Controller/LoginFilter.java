@@ -124,7 +124,7 @@ public class LoginFilter extends HttpFilter implements Filter {
 		                 
 		                httpResponse.addCookie(cookieSelector);
 		                httpResponse.addCookie(cookieValidator);                       
-		                httpResponse.sendRedirect("..Yoru/jsp/home.jsp");
+		                httpResponse.sendRedirect("jsp/home.jsp");
 		            }
 		        }
 		    }
