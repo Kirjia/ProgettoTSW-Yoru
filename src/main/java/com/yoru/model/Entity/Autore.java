@@ -3,6 +3,8 @@ package com.yoru.model.Entity;
 
 public class Autore {
 
+	
+	public static final String TABLE_NAME = "autori";
     public static final String COLMUNLABEL1 = "ID_autore";
     public static final String COLMUNLABEL2 = "nome";
     public static final String COLMUNLABEL3 = "cognome";

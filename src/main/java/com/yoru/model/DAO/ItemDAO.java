@@ -26,11 +26,56 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
 	private DataSource dSource;
 	private static final String LIBRIVIEW = "libriview";
 	private static final String TABLE_NAME = "Prodotto";
+	private static final String TABLE_REALIZZA = "realizza";
 	
 	public ItemDAO(DataSource ds) {
 		dSource = ds;
 	}
 	
+	
+	
+	
+	public synchronized Collection<Autore> getAutorsByBook(int bookId) throws SQLException{
+		Connection connection = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<Autore> autori = new ArrayList<>();
+		
+		
+		try {
+			 connection = dSource.getConnection();
+	            String sql = "SELECT a.* FROM " + TABLE_REALIZZA + " r inner join " + Autore.TABLE_NAME + " a on r.ID_autore = a.ID_autore WHERE SKU = ?";
+
+	            ps = connection.prepareStatement(sql);
+	            ps.setInt(1, bookId);
+
+	            rs = ps.executeQuery();
+
+	            while (rs.next()){
+	                Autore autore = new Autore();
+	                autore.setNome(rs.getString(Autore.COLMUNLABEL2));
+	                autore.setCognome(rs.getString(Autore.COLMUNLABEL3));
+	                autore.setID(rs.getInt(Autore.COLMUNLABEL1));
+	                autore.setNomeArte(rs.getString(Autore.COLMUNLABEL4));
+	               
+
+
+	                autori.add(autore);
+	            }
+
+	            connection.commit();
+	        }finally {
+
+	            if (ps != null)
+	                ps.close();
+	            connection.close();
+
+	        }
+		
+		
+		
+		return autori;
+	}
 	
     @Override
     public synchronized Collection<Prodotto> getAll()  throws SQLException{
@@ -351,6 +396,9 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
 
         
     }
+    
+    
+    
 
     @Override
     public synchronized boolean update(Prodotto item) throws SQLException{
