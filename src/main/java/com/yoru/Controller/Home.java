@@ -29,7 +29,7 @@ public class Home extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
+		doPost(request, response);
 		 
 	}
 
@@ -39,13 +39,7 @@ public class Home extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.setContentType("text/html"); 
-        PrintWriter out = response.getWriter(); 
-        out.println( 
-            "<html><head><title>Hello World Servlet</title></head>"); 
-        out.println("<body>"); 
-        out.println("<h1>Hello World!</h1>"); 
-        out.println("</body></html>"); 
-        out.close(); 
+        request.getRequestDispatcher("jsp/home.jsp").forward(request, response);
 	}
 
 }
