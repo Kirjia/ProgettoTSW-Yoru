@@ -37,8 +37,8 @@ public class AuthDAO implements GenericDBOp<UserAuthToken>{
 			rs = ps.executeQuery();
 			if (rs.next()) {
 				auth.setUserID(rs.getInt(UserAuthToken.COLUMN_LABEL1));
-				auth.setValidator(rs.getString(UserAuthToken.COLUMN_LABEL2));
-				auth.setToken(rs.getString(UserAuthToken.COLUMN_LABEL3));
+				auth.setSelector(rs.getString(UserAuthToken.COLUMN_LABEL2));
+				auth.setValidator(rs.getString(UserAuthToken.COLUMN_LABEL3));
 			}
 			
         	

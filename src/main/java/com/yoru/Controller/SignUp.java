@@ -43,8 +43,9 @@ public class SignUp extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String password = request.getParameter("password");
-		
-		System.out.print(Argon2Hashing.hashPassword(password));
+		String hashedString = Argon2Hashing.hashPassword(password);
+		System.out.println(hashedString);
+		System.out.println(Argon2Hashing.checkPass(hashedString, "franco1234"));
 		
 	}
 

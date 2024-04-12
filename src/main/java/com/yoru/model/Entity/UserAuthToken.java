@@ -3,15 +3,23 @@ package com.yoru.model.Entity;
 public class UserAuthToken {
 	
 	public static final String COLUMN_LABEL1 = "userID";
-	public static final String COLUMN_LABEL2 = "validator";
-	public static final String COLUMN_LABEL3 = "token";
+	public static final String COLUMN_LABEL2 = "selector";
+	public static final String COLUMN_LABEL3 = "validator";
 	
-	
+	private int id;
 	private int UserID;
+	private String selector;
 	private String validator;
-	private String Token;
 	
 	
+	
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public int getUserID() {
 		return UserID;
 	}
@@ -24,11 +32,11 @@ public class UserAuthToken {
 	public void setValidator(String validator) {
 		this.validator = validator;
 	}
-	public String getToken() {
-		return Token;
+	public String getSelector() {
+		return selector;
 	}
-	public void setToken(String token) {
-		Token = token;
+	public void setSelector(String selector) {
+		this.selector = selector;
 	}
 	
 	

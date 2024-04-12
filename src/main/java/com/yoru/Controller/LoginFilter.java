@@ -23,6 +23,8 @@ import javax.sql.DataSource;
 import com.yoru.model.DAO.AuthDAO;
 import com.yoru.model.Entity.UserAuthToken;
 
+import Util.Argon2Hashing;
+
 /**
  * Servlet Filter implementation class LoginFilter
  */
@@ -66,7 +68,8 @@ public class LoginFilter extends HttpFilter implements Filter {
 		if (!loggedIn && cookies != null) {
 		    // process auto login for remember me feature
 		    String selector = "";
-		    String rawValidator = "";  
+		    String rawValidator = "";
+		    UserAuthToken token = null;
 		     
 		    for (Cookie aCookie : cookies) {
 		        if (aCookie.getName().equals("selector")) {
@@ -79,31 +82,35 @@ public class LoginFilter extends HttpFilter implements Filter {
 		    if (!"".equals(selector) && !"".equals(rawValidator)) {
 		       
 		        try {
-					UserAuthToken token = authDAO.findBySelector(selector);
+					token = authDAO.findBySelector(selector);
 				} catch (SQLException e) {
 					LOGGER.log(Level.WARNING, "Login error", e);
 				}
 
-		        /*
+		        
 		         
 		        if (token != null) {
 		            String hashedValidatorDatabase = token.getValidator();
-		            //String hashedValidatorCookie = HashGenerator.generateSHA256(rawValidator);
 		             
-		            if (hashedValidatorCookie.equals(hashedValidatorDatabase)) {
+		            if (Argon2Hashing.checkPass(hashedValidatorDatabase, rawValidator)) {
 		                session = httpRequest.getSession();
-		                session.setAttribute("loggedCustomer", token.getCustomer());
+		                //session.setAttribute("loggedCustomer", token.getCustomer());
 		                loggedIn = true;
 		                 
 		                // update new token in database
-		                String newSelector = RandomStringUtils.randomAlphanumeric(12);
-		                String newRawValidator =  RandomStringUtils.randomAlphanumeric(64);
+		                String newSelector = Argon2Hashing.generateToken();
+		                String newRawValidator =  Argon2Hashing.generateToken();
 		                 
-		                String newHashedValidator = HashGenerator.generateSHA256(newRawValidator);
+		                String newHashedValidator = Argon2Hashing.hashPassword(newRawValidator);
 		                 
 		                token.setSelector(newSelector);
 		                token.setValidator(newHashedValidator);
-		                authDAO.update(token);
+		                try {
+							authDAO.update(token);
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							LOGGER.log(Level.WARNING, "Login error", e);
+						}
 		                 
 		                // update cookie
 		                Cookie cookieSelector = new Cookie("selector", newSelector);
@@ -115,11 +122,11 @@ public class LoginFilter extends HttpFilter implements Filter {
 		                httpResponse.addCookie(cookieSelector);
 		                httpResponse.addCookie(cookieValidator);                       
 		                 
-		            }*/
+		            }
 		        }
 		    }
 		chain.doFilter(request, response);
+		}
 	}
-
 
 }
