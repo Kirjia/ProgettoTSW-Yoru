@@ -1,23 +1,32 @@
 package com.yoru.model.DAO;
 
+import java.io.CharArrayReader;
+import java.io.Reader;
+import java.lang.System.Logger.Level;
 import java.sql.Connection;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.logging.Logger;
 
 import javax.sql.DataSource;
 
 import com.yoru.DBServices.GenericDBOp;
 import com.yoru.model.Entity.UserAuthToken;
 
+import static com.yoru.model.Entity.UserAuthToken.*;
+
 public class AuthDAO implements GenericDBOp<UserAuthToken>{
+	
+	private static final Logger LOGGER = Logger.getLogger(AuthDAO.class.getName());
 
 	private DataSource ds;
 	private static final String TABLE_NAME = "cookieAuth";
 	
 	public AuthDAO(DataSource ds) {
-		ds = ds;
+		this.ds = ds;
 	}
 	
 	
@@ -25,17 +34,20 @@ public class AuthDAO implements GenericDBOp<UserAuthToken>{
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        UserAuthToken auth = new UserAuthToken();
+        UserAuthToken auth = null;
         
         try {
         	
-        	String sql = "SELECT * FROM " + TABLE_NAME + "WHERE validator = ?";
+        	String sql = "SELECT * FROM " + TABLE_NAME + " WHERE selector = ?";
         	
 			connection = ds.getConnection();
 			ps = connection.prepareStatement(sql);
-			ps.setString(1, selector);
+
+			ps.setNString(1, selector);
 			rs = ps.executeQuery();
 			if (rs.next()) {
+				auth = new UserAuthToken();
+				auth.setId(rs.getInt(1));
 				auth.setUserID(rs.getInt(UserAuthToken.COLUMN_LABEL1));
 				auth.setSelector(rs.getString(UserAuthToken.COLUMN_LABEL2));
 				auth.setValidator(rs.getString(UserAuthToken.COLUMN_LABEL3));
@@ -52,7 +64,7 @@ public class AuthDAO implements GenericDBOp<UserAuthToken>{
 			}
 			connection.close();
 		}
-         
+        System.out.println("Update AuthDAO done");
         return auth;
     }
 
@@ -70,14 +82,66 @@ public class AuthDAO implements GenericDBOp<UserAuthToken>{
 
 	@Override
 	public boolean insert(UserAuthToken entity) throws SQLException {
-		// TODO Auto-generated method stub
-		return false;
+		Connection connection = null;
+        PreparedStatement ps = null;
+        boolean result = false;
+        
+        try {
+        	
+        	String sql = "INSERT INTO " + TABLE_NAME + "(" + COLUMN_LABEL1 + ", " + COLUMN_LABEL2 + ", " + COLUMN_LABEL3 + ") VALUES (?, ?, ?)" ;
+        	
+			connection = ds.getConnection();
+			ps = connection.prepareStatement(sql);
+			ps.setInt(1, entity.getUserID());
+			ps.setString(2, entity.getSelector());
+			ps.setString(3, entity.getValidator());
+			if(ps.executeUpdate() > 0)
+				result = true;
+			
+			
+        	
+        	
+		} finally{
+			if (ps != null) {
+				ps.close();
+			}
+			
+			connection.close();
+		}
+         
+        return result;
 	}
 
 	@Override
 	public boolean update(UserAuthToken entity) throws SQLException {
-		// TODO Auto-generated method stub
-		return false;
+		Connection connection = null;
+        PreparedStatement ps = null;
+        boolean result = false;
+        
+        try {
+        	
+        	String sql = "UPDATE  " + TABLE_NAME + " SET selector = ?, validator = ? WHERE id = ?" ;
+        	
+			connection = ds.getConnection();
+			ps = connection.prepareStatement(sql);
+			ps.setString(1, entity.getSelector());
+			ps.setString(2, entity.getValidator());
+			ps.setInt(3, entity.getId());
+			if(ps.executeUpdate() > 0)
+				result = true;
+			
+			
+        	
+        	
+		} finally{
+			if (ps != null) {
+				ps.close();
+			}
+			
+			connection.close();
+		}
+         
+        return result;
 	}
 
 	@Override

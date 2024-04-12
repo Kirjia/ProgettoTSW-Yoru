@@ -5,6 +5,7 @@ public class UserAuthToken {
 	public static final String COLUMN_LABEL1 = "userID";
 	public static final String COLUMN_LABEL2 = "selector";
 	public static final String COLUMN_LABEL3 = "validator";
+	public static final String TABLE_NAME = "shiru.cookieauth";
 	
 	private int id;
 	private int UserID;

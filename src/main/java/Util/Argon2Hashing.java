@@ -63,6 +63,7 @@ public class Argon2Hashing {
 	                .withIterations(iterations); // Number of iterations
 	        
 		 generator.init(builder.build());
+		 
 	        
 		 byte[] result = new byte[hashLength];
          generator.generateBytes(toCheck.toCharArray(), result);
@@ -89,7 +90,16 @@ public class Argon2Hashing {
 		 SecureRandom secureRandom = new SecureRandom();
 		 byte[] token = new byte[64];
 		 secureRandom.nextBytes(token);
-		 return Base64.getEncoder().encodeToString(token);
+		 String result = Base64.getEncoder().encodeToString(token);
+		 return result.substring(0, 62);
+	 }
+	 
+	 public static String generateSelector() {
+		 SecureRandom secureRandom = new SecureRandom();
+		 byte[] selector = new byte[16];
+		 secureRandom.nextBytes(selector);
+		 String result = Base64.getEncoder().encodeToString(selector);
+		 return result.substring(0, 14);
 	 }
 	 
 }
