@@ -146,8 +146,32 @@ public class AuthDAO implements GenericDBOp<UserAuthToken>{
 
 	@Override
 	public boolean remove(UserAuthToken entity) throws SQLException {
-		// TODO Auto-generated method stub
-		return false;
+		Connection connection = null;
+        PreparedStatement ps = null;
+        boolean result = false;
+        
+        try {
+        	
+        	String sql = "DELETE FROM  " + TABLE_NAME + " WHERE id = ?" ;
+        	
+			connection = ds.getConnection();
+			ps = connection.prepareStatement(sql);
+			ps.setInt(1, entity.getId());
+			if(ps.executeUpdate() > 0)
+				result = true;
+			
+			
+        	
+        	
+		} finally{
+			if (ps != null) {
+				ps.close();
+			}
+			
+			connection.close();
+		}
+         
+        return result;
 	}
 	
 	
