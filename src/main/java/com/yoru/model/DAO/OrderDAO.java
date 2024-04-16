@@ -107,6 +107,65 @@ public class OrderDAO implements GenericDBOp<Order>{
 	        }
 	        return ordine;
 	    }
+	    
+	    
+	    public synchronized boolean checkOut(int cartID, int userID) throws SQLException{
+	    	Connection connection = null;
+	    	PreparedStatement ps = null;
+	    	ResultSet rs = null;
+	    	Savepoint savepoint = null;
+	    	String item = "SELECT SKU, quantità FROM prodotto WHERE SKU = ?";
+	    	String order = "INSERT INTO order_details (userId, totale, idPagamento, data_pagamento) VALUE (?, ?, ?, ?)";
+	    	
+	    	try {
+	    		connection = ds.getConnection();
+	    		connection.setAutoCommit(false);
+	    		savepoint = connection.setSavepoint("checkOut");
+	    		connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+	    		
+	    		ps = connection.prepareStatement(order);
+	    		
+	    		if(ps.executeUpdate() > 0) {
+		    		
+		    		String sql = "SELECT * FROM Cart WHERE cartId = ?";
+		    		
+		    		ps = connection.prepareStatement(sql);
+		    		ps.setInt(1, userID);
+		    		
+		    		rs = ps.executeQuery();
+		    		while(rs.next()) {
+		    			
+		    			
+		    			
+		    			
+		    		}
+	    		}else {
+	    			if(savepoint != null)
+	    				connection.rollback(savepoint);
+	    			else
+	    				connection.rollback();
+	    		}
+	    		
+	    		
+	    		
+	    		
+	    	}finally{
+	    		if(ps != null)
+	    			ps.close();
+	    		if(rs != null)
+	    			rs.close();
+	    		connection.close();
+	    	}
+	    	
+	    	
+	    	
+	    	return false;
+	    	
+	    	
+	    	
+	    	
+	    	
+	    }
 
 	    @Override
 	    public synchronized boolean insert(Order order) throws SQLException{
