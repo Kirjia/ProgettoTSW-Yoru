@@ -15,7 +15,7 @@ public class Cart {
 	private Collection<CartItem> items;
 	
 	
-	public Cart(int id, int userId, int total, Timestamp createTime, Timestamp modTime) {
+	public Cart(int id, int userId, float total, Timestamp createTime, Timestamp modTime) {
 		this.id = id;
 		this.userId = userId;
 		this.total = total;
