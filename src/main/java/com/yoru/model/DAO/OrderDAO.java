@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import javax.sql.DataSource;
 
 import com.yoru.DBServices.GenericDBOp;
+import com.yoru.DBServices.InvalidCheckOut;
 import com.yoru.model.Entity.Order;
 import com.yoru.model.Entity.OrderItem;
 
@@ -107,6 +108,96 @@ public class OrderDAO implements GenericDBOp<Order>{
 	        }
 	        return ordine;
 	    }
+<<<<<<< Updated upstream
+=======
+	    
+	    
+	    public synchronized boolean checkOut(int cartID, int userID) throws SQLException{
+	    	Connection connection = null;
+	    	PreparedStatement ps = null;
+	    	PreparedStatement updateItemPs = null;
+	    	PreparedStatement insertOrderItemsPs = null;
+	    	ResultSet rs = null;
+	    	ResultSet itemRs = null;
+	    	Savepoint savepoint = null;
+	    	String item = "SELECT quantità FROM prodotto WHERE SKU = ?";
+	    	String order = "INSERT INTO order_details (userId, totale, idPagamento, data_pagamento) VALUE (?, ?, ?, ?)";
+	    	String updateItemStr = "UPDATE " + Prodotto.TABLE_NAME + " SET quantità = ? WHERE SKU = ?";
+	    	String insertOrderDetailsStr = "INSERT INTO Order_items (ID_ordine, SKU, quantity) VALUE(?, ?, ?)";
+	    	
+	    	String errString = "invalidCheckOut";
+	    	
+	    	
+	    	try {
+	    		connection = ds.getConnection();
+	    		connection.setAutoCommit(false);
+	    		savepoint = connection.setSavepoint("checkOut");
+	    		connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+	    		
+	    		ps = connection.prepareStatement(order);
+	    		
+	    		if(ps.executeUpdate() > 0) {
+		    		
+		    		String sql = "SELECT * FROM Cart WHERE cartId = ?";
+		    		
+		    		ps = connection.prepareStatement(sql);
+		    		ps.setInt(1, userID);
+		    		
+		    		rs = ps.executeQuery();
+		    		while(rs.next()) {
+		    			ps = connection.prepareStatement(item);
+		    			
+		    			int SKU = rs.getInt("SKU");
+		    			int quantity = rs.getInt("quantity");
+		    			
+		    			ps.setInt(1, SKU);
+		    			
+		    			itemRs = ps.executeQuery();
+		    			if(itemRs.next()){
+		    				int stockQuantity = rs.getInt("quantity");
+		    				if(stockQuantity >= quantity) {
+		    					
+		    					
+		    				}
+		    			}else {
+		    				
+		    			}
+		    			
+		    			
+		    			
+		    			
+		    			
+		    			
+		    			
+		    			
+		    		}
+	    		}else {
+	    			throw new InvalidCheckOut(errString);
+	    		}
+	    		
+	    		
+	    		
+	    	}catch (InvalidCheckOut e) {
+				connection.rollback(savepoint);
+			
+	    	}finally{
+	    		if(ps != null)
+	    			ps.close();
+	    		if(rs != null)
+	    			rs.close();
+	    		connection.close();
+	    	}
+	    	
+	    	
+	    	
+	    	return false;
+	    	
+	    	
+	    	
+	    	
+	    	
+	    }
+>>>>>>> Stashed changes
 
 	    @Override
 	    public synchronized boolean insert(Order order) throws SQLException{
