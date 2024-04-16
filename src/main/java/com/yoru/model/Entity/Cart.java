@@ -1,14 +1,18 @@
 package com.yoru.model.Entity;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class Cart {
 
 	private int id;
 	private int userId;
-	private double total;
+	private float total;
 	private Timestamp createdTime;
 	private Timestamp modifieadTime;
+	private Collection<CartItem> items;
 	
 	
 	public Cart(int id, int userId, int total, Timestamp createTime, Timestamp modTime) {
@@ -17,6 +21,7 @@ public class Cart {
 		this.total = total;
 		this.createdTime = createTime;
 		this.modifieadTime = modTime;
+		items = new ArrayList<>();
 	}
 
 
@@ -40,12 +45,24 @@ public class Cart {
 	}
 
 
-	public double getTotal() {
+	public float getTotal() {
 		return total;
+	}
+	
+	
+
+
+	public Collection<CartItem> getItems() {
+		return items;
 	}
 
 
-	public void setTotal(double total) {
+	public void setItems(Collection<CartItem> items) {
+		this.items =  items;
+	}
+
+
+	public void setTotal(float total) {
 		this.total = total;
 	}
 

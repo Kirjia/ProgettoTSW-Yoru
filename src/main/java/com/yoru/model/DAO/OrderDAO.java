@@ -1,12 +1,14 @@
 package com.yoru.model.DAO;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Savepoint;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -14,8 +16,12 @@ import javax.sql.DataSource;
 
 import com.yoru.DBServices.GenericDBOp;
 import com.yoru.DBServices.InvalidCheckOut;
+import com.yoru.DBServices.InvalidTransactionException;
+import com.yoru.model.Entity.Cart;
+import com.yoru.model.Entity.CartItem;
 import com.yoru.model.Entity.Order;
 import com.yoru.model.Entity.OrderItem;
+import com.yoru.model.Entity.Prodotto;
 
 import static com.yoru.model.Entity.Order.*;
 
@@ -108,24 +114,26 @@ public class OrderDAO implements GenericDBOp<Order>{
 	        }
 	        return ordine;
 	    }
-<<<<<<< Updated upstream
-=======
 	    
 	    
-	    public synchronized boolean checkOut(int cartID, int userID) throws SQLException{
+	    public synchronized boolean checkOut(Cart cart, int userID, int paymentId) throws SQLException{
 	    	Connection connection = null;
 	    	PreparedStatement ps = null;
 	    	PreparedStatement updateItemPs = null;
 	    	PreparedStatement insertOrderItemsPs = null;
+	    	PreparedStatement removeCartPs = null;
 	    	ResultSet rs = null;
 	    	ResultSet itemRs = null;
 	    	Savepoint savepoint = null;
 	    	String item = "SELECT quantità FROM prodotto WHERE SKU = ?";
-	    	String order = "INSERT INTO order_details (userId, totale, idPagamento, data_pagamento) VALUE (?, ?, ?, ?)";
+	    	String order = "INSERT INTO order_details (userId, importo_pagamneto, ID_pagamento, data_pagamento, createdAt, modifiedAt) VALUE (?, ?, ?, now(), now(), now())";
 	    	String updateItemStr = "UPDATE " + Prodotto.TABLE_NAME + " SET quantità = ? WHERE SKU = ?";
-	    	String insertOrderDetailsStr = "INSERT INTO Order_items (ID_ordine, SKU, quantity) VALUE(?, ?, ?)";
+	    	String insertOrderItemsStr = "INSERT INTO Order_items (ID_ordine, SKU, quantity) VALUE(?, ?, ?)";
+	    	String cleanCart = "DELETE FROM cart WHERE cart.cart_id = ?";
 	    	
 	    	String errString = "invalidCheckOut";
+	    	
+	    	int orderId = -1;
 	    	
 	    	
 	    	try {
@@ -134,21 +142,34 @@ public class OrderDAO implements GenericDBOp<Order>{
 	    		savepoint = connection.setSavepoint("checkOut");
 	    		connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
 	    		
-	    		ps = connection.prepareStatement(order);
 	    		
-	    		if(ps.executeUpdate() > 0) {
+	    		//"INSERT INTO order_details (userId, importo_pagamneto, ID_pagamento, data_pagamento, createdAt, modifiedAt) VALUE (?, ?, ?, now(), now(), now())";
+	    		ps = connection.prepareStatement(order, PreparedStatement.RETURN_GENERATED_KEYS);
+	    		ps.setInt(1, userID);
+	    		ps.setFloat(2, cart.getTotal());
+	    		ps.setInt(3, paymentId);
+	    		
+	    		
+	    		if(ps.executeUpdate() < 1) 
+	    			throw new InvalidTransactionException(errString);
+		    	
+				rs = ps.getGeneratedKeys();
+				if (rs.next()) {
+					orderId = rs.getInt(1);
+				
+	    		
+		    		updateItemPs = connection.prepareStatement(updateItemStr);
+		    		insertOrderItemsPs = connection.prepareStatement(insertOrderItemsStr);
 		    		
-		    		String sql = "SELECT * FROM Cart WHERE cartId = ?";
+		    		Iterator<CartItem> cartItems = cart.getItems().iterator();
 		    		
-		    		ps = connection.prepareStatement(sql);
-		    		ps.setInt(1, userID);
 		    		
-		    		rs = ps.executeQuery();
-		    		while(rs.next()) {
+		    		while(cartItems.hasNext()) {
+		    			CartItem cartItem = cartItems.next();
 		    			ps = connection.prepareStatement(item);
 		    			
-		    			int SKU = rs.getInt("SKU");
-		    			int quantity = rs.getInt("quantity");
+		    			int SKU =  cartItem.getSKU();
+		    			int quantity = cartItem.getQuantity();
 		    			
 		    			ps.setInt(1, SKU);
 		    			
@@ -156,35 +177,68 @@ public class OrderDAO implements GenericDBOp<Order>{
 		    			if(itemRs.next()){
 		    				int stockQuantity = rs.getInt("quantity");
 		    				if(stockQuantity >= quantity) {
+		    					//"INSERT INTO Order_items (ID_ordine, SKU, quantity) VALUE(?, ?, ?)";
+		    					insertOrderItemsPs.setInt(1, orderId);
+		    					insertOrderItemsPs.setInt(2, SKU);
+		    					insertOrderItemsPs.setInt(quantity, stockQuantity);
+		    					insertOrderItemsPs.addBatch();
 		    					
-		    					
-		    				}
-		    			}else {
-		    				
-		    			}
+		    					//"UPDATE " + Prodotto.TABLE_NAME + " SET quantità = ? WHERE SKU = ?"
+		    					updateItemPs.setInt(1, quantity);
+		    					updateItemPs.setInt(2, SKU);
+		    					updateItemPs.addBatch();
+	
+		    				}else {
+								throw new InvalidTransactionException(errString);
+							}
+		    			}else 
+		    				throw new InvalidTransactionException(errString);
 		    			
-		    			
-		    			
-		    			
-		    			
-		    			
-		    			
-		    			
+	
+		    			int[] orderResult = insertOrderItemsPs.executeBatch();
+		    			int[] itemResult = updateItemPs.executeBatch();
+		    			for(int i = 0; i < orderResult.length; i++) {
+		    				if (orderResult[i] < 1 || itemResult[i] < 1) 
+								throw new InvalidTransactionException(errString);
+							
+		    			}	
 		    		}
+		    		
+		    		removeCartPs = connection.prepareStatement(cleanCart);
+		    		removeCartPs.setInt(1, cart.getId());
+		    		if (removeCartPs.executeUpdate() < 1 ) 
+	    				throw new InvalidTransactionException(errString);
+		    		
+		    		
 	    		}else {
-	    			throw new InvalidCheckOut(errString);
+	    			throw new InvalidTransactionException(errString);
 	    		}
 	    		
 	    		
-	    		
-	    	}catch (InvalidCheckOut e) {
+	    		connection.commit();
+
+	    	}catch (InvalidTransactionException e) {
 				connection.rollback(savepoint);
 			
 	    	}finally{
 	    		if(ps != null)
 	    			ps.close();
+	    		if (updateItemPs != null)
+	    			updateItemPs.close();
+	    		if(insertOrderItemsPs != null)
+	    			insertOrderItemsPs.close();
+	    		if(removeCartPs != null)
+	    			removeCartPs.close();
+	    		
 	    		if(rs != null)
 	    			rs.close();
+	    		if(itemRs != null)
+	    			itemRs.close();
+	    		
+	    		if (savepoint != null) 
+	    			connection.releaseSavepoint(savepoint);
+				
+
 	    		connection.close();
 	    	}
 	    	
@@ -197,7 +251,6 @@ public class OrderDAO implements GenericDBOp<Order>{
 	    	
 	    	
 	    }
->>>>>>> Stashed changes
 
 	    @Override
 	    public synchronized boolean insert(Order order) throws SQLException{
