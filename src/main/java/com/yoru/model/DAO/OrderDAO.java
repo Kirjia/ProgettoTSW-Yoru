@@ -15,6 +15,7 @@ import javax.sql.DataSource;
 import com.yoru.DBServices.GenericDBOp;
 import com.yoru.model.Entity.Order;
 import com.yoru.model.Entity.OrderItem;
+import com.yoru.model.Entity.Prodotto;
 
 import static com.yoru.model.Entity.Order.*;
 
@@ -112,10 +113,16 @@ public class OrderDAO implements GenericDBOp<Order>{
 	    public synchronized boolean checkOut(int cartID, int userID) throws SQLException{
 	    	Connection connection = null;
 	    	PreparedStatement ps = null;
+	    	PreparedStatement updateItemPs = null;
+	    	PreparedStatement insertOrderItemsPs = null;
 	    	ResultSet rs = null;
+	    	ResultSet itemRs = null;
 	    	Savepoint savepoint = null;
-	    	String item = "SELECT SKU, quantità FROM prodotto WHERE SKU = ?";
+	    	String item = "SELECT quantità FROM prodotto WHERE SKU = ?";
 	    	String order = "INSERT INTO order_details (userId, totale, idPagamento, data_pagamento) VALUE (?, ?, ?, ?)";
+	    	String updateItemStr = "UPDATE " + Prodotto.TABLE_NAME + " SET quantità = ? WHERE SKU = ?";
+	    	String insertOrderDetailsStr = "INSERT INTO Order_items (ID_ordine, SKU, quantity) VALUE(?, ?, ?)";
+	    	
 	    	
 	    	try {
 	    		connection = ds.getConnection();
@@ -134,6 +141,27 @@ public class OrderDAO implements GenericDBOp<Order>{
 		    		
 		    		rs = ps.executeQuery();
 		    		while(rs.next()) {
+		    			ps = connection.prepareStatement(item);
+		    			
+		    			int SKU = rs.getInt("SKU");
+		    			int quantity = rs.getInt("quantity");
+		    			
+		    			ps.setInt(1, SKU);
+		    			
+		    			itemRs = ps.executeQuery();
+		    			if(itemRs.next()){
+		    				int stockQuantity = rs.getInt("quantity");
+		    				if(stockQuantity >= quantity) {
+		    					
+		    					
+		    				}
+		    			}else {
+		    				
+		    			}
+		    			
+		    			
+		    			
+		    			
 		    			
 		    			
 		    			
