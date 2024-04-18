@@ -89,6 +89,10 @@ public class Prodotto {
 	public void setItemType(ItemType itemType) {
 		this.itemType = itemType;
 	}
+	
+	public void setItemType(String itemType) {
+		this.itemType = ItemType.valueOf(itemType);
+	}
 
 
 	@Override

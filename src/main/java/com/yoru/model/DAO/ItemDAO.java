@@ -122,7 +122,8 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
     	PreparedStatement  ps = null;
     	Connection connection = null;
     	ResultSet resultSet = null;
-    	String sql = "SELECT sum(o.quantità) as vendite, p.* from " + OrderItem.TABLE_NAME + " o inner join" + Prodotto.TABLE_NAME + " p on o.SKU=p.SKU group by p.sku  order by vendite desc limit ?";
+    	String sql = "SELECT sum(o.quantità) as vendite, p.* from " + OrderItem.TABLE_NAME + " o inner join" + Prodotto.TABLE_NAME +
+    				" p on o.SKU=p.SKU group by p.sku WHERE p.category = " + Prodotto.ItemType.Libro + " order by vendite desc limit ?";
     	List<Prodotto> books = new ArrayList<>();
     	try {
 			connection = dSource.getConnection();
@@ -139,13 +140,50 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
 				book.setPrezzo(resultSet.getFloat(Prodotto.COLUMNLABEL4));
 				book.setQuantità(resultSet.getInt(Prodotto.COLUMNLABEL5));
 				book.setId_produttore(resultSet.getInt(Prodotto.COLUMNLABEL6));
-				String typeString = resultSet.getString("category");
-				if (typeString.equalsIgnoreCase(Prodotto.ItemType.Libro.toString())) {
-					book.setItemType(Prodotto.ItemType.Libro);
-					
-				}else {
-					book.setItemType(Prodotto.ItemType.Gadget);
-				}
+				book.setItemType(Prodotto.ItemType.Libro);
+				
+			}
+			
+			
+    		
+		} finally {
+			if (ps != null) {
+				ps.close();
+			}
+			if (resultSet != null) {
+				resultSet.close();
+			}
+			connection.close();
+		}
+    	
+    	
+    	return books;
+    }
+    
+    
+    
+    public synchronized Collection<Prodotto> getNewBooks(int limit) throws SQLException{
+    	PreparedStatement  ps = null;
+    	Connection connection = null;
+    	ResultSet resultSet = null;
+    	String sql = "SELECT * from "  + Prodotto.TABLE_NAME + "  WHERE category = " + Prodotto.ItemType.Libro + " order by SKU desc limit ?";
+    	List<Prodotto> books = new ArrayList<>();
+    	try {
+			connection = dSource.getConnection();
+			connection.setAutoCommit(false);
+			ps = connection.prepareStatement(sql);
+			
+			ps.setInt(1, limit);
+			resultSet = ps.executeQuery();
+			
+			while(resultSet.next()) {
+				Prodotto book = new Prodotto();
+				book.setSKU(resultSet.getInt(Prodotto.COLUMNLABEL1));
+				book.setNome(resultSet.getString(Prodotto.COLUMNLABEL2));
+				book.setPrezzo(resultSet.getFloat(Prodotto.COLUMNLABEL4));
+				book.setQuantità(resultSet.getInt(Prodotto.COLUMNLABEL5));
+				book.setId_produttore(resultSet.getInt(Prodotto.COLUMNLABEL6));
+				book.setItemType(Prodotto.ItemType.Libro);
 				
 			}
 			

@@ -1,4 +1,4 @@
-package com.yoru.Controller;
+package com.yoru.Controller.filter;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -124,7 +124,8 @@ public class LoginFilter extends HttpFilter implements Filter {
 		                 
 		                httpResponse.addCookie(cookieSelector);
 		                httpResponse.addCookie(cookieValidator);                       
-		                httpResponse.sendRedirect("jsp/home.jsp");
+		                httpResponse.sendRedirect(httpRequest.getContextPath() + "/jsp/home.jsp");
+		                return;
 		            }
 		        }
 		    }
