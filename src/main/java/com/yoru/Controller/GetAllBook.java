@@ -60,7 +60,8 @@ public class GetAllBook extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("application/json");
+		//response.setContentType("application/json");
+		response.setContentType("text/html");
 		JSONObject jsonObject = new JSONObject();
 		int page = -1;
 		int limit = -1;
@@ -73,6 +74,10 @@ public class GetAllBook extends HttpServlet {
 			try {
 				Collection<Prodotto> books = itemDAO.getAllBooks(page, limit);
 				Iterator iterator = books.iterator();
+				request.setAttribute("items", books);
+				request.getRequestDispatcher("jsp/home.jsp").forward(request, response);
+				return;
+				/*
 				JSONArray array = new JSONArray();
 				while(iterator.hasNext()) {
 					Prodotto bookProdotto = (Prodotto) iterator.next();
@@ -85,14 +90,16 @@ public class GetAllBook extends HttpServlet {
 					item.put("type", Prodotto.ItemType.Libro);
 					array.put(item);
 				}
-				jsonObject.put("books", array);
-			} catch (SQLException | JSONException e) {
-				// TODO Auto-generated catch block
+				jsonObject.put("books", array);*/
+			} //catch (SQLException | JSONException e) {
+			catch (Exception e) {
+				
 				LOGGER.log(Level.WARNING, "books error", e);
 			}
 		}
 		
-		response.getWriter().print(jsonObject);
+		//response.getWriter().print(jsonObject);
+		
 		
 		
 		

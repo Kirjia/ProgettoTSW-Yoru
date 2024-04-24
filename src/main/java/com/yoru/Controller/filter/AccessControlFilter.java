@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.yoru.model.Entity.Role;
 import com.yoru.model.Entity.User;
@@ -44,17 +45,22 @@ public class AccessControlFilter extends HttpFilter implements Filter {
 		
 		HttpServletRequest httpServletRequest = (HttpServletRequest) request;
 		HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+		HttpSession session = httpServletRequest.getSession(false);
 		
-		User user = (User) httpServletRequest.getSession(false).getAttribute("user");
-		String pathString = httpServletRequest.getServletPath();
-		
-		if ((user==null || user.getRole().compareTo(Role.ADMIN) != 0)  && pathString.contains(ADMIN)) {
-			httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/login.jsp");
-			return;
+		if (session != null) {
 			
-		}else if (pathString.contains(BASED) && user == null) {
-			httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/login.jsp");
-			return;
+		
+			User user = (User) session.getAttribute("user");
+			String pathString = httpServletRequest.getServletPath();
+			
+			if ((user==null || user.getRole().compareTo(Role.ADMIN) != 0)  && pathString.contains(ADMIN)) {
+				httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/login.jsp");
+				return;
+				
+			}else if (pathString.contains(BASED) && user == null) {
+				httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/login.jsp");
+				return;
+			}
 		}
 		
 		

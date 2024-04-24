@@ -19,6 +19,7 @@ function login() {
     //let password = btoa(document.getElementById("password").children[1].value); //Base64
     let password = document.getElementById("password").value;
     let checkBox = document.getElementById("rememberMe");
+    
     let rememberMe;
     
     if(checkBox.checked == true)
