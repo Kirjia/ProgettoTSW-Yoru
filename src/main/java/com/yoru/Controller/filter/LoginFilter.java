@@ -123,9 +123,10 @@ public class LoginFilter extends HttpFilter implements Filter {
 		                cookieValidator.setMaxAge(604800);
 		                 
 		                httpResponse.addCookie(cookieSelector);
-		                httpResponse.addCookie(cookieValidator);                       
-		                httpResponse.sendRedirect(httpRequest.getContextPath() + "/jsp/home.jsp");
-		                return;
+		                httpResponse.addCookie(cookieValidator);  
+		               
+		              
+
 		            }
 		        }
 		    }

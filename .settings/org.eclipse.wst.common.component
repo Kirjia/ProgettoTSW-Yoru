@@ -1,22 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
-                            
+                                
+    
     
     
     
     
     
     <wb-module deploy-name="Yoru-TSW">
-                                        
+                                                
+        
         
         
         
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
-                                        
+                                                
+        
         
         
         
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
-                                        
+                                                
+        
         
         
         
@@ -26,7 +30,7 @@
         
         
         
-        <dependent-module archiveName="org.json.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/E:/GitHubProjects/ProgettoTSW/ExternalLibraries/org.json.jar">
+        <dependent-module archiveName="bcprov-ext-jdk18on-177.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/Yoru-TSW/ExternalLibraries/bcprov-ext-jdk18on-177.jar">
                                                                         
             
             
@@ -39,60 +43,46 @@
         
         
         </dependent-module>
-                                        
-        
-        
-        
-        <dependent-module archiveName="bcprov-ext-jdk18on-177.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/Yoru-TSW/ExternalLibraries/bcprov-ext-jdk18on-177.jar">
-                                                            
-            
-            
-            
-            <dependency-type>uses</dependency-type>
-                                                        
-        
-        
-        
-        </dependent-module>
-                        
-        
-        <dependent-module archiveName="commons-lang3-3.14.0.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/E:/GitHubProjects/ProgettoTSW/ExternalLibraries/commons-lang3-3.14.0.jar">
-                                    
-            
-            <dependency-type>uses</dependency-type>
-                                
-        
-        </dependent-module>
                 
-        <dependent-module archiveName="mysql-connector-j-8.3.0.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ProgettoTSW/ExternalLibraries/mysql-connector-j-8.3.0.jar">
+        <dependent-module archiveName="jstl-1.2.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/Yoru-TSW/ExternalLibraries/jstl-1.2.jar">
                         
             <dependency-type>uses</dependency-type>
                     
         </dependent-module>
-        <dependent-module archiveName="jstl-1.2.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/Yoru-TSW/ExternalLibraries/jstl-1.2.jar">
+        <dependent-module archiveName="mysql-connector-j-8.3.0.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/Yoru-TSW/ExternalLibraries/mysql-connector-j-8.3.0.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-                                                        
+        <dependent-module archiveName="commons-lang3-3.14.0.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/Yoru-TSW/ExternalLibraries/commons-lang3-3.14.0.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="org.json.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/Yoru-TSW/ExternalLibraries/org.json.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+                                                                
+        
         
         
         
         
         
         <property name="java-output-path" value="/Yoru-TSW/build/classes"/>
-                                                
+                                                        
+        
         
         
         
         
         <property name="context-root" value="Yoru"/>
-                                                    
+                                                            
+    
     
     
     
     
     
     </wb-module>
-                        
+                            
+
 
 
 

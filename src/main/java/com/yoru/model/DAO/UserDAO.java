@@ -11,9 +11,12 @@ import java.util.Collection;
 
 import javax.sql.DataSource;
 
+import com.mysql.cj.util.Util;
 import com.yoru.DBServices.GenericDBOp;
 import com.yoru.model.Entity.Role;
 import com.yoru.model.Entity.User;
+
+import Util.Argon2Hashing;
 
 public class UserDAO implements GenericDBOp<User> {
 
@@ -22,6 +25,7 @@ public class UserDAO implements GenericDBOp<User> {
     private static final String LOGIN = "bool";
     public static final String TABLE_NAME = "user";
     private DataSource ds;
+	private String loginsql;
     
     public UserDAO(DataSource ds) {
     	this.ds = ds;
@@ -212,27 +216,36 @@ public class UserDAO implements GenericDBOp<User> {
             connection = ds.getConnection();
             connection.setAutoCommit(false);
 
-            String sql = "SELECT id, nome, cognome, role FROM "+ UserDAO.TABLE_NAME + " WHERE email = ? AND password = sha2(?, ?)";
+            String sql = "SELECT password FROM "+ UserDAO.TABLE_NAME + " WHERE email = ?";
+            
             ps = connection.prepareStatement(sql);
             ps.setString(1, email);
-            ps.setString(2, password);
-            ps.setInt(3, passCode);
             
-
 
             rs = ps.executeQuery();
             
-            if (rs.next()){
-            	user = new User();
-            	user.setId(rs.getInt("id"));
-            	user.setNome(rs.getString(User.COLUMNLABEL2));
-            	user.setCognome(rs.getString(User.COLUMNLABEL3));
-            	String roleString = rs.getString("role");
-            	if (roleString.equals(Role.ADMIN)) {
-				user.setRole(Role.ADMIN);
-	           }else {
-				user.setRole(Role.USER);
-	           }
+            if(rs.next()) {
+                String pass = rs.getString(1);
+                if (Argon2Hashing.checkPass( rs.getString(1), password)) {
+                	String loginsql = "SELECT id, email, nome, cognome, telefono, role FROM "+ UserDAO.TABLE_NAME + " WHERE email = ?";
+                    ps = connection.prepareStatement(loginsql);
+                    ps.setString(1, email);
+                    rs = ps.executeQuery();
+                    
+                    if (rs.next()) {
+						
+                    	user = new User();
+                    	user.setId(rs.getInt(1));
+                    	user.setNome(rs.getString(User.COLUMNLABEL2));
+                    	user.setEmail(rs.getString(User.COLUMNLABEL1));
+                    	user.setCognome(rs.getString(User.COLUMNLABEL3));
+                    	user.setTelefono(rs.getString(5));
+                    	user.setRole(rs.getString(6));
+					}
+                    
+                    
+                }
+                	 
             }
 
             connection.commit();
