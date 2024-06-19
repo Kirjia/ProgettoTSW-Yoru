@@ -6,6 +6,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>YORU
 </title>
 <link rel="stylesheet" href="../css/Prodotti.css" rel="noopener">
@@ -15,69 +16,139 @@
 <%@page import="com.yoru.model.Entity.Prodotto" %>
 	<%@include  file="/html/header.html" %>
 
-	<div class="container mx-auto mt-4">
-  <div class="row">
-    <div class="col-md-4">
-      <div class="card" style="width: 18rem;">
-  <img src="https://i.imgur.com/ZTkt4I5.jpg" class="card-img-top" alt="...">
-  <div class="card-body">
-    <h5>Card title</h5>
-    <p>Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-  </div>
-  </div>
-    </div>    
-       <div class="col-md-4">
-<div class="card" style="width: 18rem;">
-  <img src="https://i.imgur.com/ZTkt4I5.jpg" class="card-img-top" alt="...">
-  <div class="card-body">
-    <h5>Card title</h5>
-    <p >Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-  </div>
-  </div>
-    </div>    
-          <div class="col-md-4">
-<div class="card" style="width: 18rem;">
-  <img src="https://i.imgur.com/ZTkt4I5.jpg" class="card-img-top" alt="...">
-  <div class="card-body">
-    <h5>Card title</h5>
-    <p >Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-  </div>
-  </div>
-  </div>
-    
-    <div class="col-md-4">
-      <div class="card" style="width: 18rem;">
-  <img src="https://i.imgur.com/ZTkt4I5.jpg" class="card-img-top" alt="...">
-  <div class="card-body">
-    <h5>Card title</h5>
-    <p>Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-  </div>
-  </div>
-    </div>    
-       <div class="col-md-4">
-<div class="card" style="width: 18rem;">
-  <img src="https://i.imgur.com/ZTkt4I5.jpg" class="card-img-top" alt="...">
-  <div class="card-body">
-    <h5 >Card title</h5>
-    <p>Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-  </div>
-  </div>
-    </div>    
-          <div class="col-md-4">
-<div class="card" style="width: 18rem;">
-  <img src="https://i.imgur.com/ZTkt4I5.jpg" class="card-img-top" alt="...">
-  <div class="card-body">
-    <h5>Card title</h5>
-    <p >Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-  </div>
-  </div>
-  </div>
-    
+<section class="section-products">
+	
+				<div class="row">
+						<!-- Single Product -->
+						<div class="col-md-6 col-lg-4 col-xl-3">
+								<div id="product-1" class="single-product">
+										<div class="part-1">
+												<ul>
+														<li><a href="#"><i class="fas fa-shopping-cart"></i></a></li>
+														<li><a href="#"><i class="fas fa-heart"></i></a></li>
+												</ul>
+										</div>
+										<div class="part-2">
+												<h3 class="product-title">Here Product Title</h3>
+												<h4 class="product-price">$49.99</h4>
+										</div>
+								</div>
+						</div>
+						<!-- Single Product -->
+						<div class="col-md-6 col-lg-4 col-xl-3">
+								<div id="product-2" class="single-product">
+										<div class="part-1">
+												<span class="discount">15% off</span>
+												<ul>
+														<li><a href="#"><i class="fas fa-shopping-cart"></i></a></li>
+														<li><a href="#"><i class="fas fa-heart"></i></a></li>
+												</ul>
+										</div>
+										<div class="part-2">
+												<h3 class="product-title">Here Product Title</h3>
+												<h4 class="product-old-price">$79.99</h4>
+												<h4 class="product-price">$49.99</h4>
+										</div>
+								</div>
+						</div>
+						<!-- Single Product -->
+						<div class="col-md-6 col-lg-4 col-xl-3">
+								<div id="product-3" class="single-product">
+										<div class="part-1">
+												<ul>
+														<li><a href="#"><i class="fas fa-shopping-cart"></i></a></li>
+														<li><a href="#"><i class="fas fa-heart"></i></a></li>
+												</ul>
+										</div>
+										<div class="part-2">
+												<h3 class="product-title">Here Product Title</h3>
+												<h4 class="product-price">$49.99</h4>
+										</div>
+								</div>
+						</div>
+						<!-- Single Product -->
+						<div class="col-md-6 col-lg-4 col-xl-3">
+								<div id="product-4" class="single-product">
+										<div class="part-1">
+												<span class="new">new</span>
+												<ul>
+														<li><a href="#"><i class="fas fa-shopping-cart"></i></a></li>
+														<li><a href="#"><i class="fas fa-heart"></i></a></li>
+												</ul>
+										</div>
+										<div class="part-2">
+												<h3 class="product-title">Here Product Title</h3>
+												<h4 class="product-price">$49.99</h4>
+										</div>
+								</div>
+						</div>
+						<!-- Single Product -->
+						<div class="col-md-6 col-lg-4 col-xl-3">
+								<div id="product-1" class="single-product">
+										<div class="part-1">
+												<ul>
+														<li><a href="#"><i class="fas fa-shopping-cart"></i></a></li>
+														<li><a href="#"><i class="fas fa-heart"></i></a></li>
+												</ul>
+										</div>
+										<div class="part-2">
+												<h3 class="product-title">Here Product Title</h3>
+												<h4 class="product-price">$49.99</h4>
+										</div>
+								</div>
+						</div>
+						<!-- Single Product -->
+						<div class="col-md-6 col-lg-4 col-xl-3">
+								<div id="product-2" class="single-product">
+										<div class="part-1">
+												<span class="discount">15% off</span>
+												<ul>
+														<li><a href="#"><i class="fas fa-shopping-cart"></i></a></li>
+														<li><a href="#"><i class="fas fa-heart"></i></a></li>
+												</ul>
+										</div>
+										<div class="part-2">
+												<h3 class="product-title">Here Product Title</h3>
+												<h4 class="product-old-price">$79.99</h4>
+												<h4 class="product-price">$49.99</h4>
+										</div>
+								</div>
+						</div>
+						<!-- Single Product -->
+						<div class="col-md-6 col-lg-4 col-xl-3">
+								<div id="product-3" class="single-product">
+										<div class="part-1">
+												<ul>
+														<li><a href="#"><i class="fas fa-shopping-cart"></i></a></li>
+														<li><a href="#"><i class="fas fa-heart"></i></a></li>
 
-    
-
-</div>
-  </div>
+												</ul>
+										</div>
+										<div class="part-2">
+												<h3 class="product-title">Here Product Title</h3>
+												<h4 class="product-price">$49.99</h4>
+										</div>
+								</div>
+						</div>
+						<!-- Single Product -->
+						<div class="col-md-6 col-lg-4 col-xl-3">
+								<div id="product-4" class="single-product">
+										<div class="part-1">
+												<span class="new">new</span>
+												<ul>
+														<li><a href="#"><i class="fas fa-shopping-cart"></i></a></li>
+														<li><a href="#"><i class="fas fa-heart"></i></a></li>
+												</ul>
+										</div>
+										<div class="part-2">
+												<h3 class="product-title">Here Product Title</h3>
+												<h4 class="product-price">$49.99</h4>
+										</div>
+								</div>
+						</div>
+				</div>
+		</div>
+</section>
 	
 	<%@include  file="/html/footer.html" %>
 	
