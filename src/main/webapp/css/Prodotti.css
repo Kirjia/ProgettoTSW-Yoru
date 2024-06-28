@@ -1,17 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
 
 
-@media screen and (max-width: 500px) {
-  .header a {
-    float: none;
-    display: block;
-    text-align: left;
-  }
-  
-  .slider-menu {
-    float: none;
-  }
+@media (min-width: 600px) and (max-width: 899px) {
+    nav {
+        flex-direction: column;
+    }
 }
+
+/* Stili per desktop (schermi di larghezza maggiore di 900px) */
+@media (min-width: 900px) {
+    nav {
+        flex-direction: row;
+    }
+
+    nav a {
+        margin: 0 10px;
+    }
+}
+
 a,
 a:hover {
     text-decoration: none;
@@ -43,6 +49,7 @@ a:hover {
 }
 
 .section-products .single-product .part-1 {
+	margin-left:10px;
     position: relative;
     height: 290px;
     max-height: 290px;
@@ -61,9 +68,6 @@ a:hover {
 		transition: all 0.3s;
 }
 
-.section-products .single-product:hover .part-1::before {
-		transform: scale(1.2,1.2) rotate(5deg);
-}
 
 .section-products #product-1 .part-1::before {
     background: url("https://i.ibb.co/L8Nrb7p/1.jpg") no-repeat center;
@@ -88,6 +92,7 @@ a:hover {
 
 .section-products .single-product .part-1 .discount,
 .section-products .single-product .part-1 .new {
+	margin-left:10px;
     position: absolute;
     top: 15px;
     left: 20px;
@@ -99,6 +104,7 @@ a:hover {
 }
 
 .section-products .single-product .part-1 .new {
+	margin-left:10px;
     left: 0;
     background-color: #444444;
 }
@@ -106,7 +112,7 @@ a:hover {
 .section-products .single-product .part-1 ul {
     position: absolute;
     bottom: -41px;
-    left: 20px;
+    left: 10px;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -141,22 +147,25 @@ a:hover {
 }
 
 .section-products .single-product .part-2 .product-title {
+	margin-left:10px;
     font-size: 1rem;
 }
 
 .section-products .single-product .part-2 h4 {
+	margin-left:10px;
     display: inline-block;
     font-size: 1rem;
 }
 
 .section-products .single-product .part-2 .product-old-price {
+	margin-left:10px;
     position: relative;
     padding: 0 7px;
     margin-right: 2px;
     opacity: 0.6;
 }
-
 .section-products .single-product .part-2 .product-old-price::after {
+	margin-left:10px;
     position: absolute;
     content: "";
     top: 50%;
@@ -166,3 +175,4 @@ a:hover {
     background-color: #444444;
     transform: translateY(-50%);
 }
+

@@ -24,8 +24,8 @@ header {
 }
 
 .header a {
+  color: #ff7000;
   float: left;
-  color: black;
   text-align: center;
   padding: 12px;
   text-decoration: none;
@@ -42,6 +42,9 @@ header {
 	padding: 0;
 	z-index: 1;
     float:right;
+}
+a{
+	      color: #ff7000;
 }
 
 .slider-menu>li.icon {
@@ -126,14 +129,3 @@ li.drop {
       transition: all 0.3s ease;
     }
     
-    
-    
-  a {
-
-    text-decoration: none;
-
-    &:hover {
-        color: #3CA0E7;
-    }
- 
-}
