@@ -18,7 +18,7 @@ body{
 }
 
 header {
-  background-color: #4B4080;
+  background-color: #343a40;
   padding: 20px 10px;
   margin:0px;
 }
@@ -43,8 +43,9 @@ header {
 	z-index: 1;
     float:right;
 }
-a{
-	      color: #ff7000;
+
+.slider-menu>li.a.icon{
+	color:ff7000;
 }
 
 .slider-menu>li.icon {
@@ -58,17 +59,19 @@ a{
 	transition: 0.3s linear all;
 	user-select: none;
 }
-
+.slider-menu>li.a.icon:hover{
+	color:343a40;
+}
 .slider-menu>li.icon:hover {
 	font-weight: bolder;
 	border-radius:100%;
-	color: #4B4080;
+	color: #343a40;
 	box-shadow: 0 70px 2px rgba(255, 112, 0, 0.50) inset;
 }
 .slider-menu>li.drop:hover {
 	font-weight: bolder;
 	border-radius:100%;
-	color: #4B4080;
+	color: #343a40;
 	box-shadow: 0 70px 2px rgba(255, 112, 0, 0.50) inset;
 }
 

@@ -38,7 +38,6 @@
 						<div class="col-md-6 col-lg-4 col-xl-3">
 								<div id="product-2" class="single-product">
 										<div class="part-1">
-												<span class="discount">15% off</span>
 												<ul>
 														<li><a href="#"><i class="fas fa-shopping-cart"></i></a></li>
 														<li><a href="#"><i class="fas fa-heart"></i></a></li>
@@ -46,7 +45,6 @@
 										</div>
 										<div class="part-2">
 												<h3 class="product-title">Here Product Title</h3>
-												<h4 class="product-old-price">$79.99</h4>
 												<h4 class="product-price">$49.99</h4>
 										</div>
 								</div>
@@ -70,7 +68,6 @@
 						<div class="col-md-6 col-lg-4 col-xl-3">
 								<div id="product-4" class="single-product">
 										<div class="part-1">
-												<span class="new">new</span>
 												<ul>
 														<li><a href="#"><i class="fas fa-shopping-cart"></i></a></li>
 														<li><a href="#"><i class="fas fa-heart"></i></a></li>
@@ -101,7 +98,6 @@
 						<div class="col-md-6 col-lg-4 col-xl-3">
 								<div id="product-2" class="single-product">
 										<div class="part-1">
-												<span class="discount">15% off</span>
 												<ul>
 														<li><a href="#"><i class="fas fa-shopping-cart"></i></a></li>
 														<li><a href="#"><i class="fas fa-heart"></i></a></li>
@@ -109,7 +105,6 @@
 										</div>
 										<div class="part-2">
 												<h3 class="product-title">Here Product Title</h3>
-												<h4 class="product-old-price">$79.99</h4>
 												<h4 class="product-price">$49.99</h4>
 										</div>
 								</div>
@@ -134,7 +129,6 @@
 						<div class="col-md-6 col-lg-4 col-xl-3">
 								<div id="product-4" class="single-product">
 										<div class="part-1">
-												<span class="new">new</span>
 												<ul>
 														<li><a href="#"><i class="fas fa-shopping-cart"></i></a></li>
 														<li><a href="#"><i class="fas fa-heart"></i></a></li>
@@ -147,7 +141,6 @@
 								</div>
 						</div>
 				</div>
-		</div>
 </section>
 	
 	<%@include  file="/html/footer.html" %>
