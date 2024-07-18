@@ -36,11 +36,11 @@
 }
 
 .summary{
-    background-color: #ddd;
+    background-color: #ff7000;
     border-top-right-radius: 1rem;
     border-bottom-right-radius: 1rem;
     padding: 4vh;
-    color: rgb(65, 65, 65);
+    color: #343a40;
 }
 
 .summary .col-2{
@@ -70,11 +70,9 @@ a{
     margin-left: auto;
     font-size: 0.7rem;
 }
-img{
-    width: 3.5rem;
-}
+
 .back-to-shop{
-    margin-top: 4.5rem;
+    margin-top: 5px;
 }
 h5{
     margin-top: 4vh;
@@ -105,35 +103,23 @@ input:focus::-webkit-input-placeholder
 {
       color:transparent;
 }
-.btn{
-    background-color: #000;
-    border-color: #000;
-    color: white;
+button{  
+	background-color: #343a40;
+    border-color: #343a40;
     width: 100%;
     font-size: 0.7rem;
     margin-top: 4vh;
     padding: 1vh;
-    border-radius: 0;
+    border-radius:40px;
+    color:white;
+	
 }
-.btn:focus{
-    box-shadow: none;
-    outline: none;
-    box-shadow: none;
-    color: white;
-    -webkit-box-shadow: none;
-    -webkit-user-select: none;
-    transition: none; 
-}
-.btn:hover{
-    color: white;
-}
+
+
 a{
     color: black; 
 }
-a:hover{
-    color: black;
-    text-decoration: none;
-}
+
  #code{
     background-image: linear-gradient(to left, rgba(255, 255, 255, 0.253) , rgba(255, 255, 255, 0.185)), url("https://img.icons8.com/small/16/000000/long-arrow-right.png");
     background-repeat: no-repeat;

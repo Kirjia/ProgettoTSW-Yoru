@@ -134,4 +134,15 @@ li.drop {
       border-left: 2px solid #ff7000;
       transition: all 0.3s ease;
     }
-    
+.search {
+  position: relative;
+}
+.bi-search{position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 0;
+  width: 20px;
+}
+.search input {
+  padding: 5px 22px 5px 2px;
+}
