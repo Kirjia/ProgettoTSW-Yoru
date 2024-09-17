@@ -1,1 +1,3 @@
 /build/
+*.class
+/src/main/webapp/META-INF
