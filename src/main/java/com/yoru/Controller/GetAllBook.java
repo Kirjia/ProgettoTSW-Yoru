@@ -63,40 +63,44 @@ public class GetAllBook extends HttpServlet {
 		//response.setContentType("application/json");
 		response.setContentType("text/html");
 		JSONObject jsonObject = new JSONObject();
-		int page = -1;
-		int limit = -1;
+		int page = 1;
+		int limit = 20;
+		String pageString = request.getParameter("page");
+		
+		if (pageString != null) 
+			page = Integer.parseInt(pageString);
+		
 
-			page = Integer.parseInt(request.getParameter("page"));
-			limit = Integer.parseInt(request.getParameter("limit"));
+		
 
 
-		if (page > 0) {
-			try {
-				Collection<Prodotto> books = itemDAO.getAllBooks(page, limit);
-				Iterator iterator = books.iterator();
-				request.setAttribute("items", books);
-				request.getRequestDispatcher("jsp/home.jsp").forward(request, response);
-				return;
-				/*
-				JSONArray array = new JSONArray();
-				while(iterator.hasNext()) {
-					Prodotto bookProdotto = (Prodotto) iterator.next();
-					
-					JSONObject item = new JSONObject();
-					item.put("SKU", bookProdotto.getSKU());
-					item.put("name", bookProdotto.getNome());
-					item.put("prezzo", bookProdotto.getPrezzo());
-					item.put("quantità", bookProdotto.getQuantità());
-					item.put("type", Prodotto.ItemType.Libro);
-					array.put(item);
-				}
-				jsonObject.put("books", array);*/
-			} //catch (SQLException | JSONException e) {
-			catch (Exception e) {
+		
+		try {
+			Collection<Prodotto> books = itemDAO.getAllBooks(page, limit);
+			Iterator<Prodotto> iterator = books.iterator();
+			request.setAttribute("items", books);
+			request.getRequestDispatcher("jsp/home.jsp").forward(request, response);
+			return;
+			/*
+			JSONArray array = new JSONArray();
+			while(iterator.hasNext()) {
+				Prodotto bookProdotto = (Prodotto) iterator.next();
 				
-				LOGGER.log(Level.WARNING, "books error", e);
+				JSONObject item = new JSONObject();
+				item.put("SKU", bookProdotto.getSKU());
+				item.put("name", bookProdotto.getNome());
+				item.put("prezzo", bookProdotto.getPrezzo());
+				item.put("quantità", bookProdotto.getQuantità());
+				item.put("type", Prodotto.ItemType.Libro);
+				array.put(item);
 			}
+			jsonObject.put("books", array);*/
+		} //catch (SQLException | JSONException e) {
+		catch (Exception e) {
+			
+			LOGGER.log(Level.WARNING, "books error", e);
 		}
+		
 		
 		//response.getWriter().print(jsonObject);
 		
