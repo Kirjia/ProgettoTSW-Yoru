@@ -56,7 +56,7 @@ public class GetItem extends HttpServlet {
 		try {
 			Prodotto item = itemDAO.getById(itemId);
 			request.setAttribute("item", item);
-			request.getRequestDispatcher("jsp/item.jsp").forward(request, response);;
+			request.getRequestDispatcher("jsp/prodotti.jsp").forward(request, response);;
 		}catch (SQLException e) {
 			LOGGER.log(Level.WARNING, "Retrive item error", e);
 		}

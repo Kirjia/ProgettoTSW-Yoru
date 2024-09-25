@@ -79,7 +79,7 @@ public class GetAllBook extends HttpServlet {
 			Collection<Prodotto> books = itemDAO.getAllBooks(page, limit);
 			Iterator<Prodotto> iterator = books.iterator();
 			request.setAttribute("items", books);
-			request.getRequestDispatcher("jsp/home.jsp").forward(request, response);
+			request.getRequestDispatcher("jsp/prodotti.jsp").forward(request, response);
 			return;
 			/*
 			JSONArray array = new JSONArray();
