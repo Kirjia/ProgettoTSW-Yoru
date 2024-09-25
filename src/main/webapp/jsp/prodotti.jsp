@@ -26,7 +26,7 @@ System.out.println(items);
 }*/	%>
 <!-- Product Section -->
 <section class="section-products container mt-5">
-    <h1 class="text-center mb-4">Our Products</h1>
+    <h1 class="text-center mb-4">I nostri prodotti</h1>
     <div class="row">
         <!-- Itera sui prodotti passati dal servlet -->
         <c:forEach items="${items}" var="prodotto">
@@ -34,14 +34,14 @@ System.out.println(items);
       	  <div class="single-product card">
             <!-- Product Image -->
             <div class="part-1">
-                <img src="images/${prodotto.SKU}.jpeg" alt="${prodotto.nome}" onerror="this.src='images/err.jpeg'">
+                <img src="images/${prodotto.SKU}.jpg" alt="${prodotto.nome}" onerror="this.src='images/err.jpeg'">
             </div>
             <!-- Product Details -->
             <div class="part-2">
                 <h3 class="product-title"><c:out value="${prodotto.nome}"/></h3>
-                <h4 class="product-price">$<c:out value="${prodotto.prezzo}"/></h4>
+                <h4 class="product-price">€<c:out value="${prodotto.prezzo}"/></h4>
                 <!-- Add to Cart Button -->
-                <button class="btn btn-add-cart">Add to Cart</button>
+                <button class="btn btn-add-cart">Aggiungi al carrello</button>
             </div>
         </div>
     </div>
