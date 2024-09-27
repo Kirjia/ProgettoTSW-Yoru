@@ -122,7 +122,7 @@ public class OrderDAO implements GenericDBOp<Order>{
 	    	ResultSet cartRs = null;
 	    	ResultSet cartItemRs = null;
 	    	String cartSQL = "SELECT * FROM Cart WHERE user_id = ?";
-	    	String cartItemsSQL = "SELECT * FROM cart_items WHERE cart_id = ?";
+	    	String cartItemsSQL = "SELECT order_items.sku, order_items.ID_ordine, order_items.quantità, nome, prezzo FROM order_items Inner Join prodotto WHERE cart_id = ?";
 	    	
 	    	
 	    	try {
@@ -150,7 +150,9 @@ public class OrderDAO implements GenericDBOp<Order>{
 	    		while(cartItemRs.next()) {
 	    			CartItem item = new CartItem(cartItemRs.getInt(1),
 	    										cartItemRs.getInt(2),
-	    										cartItemRs.getInt(3));
+	    										cartItemRs.getInt(3),
+	    										cartItemRs.getFloat(4),
+	    										cartItemRs.getString(5));
 	    			cartItems.add(item);
 	    			
 	    		}
