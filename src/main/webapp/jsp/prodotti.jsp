@@ -20,10 +20,10 @@
 Collection<?> items = (Collection<?>) request.getAttribute("items");
 System.out.println(items);
 
-/*if (items == null) {
+if (items == null) {
 	response.sendRedirect("../GetAllBook");
 	return;
-} */ %>
+} %>
 <!-- Product Section -->
 <section class="section-products container mt-5">
     <h1 class="text-center mb-4">I nostri prodotti</h1>

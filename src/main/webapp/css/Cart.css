@@ -1,5 +1,6 @@
 @charset "ISO-8859-1";
 
+/* Per schermi medi */
 @media (min-width: 600px) and (max-width: 899px) {
     nav {
         flex-direction: column;
@@ -11,16 +12,15 @@
     nav {
         flex-direction: row;
     }
-
+    
     nav a {
         margin: 0 10px;
     }
 }
-.card{
-    margin-top:20px;
-    margin-bottom:20px;
-    margin-left:auto;
-    margin-right:auto;
+
+/* Stili del Carrello */
+.card {
+    margin: 20px auto;
     max-width: 950px;
     width: 90%;
     box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -28,14 +28,14 @@
     border: transparent;
 }
 
-.cart{
+.cart {
     background-color: #fff;
     padding: 4vh 5vh;
     border-bottom-left-radius: 1rem;
     border-top-left-radius: 1rem;
 }
 
-.summary{
+.summary {
     background-color: #ff7000;
     border-top-right-radius: 1rem;
     border-bottom-right-radius: 1rem;
@@ -43,86 +43,38 @@
     color: #343a40;
 }
 
-.summary .col-2{
-    padding: 0;
-}
-.summary .col-10
-{
-    padding: 0;
-}.row{
-    margin: 0;
-}
-.title b{
+.summary h5 {
     font-size: 1.5rem;
 }
-.main{
+
+.summary .row {
     margin: 0;
-    padding: 2vh 0;
-    width: 100%;
-}
-.col-2, .col{
-    padding: 0 1vh;
-}
-a{
-    padding: 0 1vh;
-}
-.close{
-    margin-left: auto;
-    font-size: 0.7rem;
 }
 
-.back-to-shop{
-    margin-top: 5px;
-}
-h5{
-    margin-top: 4vh;
-}
-hr{
-    margin-top: 1.25rem;
-}
-form{
-    padding: 2vh 0;
-}
-select{
-    border: 1px solid rgba(0, 0, 0, 0.137);
-    padding: 1.5vh 1vh;
-    margin-bottom: 4vh;
-    outline: none;
-    width: 100%;
-    background-color: rgb(247, 247, 247);
-}
-input{
-    border: 1px solid rgba(0, 0, 0, 0.137);
-    padding: 1vh;
-    margin-bottom: 4vh;
-    outline: none;
-    width: 100%;
-    background-color: rgb(247, 247, 247);
-}
-input:focus::-webkit-input-placeholder
-{
-      color:transparent;
-}
-button{  
-	background-color: #343a40;
+.btn-checkout {
+    background-color: #343a40;
     border-color: #343a40;
     width: 100%;
-    font-size: 0.7rem;
+    font-size: 1rem;
     margin-top: 4vh;
     padding: 1vh;
-    border-radius:40px;
-    color:white;
-	
+    border-radius: 40px;
+    color: white;
 }
 
-
-a{
-    color: black; 
+.btn-checkout:hover {
+    background-color: #ff7000;
 }
 
- #code{
-    background-image: linear-gradient(to left, rgba(255, 255, 255, 0.253) , rgba(255, 255, 255, 0.185)), url("https://img.icons8.com/small/16/000000/long-arrow-right.png");
-    background-repeat: no-repeat;
-    background-position-x: 95%;
-    background-position-y: center;
+.empty-carrello {
+    text-align: center;
+    font-size: 1.5rem;
+    color: #808080;
+    margin-top: 20px;
+}
+
+img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
 }

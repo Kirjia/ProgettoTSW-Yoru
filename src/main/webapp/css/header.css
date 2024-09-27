@@ -102,7 +102,7 @@ li.drop {
 	 padding-left: 0;
       left: 0;
       display: none;
-      background: white;
+      background: #343a40;
       z-index: 1
     }
  li.dropdown a {
@@ -118,7 +118,7 @@ li.drop {
       min-width: 150px;
       text-align: left;
       padding-top: 20px;
-      box-shadow: 0px 3px 5px -1px #ccc;
+    /*  box-shadow: 0px 3px 5px -1px #ccc;*/
             list-style: none;
     }
     
