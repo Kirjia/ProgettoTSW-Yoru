@@ -57,11 +57,17 @@ public class Carrello extends HttpServlet {
 	
 		HttpSession session = (HttpSession) request.getSession(false);
 		
+		if (session == null) {
+			response.sendRedirect("jsp/login.jsp");
+			return;
+			
+		}
+		
 		User user = (User) session.getAttribute("user");
 		Cart cart;
 		
 		if (user == null) {
-			request.getRequestDispatcher("jsp/login.jsp").forward(request, response);
+			response.sendRedirect("jsp/login.jsp");
 			return;
 		}
 			

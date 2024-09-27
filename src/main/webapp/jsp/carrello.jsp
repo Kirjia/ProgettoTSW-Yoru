@@ -55,10 +55,10 @@
                                     
                                     <div class="row border-bottom">
                                         <div class="col-md-4">
-                                            <img src="images/${p.SKU}.jpg" class="img-fluid" alt="${p.item_name}" onerror="this.src='images/placeholder.jpg'">
+                                            <img src="images/${p.SKU}.jpg" class="img-fluid" alt="${p.nome}" onerror="this.src='images/placeholder.jpg'">
                                         </div>
                                         <div class="col-md-5">
-                                            <h5>${p.item_name}</h5>
+                                            <h5>${p.nome}</h5>
                                             <p>Quantità: ${p.quantity}</p>
                                         </div>
                                         <div class="col-md-3">

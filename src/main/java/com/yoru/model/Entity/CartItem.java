@@ -8,14 +8,14 @@ public class CartItem {
 	private int SKU;
 	private int quantity;
 	private float prezzo;
-	private String item_name;
+	private String nome;
 	
 	
 	public CartItem(int cartId, int itemSKU, int quantity, float prezzo, String item_name) {
 		this.cartId = cartId;
 		this.SKU = itemSKU;
 		this.quantity = quantity;
-		this.item_name = item_name;
+		this.nome = item_name;
 		this.prezzo = prezzo;
 	}
 	
@@ -40,11 +40,11 @@ public class CartItem {
 	}
 	
 	public String getNome() {
-		return item_name;
+		return nome;
 	}
 	
 	public void setNome(String item_name) {
-		this.item_name = item_name;
+		this.nome = item_name;
 	}
 	
 	public float getPrezzo() {

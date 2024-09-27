@@ -604,5 +604,8 @@ VALUES
 			(1016, 'Metallo'),
 			(1017, 'Ceramica'),
 			(1018, "PVC");
+            
+insert into cart(user_id, total, created_at, modified_at) value(1000, 50, now(), now());
+insert into cart_items(cart_id, SKU, quantity, insert_at, modified_at) values(10, 1000, 3, now(), now()),(10, 1001, 1, now(), now()); 
         
                               
