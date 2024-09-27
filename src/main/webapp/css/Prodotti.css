@@ -46,6 +46,7 @@ a:hover {
 
 .section-products .single-product {
     margin-bottom: 26px;
+    overflow: hidden;
 }
 
 .section-products .single-product .part-1 {
@@ -66,6 +67,7 @@ a:hover {
 		height: 100%;
 		z-index: -1;
 		transition: all 0.3s;
+		overflow: hidden;
 }
 
 
@@ -101,12 +103,14 @@ a:hover {
     padding: 2px 5px;
     text-transform: uppercase;
     font-size: 0.85rem;
+    overflow: hidden;
 }
 
 .section-products .single-product .part-1 .new {
 	margin-left:10px;
     left: 0;
     background-color: #444444;
+    overflow: hidden;
 }
 
 .section-products .single-product .part-1 ul {
@@ -118,16 +122,19 @@ a:hover {
     list-style: none;
     opacity: 0;
     transition: bottom 0.5s, opacity 0.5s;
+    overflow: hidden;
 }
 
 .section-products .single-product:hover .part-1 ul {
     bottom: 30px;
     opacity: 1;
+    overflow: hidden;
 }
 
 .section-products .single-product .part-1 ul li {
     display: inline-block;
     margin-right: 4px;
+    overflow: hidden;
 }
 
 .section-products .single-product .part-1 ul li a {
@@ -140,21 +147,25 @@ a:hover {
     text-align: center;
     box-shadow: 0 2px 20px rgb(50 50 50 / 10%);
     transition: color 0.2s;
+    overflow: hidden;
 }
 
 .section-products .single-product .part-1 ul li a:hover {
     color: #fe302f;
+    overflow: hidden;
 }
 
 .section-products .single-product .part-2 .product-title {
 	margin-left:10px;
     font-size: 1rem;
+    overflow: hidden;
 }
 
 .section-products .single-product .part-2 h4 {
 	margin-left:10px;
     display: inline-block;
     font-size: 1rem;
+    overflow: hidden;
 }
 
 .section-products .single-product .part-2 .product-old-price {
@@ -163,6 +174,7 @@ a:hover {
     padding: 0 7px;
     margin-right: 2px;
     opacity: 0.6;
+    overflow: hidden;
 }
 .section-products .single-product .part-2 .product-old-price::after {
 	margin-left:10px;
@@ -174,5 +186,83 @@ a:hover {
     height: 1px;
     background-color: #444444;
     transform: translateY(-50%);
+    overflow: hidden;
 }
 
+.aggiungi-al-carrello {
+    background-color: #ff7000;
+    color: white;
+    padding: 5px 15px; /* Riduci la dimensione del pulsante */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem; /* Diminuisci la dimensione del testo */
+    position: absolute; /* Posiziona il pulsante */
+    right: 10px; /* Attacca il pulsante al bordo destro */
+    bottom: 10px; /* Posiziona il pulsante verso il basso */
+}
+
+.aggiungi-al-carrello:hover {
+    background-color: #e06600; /* Colore leggermente più scuro al passaggio del mouse */
+}
+
+.product-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+    max-width: 100%;
+    font-size: 1rem;
+}
+
+.product-title-wrapper:hover .product-title {
+    animation: scrollHover 7s linear infinite;  /* Aggiunge animazione di scorrimento */
+    text-overflow: unset;       /* Rimuove "..." durante lo scorrimento */
+}
+
+@keyframes scrollHover {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);  /* Sposta il testo in base alla lunghezza */
+    }
+}
+.section-products .single-product .part-1 {
+    margin-left: 10px;
+    position: relative;
+    height: 200px; /* Mantieni una dimensione fissa */
+    width: 100%;
+    overflow: hidden;
+    max-width: 100%;
+}
+
+.section-products .single-product .part-1 img {
+    width: 100%; /* L'immagine occuperà tutta la larghezza del contenitore */
+    height: 100%; /* L'immagine occuperà tutta l'altezza del contenitore */
+    object-fit: contain; /* Mantiene le proporzioni dell'immagine senza tagliarla */
+    overflow: hidden;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.product-title-wrapper {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    white-space: nowrap;
+    max-width: 100%;
+    margin-left: 10px; /* Stessa distanza del titolo dal bordo */
+}
+
+.part-2 span {
+    display: block;
+    font-size: 1.2rem;
+    color: #808080; /* Imposta il colore grigio per il prezzo */
+    margin-left: 10px; /* Allinea il prezzo come il titolo */
+}
+
+.single-product {
+    position: relative;
+    padding-bottom: 50px; /* Spazio per il pulsante in basso */
+}

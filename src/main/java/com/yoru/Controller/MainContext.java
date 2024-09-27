@@ -39,9 +39,11 @@ public class MainContext implements ServletContextListener {
     	
     	DataSource ds = null;
     	try {
+    		System.out.println("inizio");
     		Context initCtx = new InitialContext();
+    		System.out.println("metà");
     		Context envCtx = (Context) initCtx.lookup("java:comp/env");
-    		
+    		System.out.println("fine");
     		ds = (DataSource) envCtx.lookup("jdbc/YoruDB");
     	}catch(NamingException e) {
     		MainContext.LOGGER.log(Level.SEVERE, "MainContext", e);

@@ -20,10 +20,10 @@
 Collection<?> items = (Collection<?>) request.getAttribute("items");
 System.out.println(items);
 
-/*if (prodotti == null) {
+/*if (items == null) {
 	response.sendRedirect("../GetAllBook");
 	return;
-}*/	%>
+} */ %>
 <!-- Product Section -->
 <section class="section-products container mt-5">
     <h1 class="text-center mb-4">I nostri prodotti</h1>
@@ -38,10 +38,25 @@ System.out.println(items);
             </div>
             <!-- Product Details -->
             <div class="part-2">
+            	<div class="product-title-wrapper">
                 <h3 class="product-title"><c:out value="${prodotto.nome}"/></h3>
-                <h4 class="product-price">€<c:out value="${prodotto.prezzo}"/></h4>
-                <!-- Add to Cart Button -->
-                <button class="btn btn-add-cart">Aggiungi al carrello</button>
+                </div>
+                
+                
+
+
+							<c:choose>
+								<c:when test="${prodotto.prezzo % 1 == 0}">
+									<span>€${prodotto.prezzo.intValue()}</span>
+								</c:when>
+								<c:otherwise>
+									<span>€${prodotto.prezzo}</span>
+								</c:otherwise>
+							</c:choose>
+
+
+							<!-- Add to Cart Button -->
+                <button class="aggiungi-al-carrello">Aggiungi al carrello</button>
             </div>
         </div>
     </div>

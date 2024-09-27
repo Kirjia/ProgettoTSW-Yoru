@@ -46,6 +46,8 @@ public class GetAllBook extends HttpServlet {
     	// TODO Auto-generated method stub
     	super.init();
     	DataSource ds =  (DataSource) super.getServletContext().getAttribute("DataSource");
+    	if(ds == null)
+    		System.out.println("ds NULL");
     	itemDAO = new ItemDAO(ds);
     }
 
@@ -62,6 +64,7 @@ public class GetAllBook extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//response.setContentType("application/json");
 		response.setContentType("text/html");
+		System.out.println("GetAllBook");
 		JSONObject jsonObject = new JSONObject();
 		int page = 1;
 		int limit = 20;
