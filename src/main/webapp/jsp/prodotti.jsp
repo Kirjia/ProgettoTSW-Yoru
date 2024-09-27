@@ -42,8 +42,6 @@ System.out.println(items);
                 <h3 class="product-title"><c:out value="${prodotto.nome}"/></h3>
                 </div>
                 
-                
-
 
 							<c:choose>
 								<c:when test="${prodotto.prezzo % 1 == 0}">
