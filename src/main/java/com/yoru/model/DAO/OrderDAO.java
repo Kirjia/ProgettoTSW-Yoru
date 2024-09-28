@@ -115,7 +115,7 @@ public class OrderDAO implements GenericDBOp<Order>{
 	    }
 	    
 	    public synchronized Cart getCart(int userId) throws SQLException {
-	    	Cart cart = null;
+	    	Cart cart = new Cart(userId);
 	    	Connection connection = null;
 	    	PreparedStatement cartPs = null;
 	    	PreparedStatement cartItemStatement = null;

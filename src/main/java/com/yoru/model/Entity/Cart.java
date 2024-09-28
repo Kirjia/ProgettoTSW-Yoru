@@ -14,10 +14,8 @@ public class Cart {
 	private Collection<CartItem> items;
 	
 	
-	public Cart(int userId, Timestamp createTime, Timestamp modTime) {
+	public Cart(int userId) {
 		this.userId = userId;
-		this.createdTime = createTime;
-		this.modifieadTime = modTime;
 		items = new ArrayList<>();
 	}
 
