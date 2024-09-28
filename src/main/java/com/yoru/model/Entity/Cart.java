@@ -7,7 +7,6 @@ import java.util.List;
 
 public class Cart {
 
-	private int id;
 	private int userId;
 	private float total;
 	private Timestamp createdTime;
@@ -15,24 +14,13 @@ public class Cart {
 	private Collection<CartItem> items;
 	
 	
-	public Cart(int id, int userId, float total, Timestamp createTime, Timestamp modTime) {
-		this.id = id;
+	public Cart(int userId, Timestamp createTime, Timestamp modTime) {
 		this.userId = userId;
-		this.total = total;
 		this.createdTime = createTime;
 		this.modifieadTime = modTime;
 		items = new ArrayList<>();
 	}
 
-
-	public int getId() {
-		return id;
-	}
-
-
-	public void setId(int id) {
-		this.id = id;
-	}
 
 
 	public int getUserId() {

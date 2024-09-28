@@ -96,7 +96,7 @@ CREATE TABLE user(
     nome varchar(20) NOT NULL,
     cognome varchar(20) NOT NULL,
     telefono char(10) NOT NULL UNIQUE,
-    role ENUM("USER", "ADMIN") NOT NULL default "user",
+    role ENUM("USER", "ADMIN") NOT NULL default "USER",
     
     
 	constraint PK_user
@@ -107,7 +107,7 @@ CREATE TABLE user(
 DROP TABLE IF EXISTS user_address;
 CREATE TABLE user_address(
 	id int unsigned NOT NULL auto_increment,
-	user_id varchar(40) NOT NULL,
+	email varchar(40) NOT NULL,
     via varchar(50) NOT NULL,
     provincia varchar(50) NOT NULL,
     città varchar(50) NOT NULL,
@@ -116,7 +116,7 @@ CREATE TABLE user_address(
     constraint PK_user_address
 		primary key(id),
         
-	foreign key(user_id) references user(email)
+	foreign key(email) references user(email)
 		ON UPDATE CASCADE 
         ON DELETE CASCADE
 	
@@ -130,7 +130,7 @@ CREATE TABLE order_details(
     data_pagamento date NOT NULL,
     createdAt Timestamp, 
     modifiedAt Timestamp,
-    ID_pagamento int UNSIGNED NOT NULL  UNIQUE,
+    ID_pagamento CHAR(36) NOT NULL  UNIQUE,
     importo_pagamento float NOT NULL,
     userId int unsigned NOT NULL,
 
@@ -169,41 +169,22 @@ CREATE TABLE order_items(
 
 )ENGINE= InnoDB;
 
-DROP TABLE IF EXISTS cart;
-CREATE TABLE cart(
-
-	cart_id int unsigned NOT NULL auto_increment,
-    user_id int unsigned unique NOT NULL,
-    total DOUBLE(16,2) unsigned default 0.00,
-    created_at timestamp NOT NULL,
-    modified_at timestamp NOT NULL,
-    
-    constraint PK_cart
-		primary key(cart_id),
-     
-     constraint FK_cart_userId
-		foreign key(user_id) REFERENCES user(id)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
-	
-
-)ENGINE= InnoDB AUTO_INCREMENT = 10;
 
 
 DROP TABLE IF EXISTS cart_items;
 CREATE TABLE cart_items(
-    cart_id int unsigned NOT NULL,
+    user_id int unsigned NOT NULL,
     SKU int unsigned NOT NULL,
-    quantity int unsigned NOT NULL DEFAULT 0,
-    insert_at timestamp NOT NULL,
-    modified_at timestamp NOT NULL,
+    quantity int unsigned NOT NULL DEFAULT 1,
+    insert_at timestamp ,
+    modified_at timestamp ,
     
     
     constraint PK_cartItems
-		primary key(cart_id, SKU),
+		primary key(user_id, SKU),
         
-	constraint FK_cart_items_cartId
-		foreign key(cart_id) references cart(cart_id)
+	constraint FK_cart_items_userId
+		foreign key(user_id) references user(id)
 		ON DELETE CASCADE
         ON UPDATE CASCADE,
         
@@ -213,7 +194,7 @@ CREATE TABLE cart_items(
         ON UPDATE CASCADE
 
 
-)ENGINE = InnoDB AUTO_INCREMENT = 100;
+)ENGINE = InnoDB;
 
 
 DROP TABLE IF EXISTS cookieAuth;
@@ -436,7 +417,7 @@ VALUES
 		("giorgia97@gmail.com", "$argon2id$v=19$m=65536,t=44,p=2$matLhY5b5ebSQifd9epprzh6yeHBlrDGloU2WZaEugY=$5IHjwmDP3CfV+cHb0Fi45MxJUGjTL7ch3gcKgZ+ybND8MjZMnjf4whfPIwiJum3M6h+nTEzno8SjEqPJ8r/cEmsAkqC5IF991GQQAQ/FRwPBi701Q9J/31DLfnGuAb+pexFgTI1uosyY8pUGuoYyZN7k0odCMy6Ba4idLZuwJbop3mcY5zP5RnFQHFmAIH/Q2eHdTQzR4uoPUtw2vygrZEm9px5KNX8iEV3Vp2oacxT6rTAWd4pbLwRB/mMMcLScKvFp4Uy1TY8X9m8JxD97kf5XUNkfP+GnNubWSNi9tv/tm3wg6Y3r6yfhuD8CC8YPfTouCD8T/NCA58peiUg1Wg==", "Giorgia", "Mancini", "1234209876");
 
         
-	INSERT INTO user_address(user_id, via, provincia, città, CAP)
+	INSERT INTO user_address(email, via, provincia, città, CAP)
 		values
 			("franco31@gmail.com", "Via Roma 12", "NA", "Palma Campania", "80036"),
 			("1001", "Via Garibaldi 8", "MI", "Milano", "20121"),
@@ -530,27 +511,27 @@ VALUES
  
 	INSERT INTO order_details(data_pagamento, ID_pagamento, importo_pagamento, userId)
     values
-    ("2023-10-29", 3143414, 52, 1000),
-	("2023-10-30", 3143446, 65, "1001"),
-	("2023-10-31", 3143417, 58, "1002"),
-	("2023-11-01", 3143418, 48, "1003"),
-	("2023-11-02", 3143419, 72, "1004"),
-	("2023-10-30", 3143420, 65, "1001"),
-	("2023-10-31", 3143421, 58, "1002"),
-	("2023-11-01", 3143422, 48, "1003"),
-	("2023-11-02", 3143423, 72, "1004"),
-	("2023-11-13", 3143424, 58, "1005"),
-	("2023-11-14", 3143425, 70, "1006"),
-	("2023-11-15", 3143426, 45, "1007"),
-	("2023-11-16", 3143427, 80, "1008"),
-	("2023-11-17", 3143428, 55, "1009"),
-	("2023-11-18", 3143429, 75, "1010"),
-	("2023-11-19", 3143430, 40, "1011"),
-	("2023-11-20", 3143431, 88, 1012),
-	("2023-11-21", 3143432, 48, 1013),
-	("2023-11-22", 3143433, 72, 1014),
-	("2023-11-23", 3143434, 50, 1015),
-	("2023-11-24", 3143435, 62, 1016);
+    ("2023-10-29", uuid(), 52, 1000),
+	("2023-10-30", uuid(), 65, "1001"),
+	("2023-10-31", uuid(), 58, "1002"),
+	("2023-11-01", uuid(), 48, "1003"),
+	("2023-11-02", uuid(), 72, "1004"),
+	("2023-10-30", uuid(), 65, "1001"),
+	("2023-10-31", uuid(), 58, "1002"),
+	("2023-11-01", uuid(), 48, "1003"),
+	("2023-11-02", uuid(), 72, "1004"),
+	("2023-11-13", uuid(), 58, "1005"),
+	("2023-11-14", uuid(), 70, "1006"),
+	("2023-11-15", uuid(), 45, "1007"),
+	("2023-11-16", uuid(), 80, "1008"),
+	("2023-11-17", uuid(), 55, "1009"),
+	("2023-11-18", uuid(), 75, "1010"),
+	("2023-11-19", uuid(), 40, "1011"),
+	("2023-11-20", uuid(), 88, 1012),
+	("2023-11-21", uuid(), 48, 1013),
+	("2023-11-22", uuid(), 72, 1014),
+	("2023-11-23", uuid(), 50, 1015),
+	("2023-11-24", uuid(), 62, 1016);
 
 
     
@@ -605,7 +586,6 @@ VALUES
 			(1017, 'Ceramica'),
 			(1018, "PVC");
             
-insert into cart(user_id, total, created_at, modified_at) value(1000, 50, now(), now());
-insert into cart_items(cart_id, SKU, quantity, insert_at, modified_at) values(10, 1000, 3, now(), now()),(10, 1001, 1, now(), now()); 
+insert into cart_items(user_id, SKU, quantity) values(1000, 1000, 3),(1000, 1001, 1); 
         
                               

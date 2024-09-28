@@ -4,6 +4,7 @@ package com.yoru.model.Entity;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class Order {
 
@@ -15,7 +16,7 @@ public class Order {
     public static final String COLUMNLABEL6 = "email";
 
     private int id;
-    private int id_pagamento;
+    private UUID id_pagamento;
     private Date dataPagamento;
     private float importoPagamento;
     private float costoTotOrdine;
@@ -34,12 +35,16 @@ public class Order {
         this.id = id;
     }
 
-    public int getId_pagamento() {
+    public UUID getId_pagamento() {
         return id_pagamento;
     }
+    
+    public String getId_pagamentoStr() {
+    	return id_pagamento.toString();
+    }
 
-    public void setId_pagamento(int id_pagamento) {
-        this.id_pagamento = id_pagamento;
+    public void setId_pagamento(String id_pagamento) {
+        this.id_pagamento = UUID.fromString(id_pagamento);
     }
 
     public Date getDataPagamento() {

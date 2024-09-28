@@ -54,7 +54,7 @@ if (items == null) {
 
 
 							<!-- Add to Cart Button -->
-                <button class="aggiungi-al-carrello">Aggiungi al carrello</button>
+                <button class="aggiungi-al-carrello" id="${prodotto.SKU}">Aggiungi al carrello</button>
             </div>
         </div>
     </div>

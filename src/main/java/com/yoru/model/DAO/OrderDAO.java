@@ -60,7 +60,7 @@ public class OrderDAO implements GenericDBOp<Order>{
 	                Order order = new Order();
 	                order.setId(rs.getInt(COLUMNLABEL1));
 	                order.setCostoTotOrdine(rs.getFloat(COLUMNLABEL2));
-	                order.setId_pagamento(rs.getInt(COLUMNLABEL4));
+	                order.setId_pagamento(rs.getString(COLUMNLABEL4));
 	                order.setDataPagamento(rs.getDate(COLUMNLABEL3));
 	                order.setImportoPagamento(rs.getFloat(COLUMNLABEL5));
 	                order.setEmail(email);
@@ -121,28 +121,17 @@ public class OrderDAO implements GenericDBOp<Order>{
 	    	PreparedStatement cartItemStatement = null;
 	    	ResultSet cartRs = null;
 	    	ResultSet cartItemRs = null;
-	    	String cartSQL = "SELECT * FROM Cart WHERE user_id = ?";
-	    	String cartItemsSQL = "SELECT c.cart_id, c.quantity, p.SKU, p.nome, p.prezzo FROM cart_items  c inner join prodotto p on c.SKU = p.SKU WHERE cart_id = ?";
+	    	String cartItemsSQL = "SELECT c.user_id, c.quantity, p.SKU, p.nome, p.prezzo FROM cart_items  c inner join prodotto p on c.SKU = p.SKU WHERE user_id = ?";
 	    	
 	    	
 	    	try {
 	    		connection = ds.getConnection();
 	    		connection.setAutoCommit(false);
 	    		
-	    		cartPs = connection.prepareStatement(cartSQL);
-	    		cartPs.setInt(1, userId);
-	    		
-	    		cartRs = cartPs.executeQuery();
-	    		
-	    		if (cartRs.next()) {
-					cart = new Cart(cartRs.getInt("cart_id"),
-							userId,
-							cartRs.getFloat("total"),
-							cartRs.getTimestamp("created_at"),
-							cartRs.getTimestamp("modified_at"));
+	    			
 	    			
 				cartItemStatement = connection.prepareStatement(cartItemsSQL);
-	    		cartItemStatement.setInt(1, cart.getId());	
+	    		cartItemStatement.setInt(1, userId);	
 	    		cartItemRs = cartItemStatement.executeQuery();
 	    		
 	    		Collection<CartItem> cartItems = new ArrayList<CartItem>();
@@ -160,7 +149,6 @@ public class OrderDAO implements GenericDBOp<Order>{
 	    		cart.setItems(cartItems);
 	    		connection.commit();	
 	    			
-				}
 	    		
 				
 			} finally {
@@ -185,9 +173,10 @@ public class OrderDAO implements GenericDBOp<Order>{
 	    }
 	    
 	    
-	    public synchronized boolean checkOut(Cart cart, int paymentId) throws SQLException{
+	    public synchronized boolean checkOut(Cart cart, String paymentId) throws SQLException{
 	    	Connection connection = null;
 	    	PreparedStatement ps = null;
+	    	PreparedStatement itemPreparedStatement = null;
 	    	PreparedStatement updateItemPs = null;
 	    	PreparedStatement insertOrderItemsPs = null;
 	    	PreparedStatement removeCartPs = null;
@@ -198,7 +187,7 @@ public class OrderDAO implements GenericDBOp<Order>{
 	    	String order = "INSERT INTO order_details (userId, importo_pagamento, ID_pagamento, data_pagamento, createdAt, modifiedAt) VALUE (?, ?, ?, now(), now(), now())";
 	    	String updateItemStr = "UPDATE " + Prodotto.TABLE_NAME + " SET quantità = ? WHERE SKU = ?";
 	    	String insertOrderItemsStr = "INSERT INTO Order_items (ID_ordine, SKU, quantità) VALUE(?, ?, ?)";
-	    	String cleanCart = "DELETE FROM cart WHERE cart.cart_id = ?";
+	    	String cleanCart = "DELETE FROM cart_items WHERE cart_items.user_id = ?";
 	    	
 	    	String errString = "invalidCheckOut";
 	    	
@@ -212,12 +201,15 @@ public class OrderDAO implements GenericDBOp<Order>{
 	    		savepoint = connection.setSavepoint("checkOut");
 	    		connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
 	    		
+	    		//SELECT quantità FROM prodotto WHERE SKU = ?
+	    		itemPreparedStatement = connection.prepareStatement(item);
+	    		
 	    		
 	    		//"INSERT INTO order_details (userId, importo_pagamento, ID_pagamento, data_pagamento, createdAt, modifiedAt) VALUE (?, ?, ?, now(), now(), now())";
 	    		ps = connection.prepareStatement(order, PreparedStatement.RETURN_GENERATED_KEYS);
 	    		ps.setInt(1, cart.getUserId());
 	    		ps.setFloat(2, cart.getTotal());
-	    		ps.setInt(3, paymentId);
+	    		ps.setString(3, paymentId);
 	    		
 	    		
 	    		if(ps.executeUpdate() < 1) 
@@ -236,15 +228,15 @@ public class OrderDAO implements GenericDBOp<Order>{
 		    		
 		    		while(cartItems.hasNext()) {
 		    			CartItem cartItem = cartItems.next();
-		    			//SELECT quantità FROM prodotto WHERE SKU = ?
-		    			ps = connection.prepareStatement(item);
+		    			
+		    			
 		    			
 		    			int SKU =  cartItem.getSKU();
 		    			int quantity = cartItem.getQuantity();
 		    			
-		    			ps.setInt(1, SKU);
+		    			itemPreparedStatement.setInt(1, SKU);
 		    			
-		    			itemRs = ps.executeQuery();
+		    			itemRs = itemPreparedStatement.executeQuery();
 		    			if(itemRs.next()){
 		    				int stockQuantity = itemRs.getInt("quantità");
 		    				if(stockQuantity >= quantity) {
@@ -276,7 +268,7 @@ public class OrderDAO implements GenericDBOp<Order>{
 		    		}
 		    		
 		    		removeCartPs = connection.prepareStatement(cleanCart);
-		    		removeCartPs.setInt(1, cart.getId());
+		    		removeCartPs.setInt(1, cart.getUserId());
 		    		if (removeCartPs.executeUpdate() < 1 ) 
 	    				throw new InvalidTransactionException(errString);
 		    		
@@ -301,6 +293,9 @@ public class OrderDAO implements GenericDBOp<Order>{
 	    			insertOrderItemsPs.close();
 	    		if(removeCartPs != null)
 	    			removeCartPs.close();
+	    		if (itemPreparedStatement != null) {
+					itemPreparedStatement.close();
+				}
 	    		
 	    		if(rs != null)
 	    			rs.close();
@@ -316,6 +311,62 @@ public class OrderDAO implements GenericDBOp<Order>{
 	    	return result;
 
 	    }
+	    
+	    public boolean insertIntoCart(int user_id, int sku, int quantity)throws SQLException {
+	    	Connection connection = null;
+	    	PreparedStatement pStatement = null;
+	    	PreparedStatement checkPStatement = null;
+	    	ResultSet checkSet = null;
+	    	
+	    	boolean result = false;
+	    	
+	    	try {
+				connection = ds.getConnection();
+				connection.setAutoCommit(false);
+				String checkExistSQL = "SELECT EXISTS ( SELECT 1 FROM cart_items WHERE user_id = ? and SKU = ?)";
+				String cartSQL = "INSERT INTO cart_items (user_id, SKU, quantity) VALUE(?,?,?)";
+				
+				checkPStatement = connection.prepareStatement(checkExistSQL);
+				checkPStatement.setInt(1, user_id);
+				checkPStatement.setInt(2, sku);
+				checkSet = checkPStatement.executeQuery();
+				
+				if (checkSet.next()) {
+					if (checkSet.getInt(1) == 1) {
+						if(!updateCartItem(user_id, sku, quantity))
+							return false;
+						return true;
+					}
+				}
+				
+				pStatement = connection.prepareStatement(cartSQL);
+				pStatement.setInt(1, user_id);
+				pStatement.setInt(2, sku);
+				pStatement.setInt(3, quantity);
+				
+				
+				
+				if (pStatement.executeUpdate(cartSQL) > 0)
+					result = true;
+				
+				
+				
+			} finally {
+				if (connection != null) 
+					connection.close();
+				if (pStatement != null) 
+					pStatement.close();
+				if(checkPStatement != null)
+					checkPStatement.close();
+				if(checkSet != null)
+					checkSet.close();
+				
+			}
+	    	
+	    	
+	    	return result;
+			
+		}
 	    
 	    
 
@@ -342,7 +393,7 @@ public class OrderDAO implements GenericDBOp<Order>{
 	            ps.setInt(1, order.getId());
 	            ps.setFloat(2, order.getCostoTotOrdine());
 	            ps.setDate(3, order.getDataPagamento());
-	            ps.setInt(4, order.getId_pagamento());
+	            ps.setString(4, order.getId_pagamentoStr());
 	            ps.setFloat(5, order.getImportoPagamento());
 	            ps.setString(6, order.getEmail());
 
@@ -416,10 +467,66 @@ public class OrderDAO implements GenericDBOp<Order>{
 	        return statement;
 	    }
 
+	    public boolean removeFromCart(int user_id, int sku) throws SQLException {
+	    	Connection connection = null;
+	    	PreparedStatement pStatement = null;
+	    	boolean result = false;
+	    	
+	    	try {
+				connection = ds.getConnection();
+				connection.setAutoCommit(false);
+				String cartSQL = "DELETE FROM cart_items WHERE user_id = ? AND SKU = ? ";
+				
+				pStatement = connection.prepareStatement(cartSQL);
+				pStatement.setInt(1, user_id);
+				pStatement.setInt(2, sku);
+				
+				
+				
+				
+				if (pStatement.executeUpdate(cartSQL) > 0)
+					result = true;
+				
+				
+				
+			} finally {
+				if (connection != null) 
+					connection.close();
+				if (pStatement != null) 
+					pStatement.close();
+				
+			}
+	    	
+	    	return result;
+	    }
+	    
+	    public boolean updateCartItem(int user_id, int sku, int quantity) throws SQLException{
+	    	
+	    	String sqlString = "UPDATE cart_items SET quantity += ? WHERE user_id = ? AND SKU = ?";
+	    	boolean result = false;
+	    	
+	    	try(Connection connection = ds.getConnection();
+	    			PreparedStatement pStatement = connection.prepareStatement(sqlString)){
+	    		
+	    		pStatement.setInt(1, user_id);
+	    		pStatement.setInt(2, sku);
+	    		pStatement.setInt(3, quantity);
+	    		
+	    		if (pStatement.executeUpdate() > 0) {
+					result = true;
+				}
+	    		
+	    	}
+	    	return result;
+	    }
 
 		@Override
 		public boolean update(Order entity) throws SQLException {
-			// TODO Auto-generated method stub
+			Connection connection = null;
+			PreparedStatement pStatement = null;
+			
+			
+			
 			return false;
 		}
 
