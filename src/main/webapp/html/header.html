@@ -6,13 +6,13 @@
 <title>Insert title here</title>
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-<link rel="stylesheet" href="../css/header.css" rel="noopener">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/header.css" rel="noopener">
 </head>
 <body>
 	<header>
-		 <a href="#default" class="logo"><img alt="YORU" src="../images/LOGO.png" width="100px" height="50px"></a>
+		 <a href="${pageContext.request.contextPath}/jsp/home.jsp" class="logo"><img alt="YORU" src="${pageContext.request.contextPath}/images/LOGO.png" width="100px" height="50px"></a>
 		 <ul class="slider-menu">
-			<li class="icon"><i class="bi bi-house-fill"></i></li>
+			<li class="icon"><a href="${pageContext.request.contextPath}/jsp/home.jsp"><i class="bi bi-house-fill"></i></a></li>
 			<li class="drop"><i class="bi bi-person-fill"></i>
 				<ul>
 					<li class="dropdown"><a href="#">Web Development</a></li>
@@ -20,9 +20,9 @@
 					<li class="dropdown"><a href="#">Illustration</a></li>
 					<li class="dropdown"><a href="#">Iconography</a></li>
 				</ul></li>
-			<li class="icon"><a href="../jsp/prodotti.jsp"><i class="bi bi-journal-medical"></i></a></li>
+			<li class="icon"><a href="${pageContext.request.contextPath}/jsp/prodotti.jsp"><i class="bi bi-journal-medical"></i></a></li>
 			<li class="icon"><i class="bi bi-bookmark-heart-fill"></i></li>
-		<li class="icon"><i class="bi bi-cart-fill"></i></li>	
+		<li class="icon"><a href="${pageContext.request.contextPath}/jsp/carrello.jsp"><i class="bi bi-cart-fill"></i></a></li>	
 		</ul>
 	</header>
 	

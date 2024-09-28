@@ -16,7 +16,7 @@
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-    <link href="./css/Cart.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/css/Cart.css" rel="stylesheet">
 
 </head>
 <body>
@@ -62,7 +62,7 @@
                                             <p>Quantità: ${p.quantity}</p>
                                         </div>
                                         <div class="col-md-3">
-                                            <p class="text-right">€${p.prezzo}</p>
+                                            <p class="text-right">subtotale: €${subtotale}</p>
                                         </div>
                                     </div>
                                 </c:forEach>
