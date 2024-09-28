@@ -3,3 +3,5 @@
 /src/main/webapp/META-INF
 .classpath
 .xml
+.classpath
+/.settings
