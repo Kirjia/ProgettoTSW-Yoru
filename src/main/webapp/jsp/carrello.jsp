@@ -61,9 +61,9 @@
                                             <h5>${p.nome}</h5>
                                             <p>Quantità: ${p.quantity}</p>
                                         </div>
-                                        <div class="col-md-3">
-                                            <p class="text-right">subtotale: €${subtotale}</p>
-                                        </div>
+                                        <div class="col-md-3 d-flex align-items-end justify-content-end">
+    <p class="text-right subtotale-item">subtotale: €${subtotale}</p>
+</div>
                                     </div>
                                 </c:forEach>
                             </div>

@@ -73,8 +73,12 @@
     margin-top: 20px;
 }
 
-img {
+.img-fluid {
     width: 100%;
     height: auto;
     border-radius: 5px;
+}
+
+.subtotale-item {
+    margin-bottom: 10px; /* Se vuoi aggiungere uno spazio inferiore */
 }
