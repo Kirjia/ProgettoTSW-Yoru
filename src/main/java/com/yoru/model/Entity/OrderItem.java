@@ -7,8 +7,17 @@ public class OrderItem {
 
 	private int SKU;
 	private int quantity;
+	private String nome;
 
-    public int getSKU() {
+    public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public int getSKU() {
         return SKU;
     }
 
@@ -28,8 +37,8 @@ public class OrderItem {
     @Override
     public String toString() {
         return "OrderDetail{" +
-                "SKU=" + SKU +
-                ", quantity=" + quantity +
+                "SKU=" + SKU + ", Nome= " +
+                " , quantity=" + quantity +
                 '}';
     }
 }

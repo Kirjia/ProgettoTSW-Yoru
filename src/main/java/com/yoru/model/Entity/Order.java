@@ -79,11 +79,11 @@ public class Order {
         this.email = email;
     }
 
-    public List<OrderItem> getOrderDetailList() {
+    public List<OrderItem> getorderItemList() {
         return orderItemList;
     }
 
-    public void setOrderDetailList(List<OrderItem> orderItemList) {
+    public void setorderItemList(List<OrderItem> orderItemList) {
         this.orderItemList = orderItemList;
     }
 
@@ -97,6 +97,7 @@ public class Order {
                 ", importoPagamento=" + importoPagamento +
                 ", costoTotOrdine=" + costoTotOrdine +
                 ", email='" + email + '\'' +
+                "items: " + orderItemList.toString() +
                 '}';
     }
 }

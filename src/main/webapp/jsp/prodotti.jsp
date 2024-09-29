@@ -18,7 +18,6 @@
 <% 
 
 Collection<?> items = (Collection<?>) request.getAttribute("items");
-System.out.println(items);
 
 if (items == null) {
 	response.sendRedirect("../GetAllBook");
@@ -30,6 +29,7 @@ if (items == null) {
     <div class="row">
         <!-- Itera sui prodotti passati dal servlet -->
         <c:forEach items="${items}" var="prodotto">
+        <c:out value="${ordine}" />
    		 <div class="col-md-6 col-lg-4 col-xl-3 mb-4">
       	  <div class="single-product card">
             <!-- Product Image -->

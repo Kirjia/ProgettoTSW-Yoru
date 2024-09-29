@@ -40,35 +40,55 @@ public class OrderDAO implements GenericDBOp<Order>{
 	        return null;
 	    }
 
-	    public Collection<Order> getAllByUser(String email) throws SQLException{
+	    public Collection<Order> getAllByUser(int userId) throws SQLException{
 	        Connection connection = null;
 	        PreparedStatement ps = null;
 	        ResultSet rs = null;
+	        ResultSet itemSet = null;
 	        Collection<Order> orders = new ArrayList<>();
+	        PreparedStatement itemStatement = null;
+	        String itemString = "SELECT o.quantità, o.SKU, p.Nome FROM order_items o INNER JOIN Prodotto p ON p.SKU = o.SKU WHERE ID_ordine = ?";
 
 
 	        try{
 	            connection = ds.getConnection();
-	            String sql = "SELECT * FROM order_details WHERE email = ?";
+	            String sql = "SELECT * FROM order_details WHERE userId = ?";
 
 	            ps = connection.prepareStatement(sql);
-	            ps.setString(1,email);
+	            ps.setInt(1,userId);
 
 	            rs = ps.executeQuery();
 
 	            while (rs.next()){
 	                Order order = new Order();
 	                order.setId(rs.getInt(COLUMNLABEL1));
-	                order.setCostoTotOrdine(rs.getFloat(COLUMNLABEL2));
 	                order.setId_pagamento(rs.getString(COLUMNLABEL4));
 	                order.setDataPagamento(rs.getDate(COLUMNLABEL3));
 	                order.setImportoPagamento(rs.getFloat(COLUMNLABEL5));
-	                order.setEmail(email);
+	                order.setCostoTotOrdine(rs.getFloat("importo_pagamento"));
+	                order.setEmail("prova");
+	                
+	                itemStatement = connection.prepareStatement(itemString);
+	                itemStatement.setInt(1, order.getId());
+	                
+	                itemSet = itemStatement.executeQuery();
+	                
+	                List<OrderItem> items = new ArrayList<>();
+	                
+	                while(itemSet.next()) {
+	                	OrderItem item = new OrderItem();
+	                	
+	                	item.setQuantity(itemSet.getInt(1));
+	                	item.setSKU(itemSet.getInt(2));
+	                	item.setNome(itemSet.getString(3));
+	                	items.add(item);
+	                }
+	                order.setorderItemList(items);
+	                
 
 	                orders.add(order);
 	            }
 
-	            connection.commit();
 	        } finally {
 
                 if (ps != null)
@@ -414,7 +434,7 @@ public class OrderDAO implements GenericDBOp<Order>{
 
 	                    int id = order.getId();
 	                    String email = order.getEmail();
-	                    List<OrderItem> orderDetails = order.getOrderDetailList();
+	                    List<OrderItem> orderDetails = order.getorderItemList();
 	                    bookSt = connection.prepareStatement(sql);
 	                    int i =0;
 

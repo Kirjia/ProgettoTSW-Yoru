@@ -1,91 +1,99 @@
-<%@page import="java.security.ProtectionDomain"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ page import="java.util.ArrayList"%>
-<%@ page import="com.yoru.model.Entity.Prodotto"%>
-<%@ page import="javax.servlet.http.HttpSession"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.*"%>
+<%@ page import="com.yoru.model.Entity.User"%>
+<%@ page import="com.yoru.model.Entity.Order"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>YORU - Pagina Utente</title>
-<link rel="stylesheet" href="./css/User.css">
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profilo Utente</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/css/User.css" rel="stylesheet">
+    
+    <%
+    	User user = (User) session.getAttribute("user");
+    	Collection<?> ordini = (Collection<?>) request.getAttribute("historyOrders");
+    	if(ordini == null){
+    		response.sendRedirect("../StoricoOrdini");
+    		return;
+    	}
+    %>
 </head>
 <body>
 
-	<%@include  file="/html/header.html" %>
+    <%@ include file="/html/header.html" %>
 
-	<!-- Sezione Carrello -->
-	<div class="container carrello-section">
-		<h1 class="carrello-header">Il tuo carrello</h1>
-		<%
-		HttpSession sessions = request.getSession();
-		ArrayList<Prodotto> carrello = (ArrayList<Prodotto>) sessions.getAttribute("carrello");
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-3">
+                <!-- Sidebar menu -->
+                <div class="list-group">
+                    <a href="#" class="list-group-item list-group-item-action">Account Main</a>
+                    <a href="#" class="list-group-item list-group-item-action">New Orders</a>
+                    <a href="#" class="list-group-item list-group-item-action">Orders History</a>
+                    <a href="#" class="list-group-item list-group-item-action">Profile Settings</a>
+                    <a href="logout.jsp" class="list-group-item list-group-item-action">Logout</a>
+                </div>
+            </div>
 
-		if (carrello == null || carrello.isEmpty()) {
-		%>
-		<p class="empty-carrello">Il carrello è vuoto!</p>
-		<%
-		} else {
-		%>
-		<table class="carrello-table">
-			<thead>
-				<tr>
-					<th>Prodotto</th>
-					<th>Prezzo</th>
-					<th>Quantità</th>
-					<th>Totale</th>
-					<th>Rimuovi</th>
-				</tr>
-			</thead>
-			<tbody>
-				<%
-				double totale = 0;
-				for (Prodotto p : carrello) {
-					double subtotale = p.getPrezzo() * p.getQuantità();
-					totale += subtotale;
-				%>
-				<tr>
-					<td><%=p.getNome()%></td>
-					<td>€<%=p.getPrezzo()%></td>
-					<td><%=p.getQuantità()%></td>
-					<td>€<%=subtotale%></td>
-					<td><a href="RimuoviDalCarrelloServlet?id=<%=p.getSKU()%>"><i
-							class="fas fa-trash-alt"></i></a></td>
-				</tr>
-				<%
-				}
-				%>
-			</tbody>
-			<tfoot>
-				<tr>
-					<td colspan="3" style="text-align: right;">Totale:</td>
-					<td colspan="2">€<%=totale%></td>
-				</tr>
-			</tfoot>
-		</table>
-		<div style="text-align: right; margin-top: 20px;">
-			<button class="btn-checkout"
-				onclick="window.location.href='CheckoutServlet'">Procedi
-				all'acquisto</button>
-		</div>
-		<%
-		}
-		%>
-	</div>
+            <div class="col-md-9">
+                <!-- User Info Card -->
+                <div class="profile-card">
+                    <h4><b>Profilo Utente</b></h4>
+                    <hr>
+                    <p><b>Nome:</b> <%= user.getNome() %> <i class="fas fa-edit" style="cursor:pointer;"></i></p>
+                    <p><b>Cognome:</b> <%= user.getCognome() %> <i class="fas fa-edit" style="cursor:pointer;"></i></p>
+                    <p><b>Email:</b> <%= user.getEmail() %> <i class="fas fa-edit" style="cursor:pointer;"></i></p>
+                    <p><b>Telefono:</b> <%= user.getTelefono() %> <i class="fas fa-edit" style="cursor:pointer;"></i></p>
+                    <button class="btn btn-primary mt-3">Aggiungi Nuovo Indirizzo</button>
+                </div>
 
-	<%@include file="/html/footer.html"%>
+                <!-- Order History Section -->
+                <div class="order-history">
+                    <h4 class="mt-4"><b>La tua Cronologia Ordini</b></h4>
+                    <hr>
+                    <c:forEach items="${historyOrders}" var="ordine">
+                        <div class="order-card">
+                            <div class="row">
+                                <div class="col-md-6">
+                                      <p><b>ID Ordine:</b> ${ordine.id}</p>
+                                    <p><b>Data:</b> ${ordine.dataPagamento}</p>
+                                </div>
+                                <div class="col-md-6 text-right">
+                                    <p><b>Totale Pagato:</b> €${ordine.costoTotOrdine}</p>
+                                    <button class="btn btn-danger">Annulla Ordine</button>
+                                    <button class="btn btn-info">Traccia Ordine</button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p><b>Prodotti:</b></p>
+                                    <ul>
+                                        <c:forEach var="item" items="${ordine.orderItemList}">
+                                            <li>${item.nome} - Quantità: ${item.quantity}</li>
+                                        </c:forEach>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </c:forEach>
+                </div>
+            </div>
+        </div>
+    </div>
 
-	<!-- Bootstrap JS, Popper.js, and jQuery -->
-	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-	<script
-		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-	<script
-		src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <%@ include file="/html/footer.html" %>
+
+    <!-- Bootstrap JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </body>
 </html>

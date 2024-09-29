@@ -10,7 +10,6 @@ loginBtn.addEventListener('click', () => {
     container.classList.remove("active");
 });
 
-$.ajaxsetup({timeout:30000})
 
 function login() {
 
@@ -28,11 +27,11 @@ function login() {
 		rememberMe = "false";
 
     var jqxhr = $.post("../Login", {email: email, password: password, rememberMe: rememberMe}, function(data){
-        console.log("risposta" + data.outcome[0])
+        console.log("risposta" + data.outcome[0]);
         const home =  "http://localhost:8080/Yoru/jsp/home.jsp";
         let outcome = data.outcome[0];
         if(outcome){
-			window.location.href = home
+			window.location.href = home;
 		}
       	else {
             let error = document.getElementById("error-message");
