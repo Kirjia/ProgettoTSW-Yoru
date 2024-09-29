@@ -23,6 +23,8 @@ import javax.sql.DataSource;
 import org.apache.commons.lang3.RandomStringUtils;
 
 import com.yoru.model.DAO.AuthDAO;
+import com.yoru.model.DAO.UserDAO;
+import com.yoru.model.Entity.User;
 import com.yoru.model.Entity.UserAuthToken;
 
 import Util.Argon2Hashing;
@@ -30,7 +32,7 @@ import Util.Argon2Hashing;
 /**
  * Servlet Filter implementation class LoginFilter
  */
-@WebFilter("/Login")
+@WebFilter(filterName = "/LoginFilter", urlPatterns = "/*")
 public class LoginFilter extends HttpFilter implements Filter {
 	
 
@@ -39,10 +41,12 @@ public class LoginFilter extends HttpFilter implements Filter {
 	private static final Logger LOGGER = Logger.getLogger(LoginFilter.class.getName());
 	
     private AuthDAO authDAO;
+    private UserDAO userDAO;
     
 	public void init(FilterConfig fConfig) throws ServletException {
 		DataSource ds = (DataSource) fConfig.getServletContext().getAttribute("DataSource");
 		authDAO = new AuthDAO(ds);
+		userDAO = new UserDAO(ds);
 		
 	}
 	
@@ -97,41 +101,44 @@ public class LoginFilter extends HttpFilter implements Filter {
 		             
 		            if (Argon2Hashing.checkPass(hashedValidatorDatabase, rawValidator)) {
 		                session = httpRequest.getSession();
-		                //session.setAttribute("loggedCustomer", token.getCustomer());
-		                loggedIn = true;
-		                 
-		                // update new token in database
-		                String newSelector = RandomStringUtils.randomAlphabetic(16);
-		                String newRawValidator =  Argon2Hashing.generateToken();
-		                 
-		                String newHashedValidator = Argon2Hashing.hashPassword(newRawValidator);
-		                 
-		                token.setSelector(newSelector);
-		                token.setValidator(newHashedValidator);
 		                try {
+			                User user = userDAO.getById(token.getUserID());
+			                session.setAttribute("user", user);
+			                loggedIn = true;
+			                 
+			                // update new token in database
+			                String newSelector = RandomStringUtils.randomAlphabetic(16);
+			                String newRawValidator =  Argon2Hashing.generateToken();
+			                 
+			                String newHashedValidator = Argon2Hashing.hashPassword(newRawValidator);
+			                 
+			                token.setSelector(newSelector);
+			                token.setValidator(newHashedValidator);
+		                
 							authDAO.update(token);
-						} catch (SQLException e) {
+						
+		                 
+			                // update cookie
+			                Cookie cookieSelector = new Cookie("selector", newSelector);
+			                cookieSelector.setMaxAge(604800);
+			                 
+			                Cookie cookieValidator = new Cookie("validator", newRawValidator);
+			                cookieValidator.setMaxAge(604800);
+			                 
+			                httpResponse.addCookie(cookieSelector);
+			                httpResponse.addCookie(cookieValidator);  
+		                } catch (SQLException e) {
 							// TODO Auto-generated catch block
-							LOGGER.log(Level.WARNING, "Login error", e);
+							LOGGER.log(Level.WARNING, "Auto Login error", e);
 						}
-		                 
-		                // update cookie
-		                Cookie cookieSelector = new Cookie("selector", newSelector);
-		                cookieSelector.setMaxAge(604800);
-		                 
-		                Cookie cookieValidator = new Cookie("validator", newRawValidator);
-		                cookieValidator.setMaxAge(604800);
-		                 
-		                httpResponse.addCookie(cookieSelector);
-		                httpResponse.addCookie(cookieValidator);  
-		               
 		              
 
 		            }
 		        }
 		    }
-		chain.doFilter(request, response);
+		
 		}
+		chain.doFilter(request, response);
 	}
 
 }

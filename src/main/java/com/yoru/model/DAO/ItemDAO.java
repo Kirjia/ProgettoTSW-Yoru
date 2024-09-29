@@ -35,7 +35,7 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
 	
 	
 	
-	public synchronized Collection<Autore> getAutorsByBook(int bookId) throws SQLException{
+	public Collection<Autore> getAutorsByBook(int bookId) throws SQLException{
 		Connection connection = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -78,7 +78,7 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
 	}
 	
     @Override
-    public synchronized Collection<Prodotto> getAll()  throws SQLException{
+    public Collection<Prodotto> getAll()  throws SQLException{
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -118,7 +118,7 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
     }
     
     
-    public synchronized Collection<Prodotto> getBestSellerBook(int limit) throws SQLException{
+    public Collection<Prodotto> getBestSellerBook(int limit) throws SQLException{
     	PreparedStatement  ps = null;
     	Connection connection = null;
     	ResultSet resultSet = null;
@@ -162,7 +162,7 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
     
     
     
-    public synchronized Collection<Prodotto> getNewBooks(int limit) throws SQLException{
+    public Collection<Prodotto> getNewBooks(int limit) throws SQLException{
     	PreparedStatement  ps = null;
     	Connection connection = null;
     	ResultSet resultSet = null;
@@ -203,7 +203,7 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
     	return books;
     }
     
-    public synchronized Collection<Prodotto> getAllBooks(int page, int limit)throws SQLException{
+    public Collection<Prodotto> getAllBooks(int page, int limit)throws SQLException{
     	PreparedStatement ps = null;
     	Connection connection = null;
         ResultSet rs = null;
@@ -246,7 +246,7 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
     	return items;
     }
     
-    public synchronized Collection<Gadgets> getAllGadgets(int page)throws SQLException{
+    public Collection<Gadgets> getAllGadgets(int page)throws SQLException{
     	PreparedStatement ps = null;
     	Connection connection = null;
         ResultSet rs = null;
@@ -268,7 +268,7 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
     }
 
     @Override
-    public synchronized Prodotto getById(int id)throws SQLException{
+    public Prodotto getById(int id)throws SQLException{
         return null;
     }
 

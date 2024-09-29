@@ -38,8 +38,37 @@ public class UserDAO implements GenericDBOp<User> {
     }
 
     @Override
-    public User getById(int id) {
-        return null;
+    public User getById(int id) throws SQLException{
+    	User user = null;
+        String loginsql = "SELECT nome, cognome, role, email FROM "+ UserDAO.TABLE_NAME + " WHERE id = ?";
+        ResultSet resultSet = null;
+    	
+    	try(Connection connection = ds.getConnection();
+    			PreparedStatement pStatement = connection.prepareStatement(loginsql);
+    			){
+    		
+    		pStatement.setInt(1, id);
+    		
+    		resultSet = pStatement.executeQuery();
+    		
+    		if (resultSet.next()) {
+				user = new User();
+				
+				user.setId(id);
+				user.setNome(resultSet.getString(1));
+				user.setCognome(resultSet.getString(2));
+				user.setRole(resultSet.getString(3));
+				user.setEmail(resultSet.getString(4));
+			}
+    		
+    		
+    		
+    	}finally {
+			if (resultSet != null) {
+				resultSet.close();
+			}
+		}
+    	return user;
     }
 
 
@@ -53,7 +82,7 @@ public class UserDAO implements GenericDBOp<User> {
         try {
             connection = ds.getConnection();
             connection.setAutoCommit(false);
-            String sql = "SELECT nome, cognome FROM "+ UserDAO.TABLE_NAME + " WHERE email = ?";
+            String sql = "SELECT nome, cognome, role FROM "+ UserDAO.TABLE_NAME + " WHERE email = ?";
             ps = connection.prepareStatement(sql);
             ps.setString(1, email);
 
@@ -64,7 +93,9 @@ public class UserDAO implements GenericDBOp<User> {
             if (rs.next()) {
                 user.setNome(rs.getString(User.COLUMNLABEL2));
                 user.setCognome(rs.getString(User.COLUMNLABEL3));
+                user.setRole(rs.getString(3));
                 user.setEmail(email);
+                
             }
             else
                 System.out.println("Impossibile inserire il record \n");

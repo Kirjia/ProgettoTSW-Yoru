@@ -69,14 +69,21 @@ public class Login extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("application/json");
 		JSONObject jsonObject = new JSONObject();
+		
+		
+
+		
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 		String boString = request.getParameter("rememberMe");
 		boolean rememberMe = false;
+		User user = null;
+		
+		
 		if (boString!= null && boString.equals(REMEMBER_ME)) {
 			rememberMe = true;
 		}
-		User user = null;
+		
 		
 
 		if(email == null && password == null) {

@@ -51,6 +51,7 @@ public class AuthDAO implements GenericDBOp<UserAuthToken>{
 				auth.setUserID(rs.getInt(UserAuthToken.COLUMN_LABEL1));
 				auth.setSelector(rs.getString(UserAuthToken.COLUMN_LABEL2));
 				auth.setValidator(rs.getString(UserAuthToken.COLUMN_LABEL3));
+				System.out.println("Update AuthDAO done");
 			}
 			
         	
@@ -64,7 +65,7 @@ public class AuthDAO implements GenericDBOp<UserAuthToken>{
 			}
 			connection.close();
 		}
-        System.out.println("Update AuthDAO done");
+       
         return auth;
     }
 
