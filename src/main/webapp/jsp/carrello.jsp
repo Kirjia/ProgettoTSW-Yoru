@@ -62,7 +62,13 @@
                                             <p>Quantità: ${p.quantity}</p>
                                         </div>
                                         <div class="col-md-3 d-flex align-items-end justify-content-end">
+                                        
+                                      	  <div class="text-right mt-3">
+											<button class="btn btn-remove">Rimuovi dal carrello</button>
+										  </div>
+                                        
     										<p class="text-right subtotale-item">subtotale: €${subtotale}</p>
+    											
 										</div>
                                     </div>
                                 </c:forEach>

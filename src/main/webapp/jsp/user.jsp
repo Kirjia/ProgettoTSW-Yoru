@@ -3,6 +3,8 @@
 <%@ page import="com.yoru.model.Entity.User"%>
 <%@ page import="com.yoru.model.Entity.Order"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -35,10 +37,10 @@
                 <!-- Sidebar menu -->
                 <div class="list-group">
                     <a href="#" class="list-group-item list-group-item-action">Account Main</a>
-                    <a href="#" class="list-group-item list-group-item-action">New Orders</a>
-                    <a href="#" class="list-group-item list-group-item-action">Orders History</a>
-                    <a href="#" class="list-group-item list-group-item-action">Profile Settings</a>
-                    <a href="logout.jsp" class="list-group-item list-group-item-action">Logout</a>
+                    <a href="#" class="list-group-item list-group-item-action">Nuovi ordini</a>
+                    <a href="#" class="list-group-item list-group-item-action">Cronologia ordini</a>
+                    <a href="#" class="list-group-item list-group-item-action">Impostazioni profilo</a>
+                    <a href="${pageContext.request.contextPath}/Logout" class="list-group-item list-group-item-action">Logout</a>
                 </div>
             </div>
 
@@ -66,8 +68,9 @@
                                     <p><b>Data:</b> ${ordine.dataPagamento}</p>
                                 </div>
                                 <div class="col-md-6 text-right">
-                                    <p><b>Totale Pagato:</b> €${ordine.costoTotOrdine}</p>
-                                    <button class="btn btn-danger">Annulla Ordine</button>
+									<p><b>Totale Pagato:</b> €<fmt:formatNumber value="${ordine.costoTotOrdine}" minFractionDigits="2" maxFractionDigits="2"/></p>
+
+                                    
                                     <button class="btn btn-info">Traccia Ordine</button>
                                 </div>
                             </div>

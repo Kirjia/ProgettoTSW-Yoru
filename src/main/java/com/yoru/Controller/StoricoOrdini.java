@@ -56,6 +56,11 @@ public class StoricoOrdini extends HttpServlet {
 		HttpSession session = request.getSession(false);
 		User user = (User) session.getAttribute("user");
 		
+		if (user == null) {
+			response.sendRedirect("jsp/login.jsp");
+			return;
+		}
+		
 		try {
 			Collection<Order> orders =  orderDAO.getAllByUser(user.getId());
 			System.out.println(orders);

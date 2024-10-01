@@ -1,5 +1,6 @@
 <%@page import="com.yoru.model.Entity.Prodotto"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -43,14 +44,7 @@ if (items == null) {
                 </div>
                 
 
-							<c:choose>
-								<c:when test="${prodotto.prezzo % 1 == 0}">
-									<span>€${prodotto.prezzo.intValue()}</span>
-								</c:when>
-								<c:otherwise>
-									<span>€${prodotto.prezzo}</span>
-								</c:otherwise>
-							</c:choose>
+						<span>€<fmt:formatNumber value="${prodotto.prezzo}" minFractionDigits="2" maxFractionDigits="2" /></span>
 
 
 							<!-- Add to Cart Button -->

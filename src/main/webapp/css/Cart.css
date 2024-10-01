@@ -82,3 +82,18 @@
 .subtotale-item {
     margin-bottom: 10px; /* Se vuoi aggiungere uno spazio inferiore */
 }
+
+.btn-remove {
+    background-color: #ff7000;  /* Match the existing theme color */
+    border-color: #ff7000;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.btn-remove:hover {
+    background-color: #343a40;  /* Change color on hover */
+    border-color: #343a40;
+}

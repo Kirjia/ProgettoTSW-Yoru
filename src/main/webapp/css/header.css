@@ -62,9 +62,7 @@ a:hover{
 	transition: 0.3s linear all;
 	user-select: none;
 }
-.slider-menu>li.a.icon:hover{
-	color:#343a40;
-}
+
 .slider-menu>li.icon:hover {
 	font-weight: bolder;
 	border-radius:100%;
@@ -135,7 +133,7 @@ li.drop {
       transition: all 0.3s ease;
     }
     
-.slider-menu li.icon a {
+.slider-menu li.icon a, li.drop a {
     color: #ff7000; /* Imposta il colore desiderato */
     text-decoration: none; /* Rimuovi la sottolineatura dei link */
 }
@@ -144,8 +142,11 @@ li.drop {
 .slider-menu li.icon a:hover {
     color: #343a40; /* Colore al passaggio del mouse */
 }
+.slider-menu li.drop a:hover {
+    color: #343a40; /* Colore al passaggio del mouse */
+}
 
 /* Colore delle icone all'interno dei link */
-.slider-menu li.icon a i {
+.slider-menu li.icon  a i {
     color: inherit; /* Inherit per usare il colore del link */
 }

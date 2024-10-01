@@ -12,22 +12,25 @@
 
 <body>
 
+ <a href="${pageContext.request.contextPath}/jsp/home.jsp"><img class="logo" src="../images/LOGO.png"></a>
+ 
+
     <div class="container" id="container">
         <div class="form-container sign-up">
             <form>
-                <h1>Create Account</h1>
+                <h1>Crea un account</h1>
                 <div class="social-icons">
                     <a href="#" class="icon" rel="noopener"><i class="fa-brands fa-facebook-f"></i></a>
                     <a href="#" class="icon" rel="noopener"><i class="fa-brands fa-google-plus-g" ></i></a>
                     <a href="#" class="icon" rel="noopener"><i class="fa-brands fa-github"></i></a>
                     <a href="#" class="icon" rel="noopener"><i class="fa-brands fa-linkedin-in"></i></a>
                 </div>
-                <span>or use your email for registeration</span>
-                <input type="text" placeholder="Name">
+                <span>o usa la tua e-mail per la registrazione</span>
+                <input type="text" placeholder="Nome">
                 <input type="email" placeholder="Email">
                 <input type="password" placeholder="Password">
                 <div >
-        			<input class="submit" type="button" value="Signup" onclick="signUP()">
+        			<input class="submit" type="button" value="Registrati" onclick="signUP()">
       			</div>
             </form>
         </div>
@@ -40,11 +43,11 @@
                     <a href="#" class="icon" rel="noopener"><i class="fa-brands fa-github"></i></a>
                     <a href="#" class="icon" rel="noopener"><i class="fa-brands fa-linkedin-in"></i></a>
                 </div>
-                <span>or use your email password</span>
+                <span>o usa la tua e-mail e password</span>
                 <input id="email" type="email" name="email" placeholder="Email">
                 <input id="password" type="password"  name="passwrod" placeholder="Password">
-                <input id="rememberMe" type="checkbox" name="rememberMe" value="false">Remember Me
-                <a href="#" rel="noopener">Forget Your Password?</a>
+                <input id="rememberMe" type="checkbox" name="rememberMe" value="false">Resta connesso
+                <a href="#" rel="noopener">Password dimenticata?</a>
                 <div >
         			<input class="submit" type="button" value="Login" onclick="login()">
       			</div>
@@ -53,14 +56,14 @@
         <div class="toggle-container">
             <div class="toggle">
                 <div class="toggle-panel toggle-left">
-                    <h1>Welcome Back!</h1>
-                    <p>Enter your personal details to use all of site features</p>
-                    <button class="hidden" id="login">Sign In</button>
+                    <h1>Bentornato!</h1>
+                    <p>Inserisci i tuoi dati personali per utilizzare tutte le funzionalità del sito</p>
+                    <button class="hidden" id="login">Accedi</button>
                 </div>
                 <div class="toggle-panel toggle-right">
                     <h1>Ciao Ornn!</h1>
-                    <p>Register with your personal details to use all of site features</p>
-                    <button class="hidden" id="register">Sign Up</button>
+                    <p>Registrati con i tuoi dati personali per utilizzare tutte le funzionalità del sito</p>
+                    <button class="hidden" id="register">Registrati</button>
                 </div>
             </div>
         </div>

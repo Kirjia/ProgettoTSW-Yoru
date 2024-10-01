@@ -1,0 +1,38 @@
+.dettagli-prodotto {
+	margin-top: 40px;
+}
+
+.titolo-prodotto {
+	font-size: 24px;
+	font-weight: bold;
+}
+
+.prezzo-prodotto {
+	color: #e74c3c;
+	font-size: 22px;
+}
+
+.product-img {
+	max-width: 100%;
+}
+
+.quantity-box {
+	width: 70px;
+}
+
+.buy-btn {
+	background-color: #28a745;
+	color: white;
+}
+
+.descrizione-prodotto {
+	margin-top: 20px;
+}
+
+.review-section {
+	margin-top: 40px;
+}
+
+.review-section h4 {
+	margin-bottom: 20px;
+}

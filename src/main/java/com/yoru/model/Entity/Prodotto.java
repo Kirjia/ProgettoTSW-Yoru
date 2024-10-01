@@ -9,6 +9,7 @@ public class Prodotto {
     public static final String COLUMNLABEL4 = "prezzo";
     public static final String COLUMNLABEL5 = "quantità";
     public static final String COLUMNLABEL6 = "ID_casa_produttrice";
+    public static final String COLUMNLABEL7 = "descrizione";
     public static final String TABLE_NAME = "Prodotto";
 
     private int SKU;
@@ -18,6 +19,7 @@ public class Prodotto {
     private int quantità;
     private int id_produttore;
     private ItemType itemType;
+    private String descrizione;
     
     public enum ItemType{
     	libro,
@@ -99,4 +101,14 @@ public class Prodotto {
     public String toString() {
         return this.getClass().getName() + "(" + SKU + "): " + nome + " " + peso + " " + prezzo + " " + quantità + " " + id_produttore;
     }
+
+
+	public String getDescrizione() {
+		return descrizione;
+	}
+
+
+	public void setDescrizione(String descrizione) {
+		this.descrizione = descrizione;
+	}
 }
