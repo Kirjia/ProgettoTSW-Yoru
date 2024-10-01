@@ -161,8 +161,6 @@ public class AuthDAO implements GenericDBOp<UserAuthToken>{
 			if(ps.executeUpdate() > 0)
 				result = true;
 			
-			
-        	
         	
 		} finally{
 			if (ps != null) {

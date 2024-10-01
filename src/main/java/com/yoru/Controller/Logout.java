@@ -54,7 +54,10 @@ public class Logout extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		 request.getSession().removeAttribute("loggedCustomer");
+		HttpSession session = request.getSession(false);
+		 session.removeAttribute("user");
+		 session.invalidate();
+		 
 	     
 		    Cookie[] cookies = request.getCookies();
 		     
@@ -80,7 +83,8 @@ public class Logout extends HttpServlet {
 		             
 		            if (token != null) {
 		                try {
-							authDAO.remove(token);
+							if(!authDAO.remove(token))
+								LOGGER.log(Level.ALL, "logout error");
 						} catch (SQLException e) {
 							LOGGER.log(Level.SEVERE, "Logout error", e);
 						}
@@ -95,7 +99,8 @@ public class Logout extends HttpServlet {
 		            }
 		        }
 		    }
-		request.getRequestDispatcher("../login.jsp");
+		    
+		    response.sendRedirect("./jsp/login.jsp");
 	
 	}
 

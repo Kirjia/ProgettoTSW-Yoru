@@ -88,7 +88,6 @@ public class LoginFilter extends HttpFilter implements Filter {
 		    if (!"".equals(selector) && !"".equals(rawValidator)) {
 		       
 		        try {
-		        	System.out.println(selector);
 					token = authDAO.findBySelector(selector);
 				} catch (SQLException e) {
 					LOGGER.log(Level.WARNING, "Login error", e);

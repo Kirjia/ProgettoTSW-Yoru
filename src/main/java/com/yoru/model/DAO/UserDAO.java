@@ -40,7 +40,7 @@ public class UserDAO implements GenericDBOp<User> {
     @Override
     public User getById(int id) throws SQLException{
     	User user = null;
-        String loginsql = "SELECT nome, cognome, role, email FROM "+ UserDAO.TABLE_NAME + " WHERE id = ?";
+        String loginsql = "SELECT nome, cognome, role, email, telefono FROM "+ UserDAO.TABLE_NAME + " WHERE id = ?";
         ResultSet resultSet = null;
     	
     	try(Connection connection = ds.getConnection();
@@ -59,6 +59,7 @@ public class UserDAO implements GenericDBOp<User> {
 				user.setCognome(resultSet.getString(2));
 				user.setRole(resultSet.getString(3));
 				user.setEmail(resultSet.getString(4));
+				user.setTelefono(resultSet.getString(5));
 			}
     		
     		
@@ -82,7 +83,7 @@ public class UserDAO implements GenericDBOp<User> {
         try {
             connection = ds.getConnection();
             connection.setAutoCommit(false);
-            String sql = "SELECT nome, cognome, role FROM "+ UserDAO.TABLE_NAME + " WHERE email = ?";
+            String sql = "SELECT nome, cognome, role, telefono FROM "+ UserDAO.TABLE_NAME + " WHERE email = ?";
             ps = connection.prepareStatement(sql);
             ps.setString(1, email);
 
@@ -95,6 +96,7 @@ public class UserDAO implements GenericDBOp<User> {
                 user.setCognome(rs.getString(User.COLUMNLABEL3));
                 user.setRole(rs.getString(3));
                 user.setEmail(email);
+                user.setTelefono(rs.getString(4));
                 
             }
             else

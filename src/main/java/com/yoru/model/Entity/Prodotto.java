@@ -20,8 +20,8 @@ public class Prodotto {
     private ItemType itemType;
     
     public enum ItemType{
-    	Libro,
-    	Gadget
+    	libro,
+    	gadget
     }
 
     public  Prodotto(){

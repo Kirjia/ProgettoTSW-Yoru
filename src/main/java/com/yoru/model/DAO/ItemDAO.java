@@ -122,15 +122,16 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
     	PreparedStatement  ps = null;
     	Connection connection = null;
     	ResultSet resultSet = null;
-    	String sql = "SELECT sum(o.quantità) as vendite, p.* from " + OrderItem.TABLE_NAME + " o inner join" + Prodotto.TABLE_NAME +
-    				" p on o.SKU=p.SKU group by p.sku WHERE p.category = " + Prodotto.ItemType.Libro + " order by vendite desc limit ?";
+    	String sql = "SELECT sum(o.quantità) as vendite, p.* from " + OrderItem.TABLE_NAME + " o inner join " + Prodotto.TABLE_NAME +
+    				" p on o.SKU=p.SKU WHERE p.category = ? group by p.sku  order by vendite desc limit ?";
     	List<Prodotto> books = new ArrayList<>();
     	try {
 			connection = dSource.getConnection();
 			connection.setAutoCommit(false);
 			ps = connection.prepareStatement(sql);
 			
-			ps.setInt(1, limit);
+			ps.setString(1, Prodotto.ItemType.libro.toString());
+			ps.setInt(2, limit);
 			resultSet = ps.executeQuery();
 			
 			while(resultSet.next()) {
@@ -140,8 +141,9 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
 				book.setPrezzo(resultSet.getFloat(Prodotto.COLUMNLABEL4));
 				book.setQuantità(resultSet.getInt(Prodotto.COLUMNLABEL5));
 				book.setId_produttore(resultSet.getInt(Prodotto.COLUMNLABEL6));
-				book.setItemType(Prodotto.ItemType.Libro);
+				book.setItemType(Prodotto.ItemType.libro);
 				
+				books.add(book);
 			}
 			
 			
@@ -166,7 +168,7 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
     	PreparedStatement  ps = null;
     	Connection connection = null;
     	ResultSet resultSet = null;
-    	String sql = "SELECT * from "  + Prodotto.TABLE_NAME + "  WHERE category = " + Prodotto.ItemType.Libro + " order by SKU desc limit ?";
+    	String sql = "SELECT * from "  + Prodotto.TABLE_NAME + "  WHERE category = " + Prodotto.ItemType.libro + " order by SKU desc limit ?";
     	List<Prodotto> books = new ArrayList<>();
     	try {
 			connection = dSource.getConnection();
@@ -183,7 +185,7 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
 				book.setPrezzo(resultSet.getFloat(Prodotto.COLUMNLABEL4));
 				book.setQuantità(resultSet.getInt(Prodotto.COLUMNLABEL5));
 				book.setId_produttore(resultSet.getInt(Prodotto.COLUMNLABEL6));
-				book.setItemType(Prodotto.ItemType.Libro);
+				book.setItemType(Prodotto.ItemType.libro);
 				
 			}
 			
@@ -231,7 +233,7 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
     			item.setNome(rs.getString(Prodotto.COLUMNLABEL2));
     			item.setPrezzo(rs.getFloat(Prodotto.COLUMNLABEL4));
     			item.setQuantità(rs.getInt(Prodotto.COLUMNLABEL5));
-    			item.setItemType(Prodotto.ItemType.Libro);
+    			item.setItemType(Prodotto.ItemType.libro);
     			items.add(item);
     			
     		}
@@ -309,7 +311,7 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
                 if (rs.next()) {
                     SKU = rs.getInt("lastID");
                     System.out.println("SKU: " + SKU);
-                    if (entity.getItemType() == Prodotto.ItemType.Libro) {
+                    if (entity.getItemType() == Prodotto.ItemType.libro) {
 						
                     	Libro book = (Libro) entity;
 	                	int resultChild = insertBook(book, connection, SKU);
@@ -333,7 +335,7 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
 	                    }
 	                    else
 	                        connection.rollback(savepoint);
-                    }else if (entity.getItemType() == Prodotto.ItemType.Gadget) {
+                    }else if (entity.getItemType() == Prodotto.ItemType.gadget) {
                     	Gadgets gadget = (Gadgets) entity;
                     	int resultChild = insertGadget(gadget, connection, SKU);
                     	if(resultChild > 0) {
