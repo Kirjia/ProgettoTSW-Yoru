@@ -2,25 +2,26 @@
 $(document).ready(function(){
 	
 	
-	$("#aggiungi-al-carrello").on("submit", function(event){
+	$(".aggiungi-al-carrello").on("click", function(event){
 		event.preventDefault(); 
 
+		
 		        
-        var sku = $(document.activeElement).attr("id");
-		$.ajax({
-                url: "",
-                method: "POST",
-                data: JSON.stringify(sku),
-                contentType: "application/json",
-                success: function(data) {
-					if(data.contains("done"))
+        var item = $(document.activeElement).attr("id");
+		$.post(
+       			"https://localhost/Yoru/AddToCart",{
+					sku: item
+				}, (function(data) {
+				var jsonData = data.response[0];
+					if(jsonData){
 						alert("Prodotto aggiunto al carrello!");
-					
+					}else{
 					alert("Si è verificato un errore durante l'aggiunta al carrello.");
-                },
-				error: function(xhr, status, error) {
-		                alert("Si è verificato un errore durante l'aggiunta al carrello.");
-		            }
+					}
+                }))
+				.fail(function(error) {
+		                alert("Si è verificato un errore durante l'aggiunta al carrello." + error);
+
             });
 	})
 })

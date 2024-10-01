@@ -4,9 +4,9 @@ import java.util.List;
 
 public class Libro extends Prodotto {
 
-    public static final String COLUMNLABEL7 = "ISBN";
-    public static final String COLUMNLABEL8 = "pagine";
-    public static final String COLUMNLABEL9 = "lingua";
+    public static final String COLUMNLABEL8 = "ISBN";
+    public static final String COLUMNLABEL9 = "pagine";
+    public static final String COLUMNLABEL10 = "lingua";
     public static final String TABLE_NAME = "Libro";
 
     private int pagine;

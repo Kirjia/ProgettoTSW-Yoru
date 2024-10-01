@@ -1,4 +1,5 @@
 <%@page import="com.yoru.model.Entity.Prodotto"%>
+<%@page import="java.util.*"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -65,6 +66,14 @@
 <body>
 
 <%@include file="/html/header.html" %>
+
+<% 
+Collection<?> items = (Collection<?>) request.getAttribute("bestsellers");
+if(items == null){
+	response.sendRedirect("../BestSellers");
+	return;
+}
+%>
 
 <!-- Carosello Prodotti -->
 <section class="container mt-5">

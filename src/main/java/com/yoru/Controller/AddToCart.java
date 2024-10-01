@@ -1,6 +1,7 @@
 package com.yoru.Controller;
 
 import java.io.IOException;
+import java.nio.file.attribute.UserDefinedFileAttributeView;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -10,12 +11,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.yoru.model.DAO.OrderDAO;
+import com.yoru.model.Entity.User;
 
 /**
  * Servlet implementation class AddToCart
@@ -56,15 +59,23 @@ public class AddToCart extends HttpServlet {
 		response.setContentType("application/json");
 		JSONObject jsonObject = new JSONObject();
 		
+		HttpSession session = (HttpSession) request.getSession(false);
+		if (session == null) {
+			return;
+		}
+		User user = (User) session.getAttribute("user");
+		if (user == null) {
+			return;
+		}
+		
 		String skuString = request.getParameter("sku");
 		int sku = Integer.parseInt(skuString);
 		
 		try {
-			if (orderDAO.insertIntoCart(1000, sku, 1)) 
-				jsonObject.put("response", true);
+			if (orderDAO.insertIntoCart(user.getId(), sku, 1)) 
+				jsonObject.append("response", true);
 			
-			response.getWriter().print(jsonObject);
-				
+			
 			
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block

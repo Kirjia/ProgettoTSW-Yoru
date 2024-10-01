@@ -141,6 +141,7 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
 				book.setPrezzo(resultSet.getFloat(Prodotto.COLUMNLABEL4));
 				book.setQuantità(resultSet.getInt(Prodotto.COLUMNLABEL5));
 				book.setId_produttore(resultSet.getInt(Prodotto.COLUMNLABEL6));
+				book.setDescrizione(resultSet.getString(Prodotto.COLUMNLABEL7));
 				book.setItemType(Prodotto.ItemType.libro);
 				
 				books.add(book);
@@ -185,6 +186,7 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
 				book.setPrezzo(resultSet.getFloat(Prodotto.COLUMNLABEL4));
 				book.setQuantità(resultSet.getInt(Prodotto.COLUMNLABEL5));
 				book.setId_produttore(resultSet.getInt(Prodotto.COLUMNLABEL6));
+				book.setDescrizione(resultSet.getString(Prodotto.COLUMNLABEL7));
 				book.setItemType(Prodotto.ItemType.libro);
 				
 			}

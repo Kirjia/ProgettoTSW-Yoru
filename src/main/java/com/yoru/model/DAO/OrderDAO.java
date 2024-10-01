@@ -337,14 +337,15 @@ public class OrderDAO implements GenericDBOp<Order>{
 	    	PreparedStatement pStatement = null;
 	    	PreparedStatement checkPStatement = null;
 	    	ResultSet checkSet = null;
+	    	String checkExistSQL = "SELECT EXISTS ( SELECT 1 FROM cart_items WHERE user_id = ? and SKU = ?)";
+			String cartSQL = "INSERT INTO cart_items (user_id, SKU, quantity) VALUE(?, ?, ?)";
+	    	String sqlString = "UPDATE cart_items SET quantity = quantity + ? WHERE user_id = ? AND SKU = ?";
 	    	
 	    	boolean result = false;
 	    	
 	    	try {
 				connection = ds.getConnection();
-				connection.setAutoCommit(false);
-				String checkExistSQL = "SELECT EXISTS ( SELECT 1 FROM cart_items WHERE user_id = ? and SKU = ?)";
-				String cartSQL = "INSERT INTO cart_items (user_id, SKU, quantity) VALUE(?,?,?)";
+				
 				
 				checkPStatement = connection.prepareStatement(checkExistSQL);
 				checkPStatement.setInt(1, user_id);
@@ -353,20 +354,23 @@ public class OrderDAO implements GenericDBOp<Order>{
 				
 				if (checkSet.next()) {
 					if (checkSet.getInt(1) == 1) {
-						if(!updateCartItem(user_id, sku, quantity))
-							return false;
-						return true;
+						pStatement = connection.prepareStatement(sqlString);
+						pStatement.setInt(1, quantity);
+						pStatement.setInt(2, user_id);
+						pStatement.setInt(3, sku);
+						
+					}else {
+						pStatement = connection.prepareStatement(cartSQL);
+						pStatement.setInt(1, user_id);
+						pStatement.setInt(2, sku);
+						pStatement.setInt(3, quantity);
 					}
 				}
 				
-				pStatement = connection.prepareStatement(cartSQL);
-				pStatement.setInt(1, user_id);
-				pStatement.setInt(2, sku);
-				pStatement.setInt(3, quantity);
 				
 				
 				
-				if (pStatement.executeUpdate(cartSQL) > 0)
+				if (pStatement.executeUpdate() > 0)
 					result = true;
 				
 				
@@ -404,7 +408,6 @@ public class OrderDAO implements GenericDBOp<Order>{
 
 	        try {
 	            connection = ds.getConnection();
-	            connection.setAutoCommit(false);
 	            connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 	            savepoint = connection.setSavepoint("insertOrder");
 	            String sql = "INSERT INTO order_details (ID_ordine, costo_totale_ordine, data_pagamento, ID_pagamento, importo_pagamento, email)" +
@@ -520,17 +523,19 @@ public class OrderDAO implements GenericDBOp<Order>{
 	    	return result;
 	    }
 	    
-	    public boolean updateCartItem(int user_id, int sku, int quantity) throws SQLException{
+	    public boolean updateCartItem(Connection conn, int user_id, int sku, int quantity) throws SQLException{
 	    	
-	    	String sqlString = "UPDATE cart_items SET quantity += ? WHERE user_id = ? AND SKU = ?";
+	    	String sqlString = "UPDATE cart_items SET quantity = quantity + ? WHERE user_id = ? AND SKU = ?";
 	    	boolean result = false;
 	    	
-	    	try(Connection connection = ds.getConnection();
+	    	Connection connection = conn;
+	    	
+	    	try(
 	    			PreparedStatement pStatement = connection.prepareStatement(sqlString)){
 	    		
-	    		pStatement.setInt(1, user_id);
-	    		pStatement.setInt(2, sku);
-	    		pStatement.setInt(3, quantity);
+	    		pStatement.setInt(2, user_id);
+	    		pStatement.setInt(3, sku);
+	    		pStatement.setInt(1, quantity);
 	    		
 	    		if (pStatement.executeUpdate() > 0) {
 					result = true;
