@@ -23,7 +23,7 @@
 <%@page import="java.util.Collection"%>
 <% 
 
-Prodotto prodotto = (Prodotto) request.getAttribute("items");
+Prodotto prodotto = (Prodotto) request.getAttribute("item");
 if (prodotto == null) {
 	response.sendRedirect("../GetItem");
 	return;
@@ -41,13 +41,13 @@ if (prodotto == null) {
             <div class="col-md-6">
                 <h2 class="titolo-prodotto"><c:out value="${prodotto.nome}"/></h2>
                 <p class="prezzo-prodotto">€<fmt:formatNumber value="${prodotto.prezzo}" minFractionDigits="2" maxFractionDigits="2" /></p>
-                
+
                 <p><b>Disponibilità:</b> <%= prodotto.getQuantità()>0 ? "Disponibile" : "Non disponibile" %></p>
                 <p><b>Categoria:</b> <%= prodotto.getItemType() %></p>
-                
+
                 <form action="CartServlet" method="POST">
                     <input type="hidden" name="productId" value="<%= prodotto.getSKU() %>">
-                    
+
                     <!-- Quantità -->
                     <label for="quantity">Quantità:</label>
                     <input type="number" id="quantity" name="quantity" class="form-control quantity-box" min="1" value="1">
@@ -67,7 +67,6 @@ if (prodotto == null) {
 
 
     </div>
-
     <%@ include file="/html/footer.html" %>
 
     <!-- Bootstrap JS, Popper.js, and jQuery -->
