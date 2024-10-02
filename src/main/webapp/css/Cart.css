@@ -96,4 +96,5 @@
 .btn-remove:hover {
     background-color: #343a40;  /* Change color on hover */
     border-color: #343a40;
+    color:#ff7000;
 }

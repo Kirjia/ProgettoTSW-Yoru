@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page import="java.util.*"%>
 <%@ page import="com.yoru.model.Entity.Prodotto"%>
 <%@ page import="com.yoru.model.Entity.CartItem"%>
@@ -67,7 +68,7 @@
 											<button class="btn btn-remove">Rimuovi dal carrello</button>
 										  </div>
                                         
-    										<p class="text-right subtotale-item">subtotale: €${subtotale}</p>
+    										<p class="text-right subtotale-item">subtotale: €<fmt:formatNumber value="${subtotale}" minFractionDigits="2" maxFractionDigits="2" /></p>
     											
 										</div>
                                     </div>
@@ -83,10 +84,10 @@
                     <hr>
                     <div class="row">
                         <div class="col">Totale</div>
-                        <div class="col text-right">€<c:out value="${totale}" /></div> <!-- Mostra il totale corretto -->
+                        <div class="col text-right">€<fmt:formatNumber value="${totale}" minFractionDigits="2" maxFractionDigits="2" /></div> <!-- Mostra il totale corretto -->
                     </div>
                     <button class="btn btn-dark btn-block mt-4" onclick="window.location.href='CheckoutServlet'">Procedi all'acquisto</button>
-                    <a href="prodotti.jsp" class="btn btn-light btn-block mt-2">Torna allo shopping</a>
+                    <a href="${pageContext.request.contextPath}/jsp/prodotti.jsp" class="btn btn-light btn-block mt-2">Torna allo shopping</a>
                 </div>
             </div>
         </div>
