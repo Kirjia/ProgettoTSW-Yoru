@@ -130,7 +130,7 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
 			connection.setAutoCommit(false);
 			ps = connection.prepareStatement(sql);
 			
-			ps.setString(1, Prodotto.ItemType.libro.toString());
+			ps.setString(1, Prodotto.ItemType.LIBRO.toString());
 			ps.setInt(2, limit);
 			resultSet = ps.executeQuery();
 			
@@ -142,7 +142,7 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
 				book.setQuantità(resultSet.getInt(Prodotto.COLUMNLABEL5));
 				book.setId_produttore(resultSet.getInt(Prodotto.COLUMNLABEL6));
 				book.setDescrizione(resultSet.getString(Prodotto.COLUMNLABEL7));
-				book.setItemType(Prodotto.ItemType.libro);
+				book.setItemType(Prodotto.ItemType.LIBRO);
 				
 				books.add(book);
 			}
@@ -169,7 +169,7 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
     	PreparedStatement  ps = null;
     	Connection connection = null;
     	ResultSet resultSet = null;
-    	String sql = "SELECT * from "  + Prodotto.TABLE_NAME + "  WHERE category = " + Prodotto.ItemType.libro + " order by SKU desc limit ?";
+    	String sql = "SELECT * from "  + Prodotto.TABLE_NAME + "  WHERE category = " + Prodotto.ItemType.LIBRO + " order by SKU desc limit ?";
     	List<Prodotto> books = new ArrayList<>();
     	try {
 			connection = dSource.getConnection();
@@ -187,7 +187,7 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
 				book.setQuantità(resultSet.getInt(Prodotto.COLUMNLABEL5));
 				book.setId_produttore(resultSet.getInt(Prodotto.COLUMNLABEL6));
 				book.setDescrizione(resultSet.getString(Prodotto.COLUMNLABEL7));
-				book.setItemType(Prodotto.ItemType.libro);
+				book.setItemType(Prodotto.ItemType.LIBRO);
 				
 			}
 			
@@ -235,7 +235,7 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
     			item.setNome(rs.getString(Prodotto.COLUMNLABEL2));
     			item.setPrezzo(rs.getFloat(Prodotto.COLUMNLABEL4));
     			item.setQuantità(rs.getInt(Prodotto.COLUMNLABEL5));
-    			item.setItemType(Prodotto.ItemType.libro);
+    			item.setItemType(Prodotto.ItemType.LIBRO);
     			items.add(item);
     			
     		}
@@ -273,8 +273,151 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
 
     @Override
     public Prodotto getById(int id)throws SQLException{
-        return null;
+        String item_sql = "SELECT category FROM prodotto WHERE SKU = ?";
+
+        
+        ResultSet itemSet = null;
+
+        Prodotto item = null;
+        
+        
+        try(Connection connection = dSource.getConnection();
+        		PreparedStatement itemStatement = connection.prepareStatement(item_sql);
+        		){
+        	
+        	
+        		itemStatement.setInt(1, id);
+        		
+        		itemSet = itemStatement.executeQuery();
+        		
+        		item = new Prodotto();
+        		
+        		if (itemSet.next()) {
+					item.setItemType(itemSet.getString("category"));
+					
+				}
+        }
+        
+        if (item.getItemType() == Prodotto.ItemType.LIBRO) {
+			item = getBook(id);
+		}else {
+			item = getGadget(id);
+		}
+        
+        return item;
     }
+    
+    private Libro getBook(int sku) throws SQLException{
+    	
+    	String book_sql = "SELECT * FROM libriview WHERE SKU = ?";
+    	String autors_sql = "SELECT a.* FROM autori a LEFT JOIN realizza r ON r.ID_autore = a.ID_autore WHERE r.SKU = ?";
+    	ResultSet resultSet = null;
+    	ResultSet autoriSet = null;
+    	Libro book = null;
+    	
+    	try(Connection connection = dSource.getConnection();
+    			PreparedStatement psStatement = connection.prepareStatement(book_sql);
+    			PreparedStatement autorStatement = connection.prepareStatement(autors_sql)){
+    		
+    		psStatement.setInt(1, sku);
+    		
+    		resultSet = psStatement.executeQuery();
+    		
+    		if (resultSet.next()) {
+				book = new Libro();
+				
+				book.setSKU(sku);
+				book.setItemType(Prodotto.ItemType.LIBRO);
+				book.setNome(resultSet.getString(Libro.COLUMNLABEL2));
+				book.setDescrizione(resultSet.getString(Libro.COLUMNLABEL7));
+				book.setId_produttore(resultSet.getInt(Libro.COLUMNLABEL6));
+				book.setISBN(resultSet.getString(Libro.COLUMNLABEL8));
+				book.setLingua(resultSet.getString(Libro.COLUMNLABEL10));
+				book.setNumeroPagine(resultSet.getInt(Libro.COLUMNLABEL9));
+				book.setPeso(resultSet.getFloat(Libro.COLUMNLABEL3));
+				book.setPrezzo(resultSet.getFloat(Libro.COLUMNLABEL4));
+				book.setQuantità(resultSet.getInt(Libro.COLUMNLABEL5));
+				
+				autorStatement.setInt(1, sku);
+				
+				autoriSet = autorStatement.executeQuery();
+				
+				List<Autore> autori = new ArrayList<>();
+				
+				while(autoriSet.next()) {
+					Autore autore = new Autore(
+							autoriSet.getInt(1),
+							autoriSet.getString(2),
+							autoriSet.getString(3),
+							autoriSet.getString(4));
+					
+					autori.add(autore);
+				}
+				
+				book.setAutori(autori);
+    			
+				
+			}
+    		
+    	}
+    	
+    	
+    	return book;
+    }
+    
+    private Gadgets getGadget(int sku) throws SQLException{
+    	String gadget_sql = "SELECT * FROM GadgetView WHERE SKU = ?";
+    	String materials_sql = "SELECT s.Materiale FROM struttura s INNER JOIN costituito c ON c.Materiale = s.Materiale WHERE c.SKU = ?;";
+    	ResultSet resultSet = null;
+    	ResultSet materialSet = null;
+    	Gadgets gadget = null;
+    	
+    	try(Connection connection = dSource.getConnection();
+    			PreparedStatement psStatement = connection.prepareStatement(gadget_sql);
+    			PreparedStatement materialsStatement = connection.prepareStatement(materials_sql)){
+    		
+    		psStatement.setInt(1, sku);
+    		
+    		resultSet = psStatement.executeQuery();
+    		
+    		if (resultSet.next()) {
+    			gadget = new Gadgets();
+				
+    			gadget.setSKU(sku);
+    			gadget.setItemType(Prodotto.ItemType.GADGET);
+    			gadget.setNome(resultSet.getString(Gadgets.COLUMNLABEL2));
+    			gadget.setDescrizione(resultSet.getString(Gadgets.COLUMNLABEL7));
+    			gadget.setId_produttore(resultSet.getInt(Gadgets.COLUMNLABEL6));
+    			gadget.setPeso(resultSet.getFloat(Gadgets.COLUMNLABEL3));
+    			gadget.setPrezzo(resultSet.getFloat(Gadgets.COLUMNLABEL4));
+    			gadget.setQuantità(resultSet.getInt(Gadgets.COLUMNLABEL5));
+    			gadget.setMarchio(resultSet.getString("Marchio"));
+    			gadget.setModello(resultSet.getString("modello"));
+				
+
+				materialsStatement.setInt(1, sku);
+				
+				materialSet = materialsStatement.executeQuery();
+				
+				List<String> materialsList = new ArrayList<>();
+				
+				while(materialSet.next()) {
+					String tmp = materialSet.getString(1);
+					
+					materialsList.add(tmp);
+				}
+				
+				gadget.setMateriali(materialsList);
+    			
+				
+			}
+    		
+    	}
+    	
+    	
+    	return gadget;
+    }
+
 
     @Override
     public synchronized boolean insert(Prodotto entity) throws SQLException{
@@ -313,7 +456,7 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
                 if (rs.next()) {
                     SKU = rs.getInt("lastID");
                     System.out.println("SKU: " + SKU);
-                    if (entity.getItemType() == Prodotto.ItemType.libro) {
+                    if (entity.getItemType() == Prodotto.ItemType.LIBRO) {
 						
                     	Libro book = (Libro) entity;
 	                	int resultChild = insertBook(book, connection, SKU);
@@ -337,7 +480,7 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
 	                    }
 	                    else
 	                        connection.rollback(savepoint);
-                    }else if (entity.getItemType() == Prodotto.ItemType.gadget) {
+                    }else if (entity.getItemType() == Prodotto.ItemType.LIBRO) {
                     	Gadgets gadget = (Gadgets) entity;
                     	int resultChild = insertGadget(gadget, connection, SKU);
                     	if(resultChild > 0) {

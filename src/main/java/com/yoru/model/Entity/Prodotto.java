@@ -22,8 +22,8 @@ public class Prodotto {
     private String descrizione;
     
     public enum ItemType{
-    	libro,
-    	gadget
+    	LIBRO,
+    	GADGET
     }
 
     public  Prodotto(){

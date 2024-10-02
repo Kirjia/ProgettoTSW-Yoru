@@ -261,8 +261,13 @@ CREATE TABLE Costituito(
 DROP VIEW IF EXISTS LibriView;
 CREATE VIEW LibriView AS
 	select p.SKU as SKU,
-		nome, peso, prezzo, quantità, ID_casa_produttrice as id_producer, l.ISBN, l.pagine, l.lingua
+		nome, peso, prezzo, quantità, ID_casa_produttrice, descrizione,  l.ISBN, l.pagine, l.lingua
 		from Prodotto p inner JOIN Libro l on p.SKU = l.SKU;
+        
+DROP VIEW IF EXISTS GadgetView;
+CREATE VIEW GadgetView AS
+	SELECT p.SKU as SKU,
+		nome, peso, prezzo, quantità, ID_casa_produttrice, descrizione, g.modello, g.Marchio FROM Prodotto p INNER JOIN gadgets g on p.SKU = g.SKU;
         
 		
         

@@ -14,7 +14,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.yoru.model.DAO.ItemDAO;
+import com.yoru.model.Entity.Gadgets;
 import com.yoru.model.Entity.Libro;
 import com.yoru.model.Entity.Prodotto;
 
@@ -50,15 +54,36 @@ public class GetItem extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int itemId = Integer.parseInt(request.getParameter("idItem"));
+		
+		response.setContentType("application/json");
+		JSONObject json = new JSONObject();
+		
+		int itemId = Integer.parseInt(request.getParameter("sku"));
+		
+		
 		
 		
 		try {
 			Prodotto item = itemDAO.getById(itemId);
-			request.setAttribute("item", item);
-			request.getRequestDispatcher("jsp/prodotti.jsp").forward(request, response);;
+			
+			if (item.getItemType() == Prodotto.ItemType.LIBRO) {
+				Libro book = (Libro) item;
+				json.append("item", item);
+			}else {
+				Gadgets gadgets = (Gadgets) item;
+				json.append("item", item);
+			}
+			
+			
+			response.getWriter().print(json);
+			
+			//request.setAttribute("item", item);
+			//request.getRequestDispatcher("jsp/prodotto.jsp").forward(request, response);;
 		}catch (SQLException e) {
 			LOGGER.log(Level.WARNING, "Retrive item error", e);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		
