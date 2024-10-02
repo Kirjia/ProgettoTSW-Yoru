@@ -17,7 +17,17 @@
         margin: 0 10px;
     }
 }
+/* Rimuove il colore blu e la sottolineatura dai link */
+.section-products a {
+    color: inherit; /* Mantiene il colore del genitore, in questo caso il colore del testo */
+    text-decoration: none; /* Rimuove la sottolineatura */
+}
 
+/* Aggiunge un effetto al passaggio del mouse */
+.section-products a:hover {
+    color: inherit; /* Mantiene lo stesso colore al passaggio del mouse */
+    text-decoration: none; /* Mantiene la sottolineatura rimossa */
+}
 a,
 a:hover {
     text-decoration: none;

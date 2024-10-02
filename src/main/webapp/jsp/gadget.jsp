@@ -22,8 +22,8 @@
 Collection<?> items = (Collection<?>) request.getAttribute("items");
 
 if (items == null) {
-    response.sendRedirect("../GetAllBook");
-    return;
+	response.sendRedirect("../GetAllBook");
+	return;
 } %>
 <!-- Product Section -->
 <section class="section-products container mt-5">
@@ -32,32 +32,28 @@ if (items == null) {
         <!-- Itera sui prodotti passati dal servlet -->
         <c:forEach items="${items}" var="prodotto">
         <c:out value="${ordine}" />
-        <div class="col-md-6 col-lg-4 col-xl-3 mb-4">
-          <div class="single-product card">
+   		 <div class="col-md-6 col-lg-4 col-xl-3 mb-4">
+      	  <div class="single-product card">
             <!-- Product Image -->
             <div class="part-1">
-                <!-- Link intorno all'immagine del prodotto -->
-                <a href="item.jsp?sku=${prodotto.SKU}">
-                    <img src="images/${prodotto.SKU}.jpg" alt="${prodotto.nome}" onerror="this.src='images/err.jpeg'">
-                </a>
+                <img src="images/${prodotto.SKU}.jpg" alt="${prodotto.nome}" onerror="this.src='images/err.jpeg'">
             </div>
             <!-- Product Details -->
             <div class="part-2">
-                <div class="product-title-wrapper">
-                    <!-- Link intorno al nome del prodotto -->
-                    <a href="item.jsp?sku=${prodotto.SKU}">
-                        <h3 class="product-title"><c:out value="${prodotto.nome}"/></h3>
-                    </a>
+            	<div class="product-title-wrapper">
+                <h3 class="product-title"><c:out value="${prodotto.nome}"/></h3>
                 </div>
+                
 
-                <span>€<fmt:formatNumber value="${prodotto.prezzo}" minFractionDigits="2" maxFractionDigits="2" /></span>
+						<span>€<fmt:formatNumber value="${prodotto.prezzo}" minFractionDigits="2" maxFractionDigits="2" /></span>
 
-                <!-- Add to Cart Button -->
+
+							<!-- Add to Cart Button -->
                 <button class="aggiungi-al-carrello" id="${prodotto.SKU}" >Aggiungi al carrello</button>
             </div>
-          </div>
         </div>
-        </c:forEach>
+    </div>
+</c:forEach>
 
     </div>
 </section>
@@ -65,6 +61,8 @@ if (items == null) {
 <%@include file="/html/footer.html" %>
 
 <!-- Bootstrap JS, Popper.js, and jQuery -->
+
+
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/cart.js"></script>
