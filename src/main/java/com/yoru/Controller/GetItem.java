@@ -55,8 +55,8 @@ public class GetItem extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		response.setContentType("application/json");
-		JSONObject json = new JSONObject();
+		//response.setContentType("application/json");
+		//JSONObject json = new JSONObject();
 		
 		int itemId = Integer.parseInt(request.getParameter("sku"));
 		
@@ -68,23 +68,20 @@ public class GetItem extends HttpServlet {
 			
 			if (item.getItemType() == Prodotto.ItemType.LIBRO) {
 				Libro book = (Libro) item;
-				json.append("item", item);
+				//json.append("item", item);
 			}else {
 				Gadgets gadgets = (Gadgets) item;
-				json.append("item", item);
+				//json.append("item", item);
 			}
 			
 			
-			response.getWriter().print(json);
+			//response.getWriter().print(json);
 			
-			//request.setAttribute("item", item);
-			//request.getRequestDispatcher("jsp/prodotto.jsp").forward(request, response);;
+			request.setAttribute("item", item);
+			request.getRequestDispatcher("jsp/prodotto.jsp").forward(request, response);;
 		}catch (SQLException e) {
 			LOGGER.log(Level.WARNING, "Retrive item error", e);
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} 
 
 		
 	}
