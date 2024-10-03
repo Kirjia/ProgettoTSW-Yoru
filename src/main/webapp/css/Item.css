@@ -12,8 +12,14 @@
 	font-size: 22px;
 }
 
+/* Centra l'immagine */
 .product-img {
 	max-width: 100%;
+	max-height: 300px;
+	object-fit: contain;
+	margin-left: auto;
+	margin-right: auto;
+	display: block; /* Centra l'immagine nel contenitore */
 }
 
 .quantity-box {
@@ -21,8 +27,14 @@
 }
 
 .buy-btn {
-	background-color: #28a745;
-	color: white;
+	background-color: #007bff !important;
+	color: white !important;
+}
+
+.buy-btn:hover {
+	background-color: #28a745 !important;
+	color: white !important;
+	transition: all .2s ease-in;
 }
 
 .descrizione-prodotto {
@@ -35,4 +47,9 @@
 
 .review-section h4 {
 	margin-bottom: 20px;
+}
+
+.btn-primary {
+	background-color: #ff7000 !important;
+	border-color: #ff7000 !important;
 }

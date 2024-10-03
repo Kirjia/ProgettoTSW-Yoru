@@ -36,7 +36,7 @@
             <div class="col-md-3">
                 <!-- Sidebar menu -->
                 <div class="list-group">
-                    <a href="#" class="list-group-item list-group-item-action">Account Main</a>
+                    <a href="#" class="list-group-item list-group-item-action">Profilo utente</a>
                     <a href="#" class="list-group-item list-group-item-action">Nuovi ordini</a>
                     <a href="#" class="list-group-item list-group-item-action">Cronologia ordini</a>
                     <a href="#" class="list-group-item list-group-item-action">Impostazioni profilo</a>

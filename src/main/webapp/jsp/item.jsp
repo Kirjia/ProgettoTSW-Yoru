@@ -29,44 +29,42 @@ if (prodotto == null) {
 	return;
 }
 %>
-	
-    <div class="container dettagli-prodotto">
-        <div class="row">
-            <!-- Sezione immagine del prodotto -->
-            <div class="col-md-6">
-                <img src="images/<%=prodotto.getSKU() %>.jpg" class="product-img img-fluid" alt="${prodotto.nome}" onerror="this.src='images/err.jpeg'">
-            </div>
-
-            <!-- Sezione informazioni prodotto -->
-            <div class="col-md-6">
-                <h2 class="titolo-prodotto"><c:out value="${prodotto.nome}"/></h2>
-                <p class="prezzo-prodotto">€<fmt:formatNumber value="${prodotto.prezzo}" minFractionDigits="2" maxFractionDigits="2" /></p>
-
-                <p><b>Disponibilità:</b> <%= prodotto.getQuantità()>0 ? "Disponibile" : "Non disponibile" %></p>
-                <p><b>Categoria:</b> <%= prodotto.getItemType() %></p>
-
-                <form action="CartServlet" method="POST">
-                    <input type="hidden" name="productId" value="<%= prodotto.getSKU() %>">
-
-                    <!-- Quantità -->
-                    <label for="quantity">Quantità:</label>
-                    <input type="number" id="quantity" name="quantity" class="form-control quantity-box" min="1" value="1">
-
-                    <!-- Pulsanti per aggiungere al carrello o comprare subito -->
-                    <button type="submit" class="btn btn-primary btn-block mt-3">Aggiungi al carrello</button>
-                    <button type="submit" class="btn buy-btn btn-block mt-3">Compra Subito</button>
-                </form>
-
-                <!-- Descrizione del prodotto -->
-                <div class="descrizione-prodotto">
-                    <h4>Descrizione</h4>
-                    <p><%= prodotto.getDescrizione() %></p>
-                </div>
-            </div>
+<div class="container dettagli-prodotto">
+    <div class="row justify-content-center">
+        <!-- Sezione immagine del prodotto -->
+        <div class="col-md-5 text-center"> <!-- Riduciamo la larghezza della colonna e centriamo -->
+            <img src="images/<%=prodotto.getSKU() %>.jpg" class="product-img img-fluid" alt="${prodotto.nome}" onerror="this.src='images/err.jpeg'">
         </div>
 
+        <!-- Sezione informazioni prodotto -->
+        <div class="col-md-5">
+            <h2 class="titolo-prodotto"><c:out value="${prodotto.nome}"/></h2>
+            <p class="prezzo-prodotto">€<fmt:formatNumber value="<%=prodotto.getPrezzo() %>" minFractionDigits="2" maxFractionDigits="2" /></p>
 
+            <p><b>Disponibilità:</b> <%= prodotto.getQuantità()>0 ? "Disponibile" : "Non disponibile" %></p>
+            <p><b>Categoria:</b> <%= prodotto.getItemType() %></p>
+
+            <form action="CartServlet" method="POST">
+                <input type="hidden" name="productId" value="<%= prodotto.getSKU() %>">
+
+                <!-- Quantità -->
+                <label for="quantity">Quantità:</label>
+                <input type="number" id="quantity" name="quantity" class="form-control quantity-box" min="1" value="1">
+
+                <!-- Pulsanti per aggiungere al carrello o comprare subito -->
+                <button type="submit" class="btn btn-primary btn-block mt-3">Aggiungi al carrello</button>
+                <button type="submit" class="btn buy-btn btn-block mt-3">Compra Subito</button>
+            </form>
+
+            <!-- Descrizione del prodotto -->
+            <div class="descrizione-prodotto">
+                <h4>Descrizione</h4>
+                <p><%= prodotto.getDescrizione() %></p>
+            </div>
+        </div>
     </div>
+</div>
+
     <%@ include file="/html/footer.html" %>
 
     <!-- Bootstrap JS, Popper.js, and jQuery -->
