@@ -78,7 +78,7 @@ public class GetItem extends HttpServlet {
 			//response.getWriter().print(json);
 			
 			request.setAttribute("item", item);
-			request.getRequestDispatcher("jsp/prodotto.jsp").forward(request, response);;
+			request.getRequestDispatcher("jsp/item.jsp").forward(request, response);;
 		}catch (SQLException e) {
 			LOGGER.log(Level.WARNING, "Retrive item error", e);
 		} 

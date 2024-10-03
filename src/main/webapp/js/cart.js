@@ -42,5 +42,4 @@ function removeFromCart(){
 			                alert("Si è verificato un errore durante l'aggiunta al carrello." + error);
 
 	            });
-		})
-}
+		}

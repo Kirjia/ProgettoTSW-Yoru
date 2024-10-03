@@ -37,7 +37,7 @@ if (items == null) {
             <!-- Product Image -->
             <div class="part-1">
                 <!-- Link intorno all'immagine del prodotto -->
-                <a href="item.jsp?sku=${prodotto.SKU}">
+                <a href="Item?sku=${prodotto.SKU}">
                     <img src="images/${prodotto.SKU}.jpg" alt="${prodotto.nome}" onerror="this.src='images/err.jpeg'">
                 </a>
             </div>
@@ -45,7 +45,7 @@ if (items == null) {
             <div class="part-2">
                 <div class="product-title-wrapper">
                     <!-- Link intorno al nome del prodotto -->
-                    <a href="item.jsp?sku=${prodotto.SKU}">
+                    <a href="Item?sku=${prodotto.SKU}">
                         <h3 class="product-title"><c:out value="${prodotto.nome}"/></h3>
                     </a>
                 </div>
