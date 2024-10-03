@@ -1,42 +1,92 @@
 .carousel-inner {
-  padding: 1em;
-}
-.card {
-  margin: 0 0.5em;
-  box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);
-  border: none;
-}
-.carousel-control-prev,
-.carousel-control-next {
-  background-color: #e1e1e1;
-  width: 6vh;
-  height: 6vh;
-  border-radius: 50%;
-  top: 50%;
-  transform: translateY(-50%);
-}
-@media (min-width: 768px) {
-  .carousel-item {
-    margin-right: 0;
-    flex: 0 0 33.333333%;
-    display: block;
-  }
-  .carousel-inner {
     display: flex;
-  }
+    flex-wrap: nowrap; /* Impedisce che le schede vadano in verticale */
+    overflow: hidden;
+    padding: 1em;
+    justify-content: center;
 }
-.card .img-wrapper {
-    max-width: 100%;
-    height: 13em;
+
+.card {
+    margin: 0 0.5em;
+    box-shadow: 2px 6px 8px rgba(22, 22, 26, 0.18);
+    border: none;
+    width: 18rem; /* Larghezza fissa per le carte */
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card img {
+    max-height: 200px; /* Imposta un'altezza massima */
+    object-fit: contain; /* Assicura che l'immagine non venga tagliata */
+}
+
+/* Centrare il carosello */
+.carousel {
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    justify-content: center;
+}
+
+/* Cambia il colore del pulsante */
+button.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
+    background-color: #ff7000 !important;
+    border-color: #ff7000 !important;
+    color: white !important;
+}
+
+/* Frecce del carosello */
+.carousel-control-prev, 
+.carousel-control-next {
+    width: 5%;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.card img {
-    max-height: 100%;
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    filter: invert(1);
 }
+
+/* Responsive: Mostra solo un'immagine per volta su schermi piccoli */
 @media (max-width: 767px) {
-  .card .img-wrapper {
-    height: 17em;
-  }
+    .carousel-inner {
+        display: block; /* Passa da flex a blocco per schermi piccoli */
+    }
+
+    .carousel-item {
+        width: 100%;
+    }
+
+    .carousel-inner .carousel-item > div {
+        display: block;
+        width: 100%; /* Larghezza completa su dispositivi mobili */
+    }
+
+    .card {
+        width: 100%;
+    }
+}
+
+/* Mostra 3 schede per schermi più grandi */
+@media (min-width: 768px) {
+    .carousel-inner .carousel-item {
+        display: flex;
+    }
+
+    .carousel-item-next,
+    .carousel-item-prev {
+        transform: translateX(0);
+    }
+
+    .carousel-item {
+        width: calc(100% / 3); /* 3 schede per schermi grandi */
+    }
 }
