@@ -57,7 +57,7 @@
                 </div>
 
                 <!-- Order History Section -->
-                <div class="order-history">
+                <div class="order-history" id=cronologia>
                     <h4 class="mt-4"><b>La tua Cronologia Ordini</b></h4>
                     <hr>
                     <c:forEach items="${historyOrders}" var="ordine">
