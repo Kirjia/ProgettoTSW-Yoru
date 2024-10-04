@@ -1,16 +1,22 @@
+.active{
+	display: flex !important;
+    justify-content: space-around !important;
+}
+/*
 .carousel-inner {
     display: flex;
-    flex-wrap: nowrap; /* Impedisce che le schede vadano in verticale */
+    flex-wrap: nowrap; /* Impedisce che le schede vadano in verticale 
     overflow: hidden;
     padding: 1em;
     justify-content: center;
 }
 
+
 .card {
     margin: 0 0.5em;
     box-shadow: 2px 6px 8px rgba(22, 22, 26, 0.18);
     border: none;
-    width: 18rem; /* Larghezza fissa per le carte */
+    width: 18rem; /* Larghezza fissa per le carte 
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -18,11 +24,11 @@
 }
 
 .card img {
-    max-height: 200px; /* Imposta un'altezza massima */
-    object-fit: contain; /* Assicura che l'immagine non venga tagliata */
+    max-height: 200px; /* Imposta un'altezza massima 
+    object-fit: contain; /* Assicura che l'immagine non venga tagliata 
 }
 
-/* Centrare il carosello */
+/* Centrare il carosello 
 .carousel {
     margin-left: auto;
     margin-right: auto;
@@ -48,11 +54,16 @@ button.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visite
     display: flex;
     justify-content: center;
     align-items: center;
+
 }
 
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
     filter: invert(1);
+}
+
+#carouselProdotti{
+	padding: 0 15%;
 }
 
 /* Responsive: Mostra solo un'immagine per volta su schermi piccoli */
@@ -75,7 +86,35 @@ button.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visite
     }
 }
 
-/* Mostra 3 schede per schermi più grandi */
+.carousel-control-prev{
+	
+	top:50% !important;
+	margin:50px;
+}
+.carousel-control-next{
+	
+	top:50% !important;
+	margin:50px;
+}
+
+.card-title{
+	color:black !important;
+	
+
+}
+
+a:hover{
+	text-decoration:none !important;
+}
+
+
+/*da fare*/
+.col-md-3{
+	
+
+	
+}
+/* Mostra 3 schede per schermi più grandi 
 @media (min-width: 768px) {
     .carousel-inner .carousel-item {
         display: flex;
@@ -87,6 +126,7 @@ button.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visite
     }
 
     .carousel-item {
-        width: calc(100% / 3); /* 3 schede per schermi grandi */
+        width: calc(100% / 3); /* 3 schede per schermi grandi 
     }
 }
+*/

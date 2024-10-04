@@ -43,9 +43,13 @@ if (items == null) {
                 <div class="carousel-item <c:if test='${status.first}'>active</c:if>">
                     <div class="col-md-3">
                         <div class="card">
+                        <a href="Item?sku=${prodotto.SKU}">
                             <img class="card-img-top img-fluid" src="${pageContext.request.contextPath}/images/${prodotto.SKU}.jpg" alt="${prodotto.nome}" onerror="this.src='images/err.jpeg'">
+                        </a>
                             <div class="card-body text-center">
-                                <h5 class="card-title">${prodotto.nome}</h5>
+                            	<a href="Item?sku=${prodotto.SKU}">
+                                	<h5 class="card-title">${prodotto.nome}</h5>
+                                </a>
                                 <p class="card-text">€<fmt:formatNumber value="${prodotto.prezzo}" minFractionDigits="2" maxFractionDigits="2" /></p>
                                 <button class="btn btn-primary">Aggiungi al Carrello</button>
                             </div>
@@ -71,8 +75,9 @@ if (items == null) {
 
 <%@include file="/html/footer.html" %>
 
-<!-- Bootstrap JS, Popper.js, and jQuery -->
+<!-- #Bootstrap JS, Popper.js, and jQuery--> 
 <script> 
+
 let items = document.querySelectorAll('.carousel .carousel-item')
 
 items.forEach((el) => {
