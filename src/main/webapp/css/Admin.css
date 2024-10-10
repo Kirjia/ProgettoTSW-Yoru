@@ -4,11 +4,15 @@
     
 }
 
-.list-group-item.active:active, .list-group-item.active:hover, .list-group-item.active:visited, .list-group-item.active  {
+.list-group-item.active:active, .list-group-item.active:visited, .list-group-item.active  {
     z-index: 2;
     background-color: white;
     border-color: rgba(0, 0, 0, 0.125) !important;
     
+}
+.list-group-item.active:hover{
+	background-color: rgba(0, 0, 0, 0.125) !important;
+    border-color: rgba(0, 0, 0, 0.125) !important;
 }
 
 .btn-success{
