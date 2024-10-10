@@ -51,6 +51,13 @@
                     <p><b>Email:</b> <%= admin.getEmail() %></p>
                 </div>
 
+     <!--Gestione utenti --> 
+                    
+				<div class="user-management">
+                    <h4><b>Gestione Utenti</b></h4>
+                    <hr>
+                    <button class="btn btn-success mb-3" id="management-user-btn">Gestione utenti</button>
+                   </div>
                 <!-- Product Management Section -->
                 <div class="product-management">
                     <h4><b>Gestione Prodotti</b></h4>
@@ -58,10 +65,18 @@
                     <button class="btn btn-success mb-3" id="add-product-btn">Aggiungi Nuovo Prodotto</button>
 
                     <!-- Lista Prodotti -->
-                    <div id="products-list" class="row">
-                        <!-- I prodotti verranno caricati dinamicamente qui -->
-                    </div>
+                    <a href="../jsp/GestioneProdotti.jsp">
+                       <button class="btn btn-success mb-3" id="add-product-btn">Visualizza Prodotti</button>
+                     </a>
+
                 </div>
+                 <!--Gestione ordini --> 
+                    
+				<div class="order-management">
+                    <h4><b>Gestione Ordini</b></h4>
+                    <hr>
+                    <button class="btn btn-success mb-3" id="management-order-btn">Gestione Ordini</button>
+                   </div>
             </div>
         </div>
     </div>

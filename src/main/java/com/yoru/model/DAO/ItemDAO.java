@@ -8,6 +8,7 @@ import java.sql.Savepoint;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale.Category;
 
 import javax.sql.DataSource;
 
@@ -87,6 +88,7 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
 
         try{
             connection = dSource.getConnection();
+            connection.setAutoCommit(false);
             String sql = "SELECT * FROM prodotto";
 
             ps = connection.prepareStatement(sql);
@@ -101,7 +103,7 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
                 item.setPrezzo(rs.getFloat(COLUMNLABEL4));
                 item.setQuantità(rs.getInt(COLUMNLABEL5));
                 item.setId_produttore(rs.getInt(COLUMNLABEL6));
-
+                item.setItemType(rs.getString("Category"));
 
                 items.add(item);
             }
