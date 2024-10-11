@@ -1,7 +1,18 @@
-        table {
-            width: 100%;
-            border-collapse: collapse;
+        .center-table { 
+            display: flex; 
+            justify-content: center; 
+            margin-top: 20px; 
+            margin-bottom: 20px;
         }
+        .orange-button {
+            background-color: #ff7000; 
+            color: white; 
+            border: none; 
+            width: 30px; 
+            height: 30px; 
+            border-radius: 3px;
+        }
+        
         table, th, td {
             border: 1px solid black;
         }
@@ -9,3 +20,8 @@
             padding: 8px;
             text-align: left;
         }
+         /* Modale*/
+#add{
+	background-color: #ff7000 !important;
+	border: none !important;
+}
