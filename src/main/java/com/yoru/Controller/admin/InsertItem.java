@@ -50,6 +50,17 @@ public class InsertItem extends HttpServlet {
 		response.setContentType("application/json");
 		JSONObject jsonObject = new JSONObject();
 		
+		String nome = request.getParameter("nome");
+		float peso = Float.valueOf(request.getParameter("peso"));
+		float prezzo = Float.valueOf(request.getParameter("prezzo"));
+		int quantity = Integer.valueOf(request.getParameter("quantity"));
+		
+		
+		
+		
+		
+		
+		
 	}
 
 }
