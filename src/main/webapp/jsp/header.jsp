@@ -12,7 +12,8 @@
 <body>
 
 <% User user = (User) session.getAttribute("user");
-   	
+	
+
 
 %>
 

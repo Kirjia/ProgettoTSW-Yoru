@@ -70,3 +70,8 @@ footer {
   bottom: 0;
   width: 100%;
 }
+
+#tasto-indirizzo{
+	background-color: #ff7000 !important;
+	border-color: #ff7000 !important; 
+}
