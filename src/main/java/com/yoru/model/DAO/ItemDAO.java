@@ -442,6 +442,37 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
     	
     	return gadget;
     }
+    
+  public int itemsCount(Prodotto.ItemType type) throws SQLException{
+    	
+    	String sql = "SELECT count(SKU) as items FROM ?";
+    	int counts = -1;
+    	ResultSet rSet = null;
+    	
+    	
+    	try(Connection connection = dSource.getConnection();
+    			PreparedStatement pStatement = connection.prepareStatement(sql);){
+    		
+    		if (type == ItemType.LIBRO) {
+				pStatement.setString(1, LIBRIVIEW);
+			}else {
+				pStatement.setString(1, TABLE_GADGET);
+			}
+    		
+    		rSet = pStatement.executeQuery();
+    		if (rSet.next()) {
+				 counts = rSet.getInt(1);
+			}
+    		
+    	}finally {
+			if (rSet != null) {
+				rSet.close();
+			}
+		}
+    			
+    	return counts;
+    }
+
 
 
     @Override

@@ -19,7 +19,7 @@
 </head>
 <body>
 
-    <%@ include file="/html/header.html" %>
+    <%@ include file="/jsp/header.jsp" %>
 <%@page import="java.util.Collection"%>
 <% 
 

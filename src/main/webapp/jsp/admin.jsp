@@ -26,7 +26,7 @@
 </head>
 <body>
 
-    <%@ include file="/html/header.html" %>
+    <%@ include file="/jsp/header.jsp" %>
     <div class="container mt-5" style="margin-top: 1rem !important;">
     
         <div class="row justify-content-center">

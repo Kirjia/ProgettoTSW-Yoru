@@ -19,7 +19,7 @@
     <link href="${pageContext.request.contextPath}/css/User.css" rel="stylesheet">
     
     <%
-    	User user = (User) session.getAttribute("user");
+    	//User user = (User) session.getAttribute("user");
     	Collection<?> ordini = (Collection<?>) request.getAttribute("historyOrders");
     	if(ordini == null){
     		response.sendRedirect("../StoricoOrdini");
@@ -29,7 +29,7 @@
 </head>
 <body>
 
-    <%@ include file="/html/header.html" %>
+    <%@ include file="/jsp/header.jsp" %>
 
     <div class="container mt-5">
         <div class="row">

@@ -15,8 +15,13 @@
     <link rel="stylesheet" href="../css/Checkout.css">
 </head>
 <body>
-	<%@include file="/html/header.html"%>
-	<div class="container">
+
+	
+	<%@include file="/jsp/header.jsp"%>
+	
+  <div class="container">
+<div class="container-checkout">
+
 
     <!-- Sezione dettagli utente -->
     <div class="order-details">

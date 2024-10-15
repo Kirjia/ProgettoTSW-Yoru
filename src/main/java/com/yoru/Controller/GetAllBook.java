@@ -80,9 +80,11 @@ public class GetAllBook extends HttpServlet {
 		
 		try {
 			Collection<Prodotto> books = itemDAO.getAllBooks(page, limit);
-			Iterator<Prodotto> iterator = books.iterator();
+			int counts = itemDAO.itemsCount(Prodotto.ItemType.LIBRO);
+			//Iterator<Prodotto> iterator = books.iterator();
 			request.setAttribute("items", books);
 			request.setAttribute("currentPage", page);
+			request.setAttribute("counts", counts);
 			request.getRequestDispatcher("jsp/prodotti.jsp").forward(request, response);
 			return;
 			/*

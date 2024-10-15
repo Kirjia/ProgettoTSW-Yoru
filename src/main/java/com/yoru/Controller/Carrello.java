@@ -2,6 +2,8 @@ package com.yoru.Controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,6 +27,7 @@ import com.yoru.model.Entity.Cart;
 @WebServlet("/Carrello")
 public class Carrello extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final Logger LOGGER = Logger.getLogger(Carrello.class.getName());
 	private OrderDAO orderDAO;
        
     /**
@@ -57,6 +60,7 @@ public class Carrello extends HttpServlet {
 	
 		HttpSession session = (HttpSession) request.getSession(false);
 		
+		
 		if (session == null) {
 			response.sendRedirect("jsp/login.jsp");
 			return;
@@ -77,11 +81,10 @@ public class Carrello extends HttpServlet {
 			request.setAttribute("tot", cart.getTotal());
 			request.getRequestDispatcher("jsp/carrello.jsp").forward(request, response);
 		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.log(Level.INFO, "format error", e);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "sql error", e);
 		}
 		
 		
