@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="../css/Checkout.css">
 </head>
 <body>
-	<%@include file="/html/header.html"%>
+	<%@include file="/jsp/header.jsp"%>
 	
   
 <div class="container-checkout">

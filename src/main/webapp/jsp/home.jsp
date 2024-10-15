@@ -40,7 +40,7 @@
 </head>
 <body>
 
-	<%@include file="/html/header.html"%>
+	<%@include file="/jsp/header.jsp"%>
 
 	<%
 	Collection<?> items = (Collection<?>) request.getAttribute("bestsellers");
