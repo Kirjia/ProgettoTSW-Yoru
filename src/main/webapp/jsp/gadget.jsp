@@ -22,7 +22,7 @@
 Collection<?> items = (Collection<?>) request.getAttribute("items");
 
 if (items == null) {
-	response.sendRedirect("../GetAllBook");
+	response.sendRedirect("../GetAllGadget");
 	return;
 } %>
 <!-- Product Section -->

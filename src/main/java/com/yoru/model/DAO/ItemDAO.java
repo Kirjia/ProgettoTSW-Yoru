@@ -28,6 +28,7 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
 	private static final String LIBRIVIEW = "libriview";
 	private static final String TABLE_NAME = "Prodotto";
 	private static final String TABLE_REALIZZA = "realizza";
+	private static final String TABLE_GADGET = "gadgetview";
 	
 	public ItemDAO(DataSource ds) {
 		dSource = ds;
@@ -252,16 +253,38 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
     	return items;
     }
     
-    public Collection<Gadgets> getAllGadgets(int page)throws SQLException{
+    public Collection<Gadgets> getAllGadgets(int page,int limit)throws SQLException{
     	PreparedStatement ps = null;
     	Connection connection = null;
         ResultSet rs = null;
         List<Gadgets> items = new ArrayList<>();
-        String queryString = "SELECT * from" + LIBRIVIEW;
+        int offset = (page - 1)*limit;
+        String queryString = "SELECT SKU, nome, prezzo, quantità FROM "+ TABLE_GADGET + "\r\n"
+        		+ "    INNER JOIN (\r\n"
+        		+ "      SELECT SKU FROM " + TABLE_GADGET + " ORDER BY SKU LIMIT ? OFFSET ?\r\n"
+        		+ "    ) AS tmp USING (SKU)\r\n"
+        		+ "ORDER BY\r\n"
+        		+ "  SKU";
 
     	
     	try {
     		connection = dSource.getConnection();
+    		ps = connection.prepareStatement(queryString);
+    		ps.setInt(1, limit);
+    		ps.setInt(2, offset);
+    		
+    		
+    		rs = ps.executeQuery();
+    		while(rs.next()) {
+    			Gadgets item = new Gadgets();
+    			item.setSKU(rs.getInt(Gadgets.COLUMNLABEL1));
+    			item.setNome(rs.getString(Gadgets.COLUMNLABEL2));
+    			item.setPrezzo(rs.getFloat(Gadgets.COLUMNLABEL4));
+    			item.setQuantità(rs.getInt(Gadgets.COLUMNLABEL5));
+    			item.setItemType(Gadgets.ItemType.GADGET);
+    			items.add(item);
+
+    		}
         	
 			
 		} finally {
@@ -270,7 +293,7 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
 			rs.close();
 		}
     	
-    	return null;
+    	return items;
     }
 
     @Override
