@@ -36,16 +36,21 @@ if (items == null) {
       	  <div class="single-product card">
             <!-- Product Image -->
             <div class="part-1">
-                <img src="images/${prodotto.SKU}.jpg" alt="${prodotto.nome}" onerror="this.src='images/err.jpeg'">
+                <!-- Link intorno all'immagine del prodotto -->
+                <a href="Item?sku=${prodotto.SKU}">
+                    <img src="images/${prodotto.SKU}.jpg" alt="${prodotto.nome}" onerror="this.src='images/err.jpeg'">
+                </a>
             </div>
             <!-- Product Details -->
             <div class="part-2">
-            	<div class="product-title-wrapper">
-                <h3 class="product-title"><c:out value="${prodotto.nome}"/></h3>
+                <div class="product-title-wrapper">
+                    <!-- Link intorno al nome del prodotto -->
+                    <a href="Item?sku=${prodotto.SKU}">
+                        <h3 class="product-title"><c:out value="${prodotto.nome}"/></h3>
+                    </a>
                 </div>
-                
 
-						<span>€<fmt:formatNumber value="${prodotto.prezzo}" minFractionDigits="2" maxFractionDigits="2" /></span>
+                <span>€<fmt:formatNumber value="${prodotto.prezzo}" minFractionDigits="2" maxFractionDigits="2" /></span>
 
 
 							<!-- Add to Cart Button -->

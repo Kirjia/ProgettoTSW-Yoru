@@ -86,7 +86,9 @@
                         <div class="col">Totale</div>
                         <div class="col text-right">€<fmt:formatNumber value="${totale}" minFractionDigits="2" maxFractionDigits="2" /></div> <!-- Mostra il totale corretto -->
                     </div>
-                    <button class="btn btn-dark btn-block mt-4" onclick="window.location.href='CheckoutServlet'">Procedi all'acquisto</button>
+                    <a href="${pageContext.request.contextPath}/jsp/checkout.jsp">
+                    <button class="btn btn-dark btn-block mt-4">Procedi all'acquisto</button>
+                    </a>
                     <a href="${pageContext.request.contextPath}/jsp/prodotti.jsp" class="btn btn-light btn-block mt-2">Torna allo shopping</a>
                 </div>
             </div>
