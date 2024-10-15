@@ -21,62 +21,59 @@
         if (admin == null) {
             response.sendRedirect("./login.jsp");
             return;
-            
         }
-        
     %>
 </head>
 <body>
 
     <%@ include file="/html/header.html" %>
-
-    <div class="container mt-5">
-        <div class="row">
-            <!-- Sidebar menu -->
-            <div class="col-md-3">
-                <div class="list-group">
+    <div class="container mt-5" style="margin-top: 1rem !important;">
+    
+        <div class="row justify-content-center">
+            <!-- Sidebar menu
+            <div class="col-md-3 mb-4">
+                <div class="list-group text-center">
                     <a href="#" class="list-group-item list-group-item-action">Gestione Utenti</a>
                     <a href="#" class="list-group-item list-group-item-action active">Gestione Prodotti</a>
                     <a href="#" class="list-group-item list-group-item-action">Gestione Ordini</a>
                     <a href="${pageContext.request.contextPath}/Logout" class="list-group-item list-group-item-action">Logout</a>
                 </div>
-            </div>
+            </div> -->
 
-            <div class="col-md-9">
+            <div class="col-md-9 text-center">
                 <!-- Admin Info Card -->
-                <div class="profile-card mb-4">
+                <div class="profile-card mb-4 mx-auto">
+                
                     <h4><b>Pannello Admin</b></h4>
-                    <hr>
+                    
                     <p><b>Nome Admin:</b> <%= admin.getNome() %></p>
                     <p><b>Email:</b> <%= admin.getEmail() %></p>
                 </div>
 
-     <!--Gestione utenti --> 
-                    
-				<div class="user-management">
+                <!-- Gestione utenti 
+                <div class="user-management mb-4">
+                <hr>
                     <h4><b>Gestione Utenti</b></h4>
-                    <hr>
-                    <button class="btn btn-success mb-3" id="management-user-btn">Gestione utenti</button>
-                   </div>
-                <!-- Product Management Section -->
-                <div class="product-management">
-                    <h4><b>Gestione Prodotti</b></h4>
-                    <hr>
-                    <button class="btn btn-success mb-3" id="add-product-btn">Aggiungi Nuovo Prodotto</button>
-
-                    <!-- Lista Prodotti -->
-                    <a href="../jsp/GestioneProdotti.jsp">
-                       <button class="btn btn-success mb-3" id="add-product-btn">Visualizza Prodotti</button>
-                     </a>
-
-                </div>
-                 <!--Gestione ordini --> 
                     
-				<div class="order-management">
+                    <button class="btn btn-success mb-3" id="management-user-btn">Gestione utenti</button>
+                </div>-->
+
+                <!-- Product Management Section -->
+                <div class="product-management mb-4">
+                <hr>
+                    <h4><b>Gestione Prodotti</b></h4>
+                    
+                    <button class="btn btn-success mb-3" id="add-product-btn">Aggiungi Nuovo Prodotto</button>
+                    <a href="../jsp/GestioneProdotti.jsp" class="btn btn-success mb-3">Visualizza Prodotti</a>
+                </div>
+
+                <!-- Gestione ordini -->
+                <div class="order-management mb-4">
+                <hr>
                     <h4><b>Gestione Ordini</b></h4>
-                    <hr>
+                    
                     <button class="btn btn-success mb-3" id="management-order-btn">Gestione Ordini</button>
-                   </div>
+                </div>
             </div>
         </div>
     </div>
@@ -99,19 +96,13 @@
                         </div>
                         <div class="form-group">
                             <label for="product-type">Tipo Prodotto</label>
-                            <!-- Selezione iniziale vuota -->
-							<select class="form-control" id="product-type" required>
-							    <option value="" disabled selected>Seleziona un tipo di prodotto</option>
-							    <option value="libro">Libro</option>
-							    <option value="gadget">Gadget</option>
-							</select>
+                            <select class="form-control" id="product-type" required>
+                                <option value="" disabled selected>Seleziona un tipo di prodotto</option>
+                                <option value="libro">Libro</option>
+                                <option value="gadget">Gadget</option>
+                            </select>
                         </div>
-
-                        <!-- Campi aggiuntivi per Libri e Gadget -->
-                        <div id="additional-fields">
-                            <!-- Campi personalizzati -->
-                        </div>
-                        
+                        <div id="additional-fields"></div>
                         <button type="submit" class="btn btn-primary">Aggiungi</button>
                     </form>
                 </div>
@@ -125,6 +116,8 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
 
     <script>
         $(document).ready(function() {

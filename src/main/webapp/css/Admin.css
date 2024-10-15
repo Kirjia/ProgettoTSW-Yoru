@@ -41,7 +41,18 @@
 	transition: all .2s ease-in;
 }
 
+.mb-4 button, .mb-4 a{
+	
+	margin-top: 10px;
+}
 
+.profile-card h4{
+	margin-bottom:30px;
+}
+
+.mt-5, .my-5 {
+    margin-top: 1rem !important;
+}
 /* Toglie gli spinner ai form per i numeri*/
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
