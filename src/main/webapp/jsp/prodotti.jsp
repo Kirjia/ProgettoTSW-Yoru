@@ -26,8 +26,8 @@ if (items == null) {
     return;
 } %>
 <!-- Product Section -->
-<section class="section-products container mt-5">
-    <h1 class="text-center mb-4">I nostri prodotti</h1>
+<section class="section-products container mt-5" style=" margin-top: 1rem !important;"><!-- override -->
+    <h1 class="text-center mb-4" style="margin-bottom:50px !important;">I nostri libri</h1>
     <div class="row">
         <!-- Itera sui prodotti passati dal servlet -->
         <c:forEach items="${items}" var="prodotto">
@@ -59,8 +59,28 @@ if (items == null) {
         </div>
         </c:forEach>
 
+
+
+
     </div>
-</section>
+
+
+
+
+	</section>
+
+
+
+		<!-- Pagination -->
+		<nav aria-label="Page navigation" class="mt-4">
+			<ul class="pagination justify-content-center">
+				<c:forEach var="i" begin="1" end="3"> <!--  da cambiare con limite superiore della divisione tra numero di prdotti totale e numero prodotti per pagina -->
+					<li class="page-item ${i == currentPage ? 'active' : ''}"><a
+						class="page-link" href="GetAllBook?page=${i}">${i}</a></li>
+				</c:forEach>
+			</ul>
+		</nav>
+
 
 <%@include file="/html/footer.html" %>
 

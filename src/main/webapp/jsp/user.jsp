@@ -53,7 +53,7 @@
                     <p><b>Cognome:</b> <%= user.getCognome() %> <i class="fas fa-edit" style="cursor:pointer;"></i></p>
                     <p><b>Email:</b> <%= user.getEmail() %> <i class="fas fa-edit" style="cursor:pointer;"></i></p>
                     <p><b>Telefono:</b> <%= user.getTelefono() %> <i class="fas fa-edit" style="cursor:pointer;"></i></p>
-                    <button class="btn btn-primary mt-3">Aggiungi Nuovo Indirizzo</button>
+                    <button class="btn btn-primary mt-3" id="tasto-indirizzo">Aggiungi Nuovo Indirizzo</button>
                 </div>
 
                 <!-- Order History Section -->

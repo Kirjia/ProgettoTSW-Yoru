@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page import="com.yoru.model.Entity.User"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,7 +11,11 @@
 </head>
 <body>
 
+<% User user = (User) session.getAttribute("user");
+	
 
+
+%>
 
 
 	<header>
