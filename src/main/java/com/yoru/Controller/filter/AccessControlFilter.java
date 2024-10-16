@@ -45,23 +45,23 @@ public class AccessControlFilter extends HttpFilter implements Filter {
 		
 		HttpServletRequest httpServletRequest = (HttpServletRequest) request;
 		HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-		HttpSession session = httpServletRequest.getSession(false);
+		HttpSession session = httpServletRequest.getSession();
 		
-		if (session != null) {
 			
 		
-			User user = (User) session.getAttribute("user");
-			String pathString = httpServletRequest.getServletPath();
+		User user = (User) session.getAttribute("user");
+		String pathString = httpServletRequest.getServletPath();
+		System.out.println(pathString);
+		
+		if ((user==null || user.getRole().compareTo(Role.ADMIN) != 0)  && pathString.contains(ADMIN)) {
+			httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/jsp/login.jsp");
+			return;
 			
-			if ((user==null || user.getRole().compareTo(Role.ADMIN) != 0)  && pathString.contains(ADMIN)) {
-				httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/login.jsp");
-				return;
-				
-			}else if (pathString.contains(BASED) && user == null) {
-				httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/login.jsp");
-				return;
-			}
+		}else if (pathString.contains(BASED) && user == null) {
+			httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/jsp/login.jsp");
+			return;
 		}
+		
 		
 		
 

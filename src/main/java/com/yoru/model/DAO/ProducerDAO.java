@@ -110,7 +110,6 @@ public class ProducerDAO implements GenericDBOp<Producer> {
                 Prodotto item = new Prodotto();
                 item.setSKU(rs.getInt(COLUMNLABEL1));
                 item.setNome(rs.getString(COLUMNLABEL2));
-                item.setPeso(rs.getFloat(COLUMNLABEL3));
                 item.setPrezzo(rs.getFloat(COLUMNLABEL4));
                 item.setQuantità(rs.getInt(COLUMNLABEL5));
                 item.setId_produttore(producer.getID());

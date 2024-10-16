@@ -239,7 +239,6 @@ public class AutoreDAO implements GenericDBOp<Autore> {
                 Libro libro = new Libro();
                 libro.setSKU(rs.getInt(Libro.COLUMNLABEL1));
                 libro.setNome(rs.getString(Libro.COLUMNLABEL2));
-                libro.setPeso(rs.getFloat(Libro.COLUMNLABEL3));
                 libro.setPrezzo(rs.getFloat(Libro.COLUMNLABEL4));
                 libro.setQuantità(rs.getInt(Libro.COLUMNLABEL5));
                 libro.setId_produttore(rs.getInt("id_Producer"));

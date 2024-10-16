@@ -100,7 +100,6 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
                 Prodotto item = new Libro();
                 item.setSKU(rs.getInt(COLUMNLABEL1));
                 item.setNome(rs.getString(COLUMNLABEL2));
-                item.setPeso(rs.getFloat(COLUMNLABEL3));
                 item.setPrezzo(rs.getFloat(COLUMNLABEL4));
                 item.setQuantità(rs.getInt(COLUMNLABEL5));
                 item.setId_produttore(rs.getInt(COLUMNLABEL6));
@@ -359,7 +358,6 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
 				book.setISBN(resultSet.getString(Libro.COLUMNLABEL8));
 				book.setLingua(resultSet.getString(Libro.COLUMNLABEL10));
 				book.setNumeroPagine(resultSet.getInt(Libro.COLUMNLABEL9));
-				book.setPeso(resultSet.getFloat(Libro.COLUMNLABEL3));
 				book.setPrezzo(resultSet.getFloat(Libro.COLUMNLABEL4));
 				book.setQuantità(resultSet.getInt(Libro.COLUMNLABEL5));
 				
@@ -413,7 +411,6 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
     			gadget.setNome(resultSet.getString(Gadgets.COLUMNLABEL2));
     			gadget.setDescrizione(resultSet.getString(Gadgets.COLUMNLABEL7));
     			gadget.setId_produttore(resultSet.getInt(Gadgets.COLUMNLABEL6));
-    			gadget.setPeso(resultSet.getFloat(Gadgets.COLUMNLABEL3));
     			gadget.setPrezzo(resultSet.getFloat(Gadgets.COLUMNLABEL4));
     			gadget.setQuantità(resultSet.getInt(Gadgets.COLUMNLABEL5));
     			gadget.setMarchio(resultSet.getString("Marchio"));
@@ -498,14 +495,15 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
             connection.setAutoCommit(false);
             connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
             savepoint = connection.setSavepoint("insertProduct");
-            String sql = "INSERT INTO prodotto (nome, peso, prezzo, quantità, ID_casa_produttrice, category)" +
-                    "VALUE (?,?,?,?,?, ?)";
+            String sql = "INSERT INTO prodotto (nome, prezzo, quantità, ID_casa_produttrice, category, descrizione)" +
+                    "VALUE (?,?,?,?, ?,?)";
             ps = connection.prepareStatement(sql);
             ps.setString(1, entity.getNome());
-            ps.setFloat(2, entity.getPeso());
-            ps.setFloat(3, entity.getPrezzo());
-            ps.setInt(4, entity.getQuantità());
-            ps.setInt(5, entity.getId_produttore());
+            ps.setFloat(2, entity.getPrezzo());
+            ps.setInt(3, entity.getQuantità());
+            ps.setInt(4, entity.getId_produttore());
+            ps.setString(5, entity.getItemType().toString());
+            ps.setString(6, entity.getDescrizione());
 
             int result = ps.executeUpdate();
 
@@ -542,7 +540,7 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
 	                    }
 	                    else
 	                        connection.rollback(savepoint);
-                    }else if (entity.getItemType() == Prodotto.ItemType.LIBRO) {
+                    }else if (entity.getItemType() == Prodotto.ItemType.GADGET) {
                     	Gadgets gadget = (Gadgets) entity;
                     	int resultChild = insertGadget(gadget, connection, SKU);
                     	if(resultChild > 0) {
