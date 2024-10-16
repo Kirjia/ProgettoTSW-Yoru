@@ -19,6 +19,7 @@
 <%@page import="java.util.Collection"%>
 <% 
 
+
 Collection<?> items = (Collection<?>) request.getAttribute("items");
 
 if (items == null) {
@@ -71,15 +72,61 @@ if (items == null) {
 
 
 
-		<!-- Pagination -->
-		<nav aria-label="Page navigation" class="mt-4">
-			<ul class="pagination justify-content-center">
-				<c:forEach var="i" begin="1" end="3"> <!--  da cambiare con limite superiore della divisione tra numero di prdotti totale e numero prodotti per pagina -->
-					<li class="page-item ${i == currentPage ? 'active' : ''}"><a
-						class="page-link" href="GetAllBook?page=${i}">${i}</a></li>
-				</c:forEach>
-			</ul>
-		</nav>
+
+
+
+<!-- Pagination -->
+<nav aria-label="Page navigation" class="mt-4">
+    <ul class="pagination justify-content-center">
+        <c:set var="maxPagesToShow" value="5" />
+        <c:set var="startPage" value="${currentPage - 2}" />
+        <c:set var="endPage" value="${currentPage + 2}" />
+
+        <!-- Calcola il numero totale di pagine -->
+        <c:set var="totalPages" value="${(int) Math.ceil((double)requestScope.counts / 20)}" />
+
+        <!-- Correggi i limiti per startPage e endPage -->
+        <c:if test="${startPage < 1}">
+            <c:set var="endPage" value="${endPage + (1 - startPage)}" />
+            <c:set var="startPage" value="1" />
+        </c:if>
+        <c:if test="${endPage > totalPages}">
+            <c:set var="startPage" value="${startPage - (endPage - totalPages)}" />
+            <c:set var="endPage" value="${totalPages}" />
+        </c:if>
+        <c:if test="${startPage < 1}">
+            <c:set var="startPage" value="1" />
+        </c:if>
+
+        <!-- Collegamento alla prima pagina -->
+        <c:if test="${startPage > 1}">
+            <li class="page-item">
+                <a class="page-link" href="GetAllBook?page=1">1</a>
+            </li>
+            <li class="page-item disabled">
+                <span class="page-link">...</span>
+            </li>
+        </c:if>
+
+        <!-- Collegamenti alle pagine intermedie -->
+        <c:forEach var="i" begin="${startPage}" end="${endPage}">
+            <li class="page-item ${i == currentPage ? 'active' : ''}">
+                <a class="page-link" href="GetAllBook?page=${i}">${i}</a>
+            </li>
+        </c:forEach>
+
+        <!-- Collegamento all'ultima pagina -->
+        <c:if test="${endPage < totalPages}">
+            <li class="page-item disabled">
+                <span class="page-link">...</span>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="GetAllBook?page=${totalPages}">${totalPages}</a>
+            </li>
+        </c:if>
+    </ul>
+</nav>
+
 
 
 <%@include file="/html/footer.html" %>

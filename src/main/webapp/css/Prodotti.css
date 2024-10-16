@@ -276,3 +276,20 @@ a:hover {
     position: relative;
     padding-bottom: 50px; /* Spazio per il pulsante in basso */
 }
+
+.pagination .page-item .page-link {
+    background-color: #ff7000;
+    border-color: #ff7000;
+    color: white;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #343a40; /* Colore leggermente più scuro per la pagina attiva */
+    border-color: #343a40;
+    color: white;
+}
+
+.pagination .page-item .page-link:hover {
+    background-color: #23272b; /* Colore di hover */
+    border-color: #23272b;
+}
