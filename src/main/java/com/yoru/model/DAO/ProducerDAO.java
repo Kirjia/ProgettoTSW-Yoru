@@ -33,7 +33,30 @@ public class ProducerDAO implements GenericDBOp<Producer> {
 	
     @Override
     public Collection<Producer> getAll() throws SQLException{
-        return null;
+        String sql = "SELECT * FROM casa_produttrice";
+        ResultSet rSet = null;
+        List<Producer> producers = new ArrayList<>();
+        
+        try(Connection connection = ds.getConnection();
+        		PreparedStatement pStatement = connection.prepareStatement(sql);){
+        	
+        	rSet = pStatement.executeQuery();
+        	while(rSet.next()) {
+        		Producer producer = new Producer();
+        		producer.setID(rSet.getInt(1));
+        		producer.setNome(rSet.getString(2));
+        		producer.setTelefono(rSet.getString(3));
+        		producer.setEmail(rSet.getString(4));
+        		producers.add(producer);
+        	}
+        	
+        	
+        }finally {
+			if(rSet != null)
+				rSet.close();
+		}
+        
+        return producers;
     }
 
     @Override
