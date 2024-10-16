@@ -124,8 +124,8 @@
             // Carica i prodotti
             function loadProducts() {
                 $.ajax({
-                    url: 'GetAllBook', // Servlet che restituisce prodotti in formato JSON
-                    method: 'GET',
+                    url: '${pageContext.request.contextPath}/Prodotti', // Servlet che restituisce prodotti in formato JSON
+                    method: 'POST',
                     dataType: 'json',
                     success: function(data) {
                         $('#products-list').empty();
@@ -180,46 +180,109 @@
             });
 
             // Gestione dinamica del form quando si cambia tipo di prodotto
-            $('#product-type').change(function() {
-                const selectedType = $(this).val();
-                let additionalFieldsHtml = '';
-                if (selectedType === 'libro') {
-                    additionalFieldsHtml = `
-                        <div class="form-group">
-                            <label for="SKUlibro">SKU:</label>
-                            <input type="number" class="form-control" id="SKUlibro">
+
+$('#product-type').change(function() {
+    const selectedType = $(this).val();
+    let additionalFieldsHtml = '';
+
+    if (selectedType === 'libro') {
+        additionalFieldsHtml = `
+            <div class="form-group">
+                <label for="autore">Autore:</label>
+                <input type="text" class="form-control" id="autore">
+            </div>
+            <div class="form-group">
+                <label for="ISBN">ISBN:</label>
+                <input type="number" class="form-control" id="ISBN">
+            </div>
+            <div class="form-group">
+                <label for="pagine">Numero di Pagine:</label>
+                <input type="number" class="form-control" id="pagine">
+            </div>
+            <div class="form-group">
+                <label for="lingua">Lingua:</label>
+                <input type="text" class="form-control" id="lingua">
+            </div>
+        `;
+        $('#additional-fields').html(additionalFieldsHtml);
+        console.log('Checkboxes aggiunte al DOM:', additionalFieldsHtml);
+    } else if (selectedType === 'gadget') {
+         additionalFieldsHtml = `
+    	            <fieldset class="form-group">
+    	                <legend> Materiali</legend>
+                        <div id="materiali">
                         </div>
-                        <div class="form-group">
-                            <label for="ISBN">ISBN:</label>
-                            <input type="number" class="form-control" id="ISBN">
-                        </div>
-                        <div class="form-group">
-                            <label for="pagine">Numero di Pagine:</label>
-                            <input type="number" class="form-control" id="pagine">
-                        </div>
-                        <div class="form-group">
-                            <label for="lingua">Lingua:</label>
-                            <input type="text" class="form-control" id="lingua">
-                        </div>
-                    `;
-                } else if (selectedType === 'gadget') {
-                    additionalFieldsHtml = `
-                        <div class="form-group">
-                            <label for="SKUgadget">SKU:</label>
-                            <input type="number" class="form-control" id="SKUgadget">
-                        </div>
-                        <div class="form-group">
-                            <label for="modello">Modello:</label>
-                            <input type="text" class="form-control" id="modello">
-                        </div>
-                        <div class="form-group">
-                            <label for="marchio">Marchio:</label>
-                            <input type="text" class="form-control" id="marchio">
-                        </div>
-                    `;
-                }
-                $('#additional-fields').html(additionalFieldsHtml);
-            });
+    	            </fieldset>
+    	            <div class="form-group">
+    	                <label for="modello">Modello:</label>
+    	                <input type="text" class="form-control" id="modello">
+    	            </div>
+    	            <div class="form-group">
+    	                <label for="marchio">Marchio:</label>
+    	                <input type="text" class="form-control" id="marchio">
+    	            </div>
+    	        `;
+
+    	        $('#additional-fields').html(additionalFieldsHtml);
+               
+               
+    	        console.log('Checkboxes aggiunte al DOM:', additionalFieldsHtml);
+        // Effettua una richiesta AJAX per ottenere i materiali
+    	$.ajax({
+    	    url: '${pageContext.request.contextPath}/Materiali',
+    	    method: 'POST',
+    	    dataType: 'json', // Specifica che ti aspetti una risposta JSON
+    	    success: function(materials) {
+    	       
+                let container = document.getElementById('materiali');
+               
+    	        if (Array.isArray(materials)) {
+    	            materials.forEach(function(item) {
+                         console.log('[' + item.materiale + ']'); // Log per verificare la risposta
+                         
+                            let div = document.createElement('div');
+                            div.className = "form-check";
+
+                            let input = document.createElement('input');
+                            input.className = "form-check-input";
+                            input.type = "checkbox";
+                            input.id = `materiale-${item.materiale}`; // Usa il valore dinamico
+                            input.name = "materiale";
+                            input.value = item.materiale;
+
+                            let label = document.createElement('label');
+                            label.className = "form-check-label";
+                            label.setAttribute('for', `materiale-${item.materiale}`);
+
+                            // Assegna il valore dinamico alla label
+                            label.textContent = item.materiale; // O innerHTML se hai HTML complesso
+
+                            // Appendi gli elementi nel DOM
+                            div.appendChild(input);
+                            div.appendChild(label);
+                            container.appendChild(div);
+                        
+
+    	            });
+    	        } else {
+    	            console.error('La risposta non è un array:', materials);
+    	        }
+
+    	       
+    	    },
+    	    error: function(error) {
+    	        console.error('Errore nel caricamento dei materiali', error);
+    	        alert('Impossibile caricare i materiali. Riprova più tardi.');
+    	    }
+    	});
+
+    }
+
+ else {
+        $('#additional-fields').empty();
+    }
+});
+
 
             // Gestione invio form per aggiungere prodotto
             $('#add-product-form').submit(function(e) {
@@ -229,7 +292,7 @@
                 let additionalData = {};
                 if (productType === 'libro') {
                     additionalData = {
-                        SKU: $('#SKUlibro').val(),
+                        Autore: $('#autore').val(),
                         ISBN: $('#ISBN').val(),
                         pagine: $('#pagine').val(),
                         lingua: $('#lingua').val()

@@ -72,32 +72,37 @@ if (items == null) {
 
 
 
+<%
+    int totalProducts = (request.getAttribute("counts") != null) ? (int) request.getAttribute("counts") : 0;
+    int itemsPerPage = 20;
+    int totalPages = (int) Math.ceil((double) totalProducts / itemsPerPage);
+    
+    // Assicurati che il numero totale di pagine sia almeno 1
+    totalPages = Math.max(1, totalPages);
+
+    // Recupera la pagina corrente dai parametri della richiesta, altrimenti imposta su 1
+    int currentPage = (request.getParameter("page") != null) ? Integer.parseInt(request.getParameter("page")) : 1;
+
+    // Assicurati che currentPage sia compresa tra 1 e totalPages
+    currentPage = Math.max(1, Math.min(currentPage, totalPages));
+
+    int maxPagesToShow = 5;
+    int startPage = Math.max(1, currentPage - 2);
+    int endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
+
+    // Aggiusta startPage se endPage raggiunge il limite massimo
+    if (endPage - startPage < maxPagesToShow - 1) {
+        startPage = Math.max(1, endPage - maxPagesToShow + 1);
+    }
+%>
+
+
 
 
 
 <!-- Pagination -->
 <nav aria-label="Page navigation" class="mt-4">
     <ul class="pagination justify-content-center">
-        <c:set var="maxPagesToShow" value="5" />
-        <c:set var="startPage" value="${currentPage - 2}" />
-        <c:set var="endPage" value="${currentPage + 2}" />
-
-        <!-- Calcola il numero totale di pagine -->
-        <c:set var="totalPages" value="${(int) Math.ceil((double)requestScope.counts / 20)}" />
-
-        <!-- Correggi i limiti per startPage e endPage -->
-        <c:if test="${startPage < 1}">
-            <c:set var="endPage" value="${endPage + (1 - startPage)}" />
-            <c:set var="startPage" value="1" />
-        </c:if>
-        <c:if test="${endPage > totalPages}">
-            <c:set var="startPage" value="${startPage - (endPage - totalPages)}" />
-            <c:set var="endPage" value="${totalPages}" />
-        </c:if>
-        <c:if test="${startPage < 1}">
-            <c:set var="startPage" value="1" />
-        </c:if>
-
         <!-- Collegamento alla prima pagina -->
         <c:if test="${startPage > 1}">
             <li class="page-item">
@@ -126,6 +131,10 @@ if (items == null) {
         </c:if>
     </ul>
 </nav>
+
+
+
+
 
 
 

@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.yoru.model.DAO.MaterialDAO;
@@ -56,14 +57,24 @@ public class Materiali extends HttpServlet {
 		
 		
 		try {
-			Collection<String> materiali = materialDAO.getAll();
-			JSONArray aJsonArray = new JSONArray(materiali);
-			response.getWriter().print(aJsonArray);
-			return;
-			
-		} catch (SQLException e) {
-			LOGGER.log(Level.WARNING, "retrieve material error");
-		}
+            Collection<String> materiali = materialDAO.getAll();
+            Iterator<String> iterator = materiali.iterator();
+            JSONArray aJsonArray = new JSONArray();
+            while(iterator.hasNext()) {
+                String tmpString = iterator.next();
+                JSONObject jsonTmp = new JSONObject();
+                jsonTmp.put("materiale", tmpString);
+                aJsonArray.put(jsonTmp);
+            }
+
+            response.getWriter().print(aJsonArray);
+            return;
+
+        } catch (SQLException e) {
+            LOGGER.log(Level.WARNING, "retrieve material error");
+        } catch (JSONException e) {
+            LOGGER.log(Level.WARNING, "retrieve material error");
+        }
 		
 	}
 
