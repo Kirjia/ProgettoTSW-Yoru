@@ -434,6 +434,7 @@ VALUES
 	INSERT INTO user_address(email, via, provincia, città, CAP)
 		values
 			("franco31@gmail.com", "Via Roma 12", "NA", "Palma Campania", "80036"),
+			("franco31@gmail.com", "Via Nola 45", "NA", "Nola", "80035"),
 			("enzoolandese@gmail.com", "Via Garibaldi 8", "MI", "Milano", "20121"),
 			("enzoirlandese@hotmail.com", "Corso Vittorio Emanuele 45", "RM", "Roma", "00186"),
 			("enzoitaliano@yahoo.com", "Via Nazionale 23", "PA", "Mazara del Vallo", "91026"),
