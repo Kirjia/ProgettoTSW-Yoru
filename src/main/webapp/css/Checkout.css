@@ -43,6 +43,7 @@ body {
             border: 1px solid #ccc;
             border-radius: 4px;
         }
+        
         .cart-items {
             margin-top: 20px;
         }
@@ -54,6 +55,17 @@ body {
         .total-section {
             font-size: 18px;
             font-weight: bold;
+        }
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            color: #333;
+            background-color: #f9f9f9;
+            margin-bottom: 20px;
+            transition: border-color 0.3s ease;
         }
         .confirm-button {
             width: 100%;
@@ -68,3 +80,49 @@ body {
         .confirm-button:hover {
             background-color: #218838;
         }
+        /* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+        padding: 10px;
+    }
+
+    .order-details, .cart-summary {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .cart-summary {
+        border-left: none;
+        border-top: 5px solid #343a40;
+        border-bottom-right-radius: 10px;
+        border-bottom-left-radius: 10px;
+    }
+}
+/* Design specifico per dispositivi mobili con schermi più piccoli di 480px */
+@media (max-width: 480px) {
+    .container {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        padding: 5px;
+    }
+
+    .form-group input, .form-group select {
+        padding: 8px;
+        font-size: 14px;
+    }
+
+    .confirm-button {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    h2 {
+        font-size: 18px;
+    }
+
+    .order-details, .cart-summary {
+        padding: 15px;
+    }
+}
