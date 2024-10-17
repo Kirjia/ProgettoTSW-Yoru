@@ -45,7 +45,7 @@ header {
 }
 
 a{
-	color:#ff7000;
+	color:#ff7000 !important;
 }
 a:hover{
 	color:#343a40;

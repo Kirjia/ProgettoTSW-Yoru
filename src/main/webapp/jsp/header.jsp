@@ -52,8 +52,14 @@
 					<li class="dropdown"><a href="${pageContext.request.contextPath}/Logout">Logout</a></li>
 				</ul></li>
 				
-				<%}%>
 				
+				
+					<%}else{%>
+						<ul>
+						<li class="dropdown"><a href="${pageContext.request.contextPath}/jsp/login.jsp">Login</a></li>
+					</ul></li>
+					<%} %>
+							
 				
 				
 				
