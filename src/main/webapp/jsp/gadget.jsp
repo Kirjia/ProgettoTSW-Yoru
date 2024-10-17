@@ -63,6 +63,32 @@ if (items == null) {
     </div>
 </section>
 
+
+<% 
+    int totalProducts = (int) request.getAttribute("counts");
+    int itemsPerPage = 20;
+    int totalPages = (int) Math.ceil((double) totalProducts / itemsPerPage);
+    int currentPage = request.getParameter("page") != null ? Integer.parseInt(request.getParameter("page")) : 1;
+%>
+
+<c:set var="totalPages" value="<%= totalPages %>" />
+<c:set var="currentPage" value="<%= currentPage %>" />
+
+<!-- Pagination -->
+<nav aria-label="Page navigation" class="mt-4">
+    <ul class="pagination justify-content-center">
+        <c:forEach var="i" begin="1" end="${totalPages}">
+            <li class="page-item ${i == currentPage ? 'active' : ''}">
+                <a class="page-link" href="GetAllGadeget?page=${i}">${i}</a>
+            </li>
+        </c:forEach>
+    </ul>
+</nav>
+
+
+
+
+
 <%@include file="/html/footer.html" %>
 
 <!-- Bootstrap JS, Popper.js, and jQuery -->

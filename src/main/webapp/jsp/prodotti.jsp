@@ -72,65 +72,27 @@ if (items == null) {
 
 
 
-<%
-    int totalProducts = (request.getAttribute("counts") != null) ? (int) request.getAttribute("counts") : 0;
+<% 
+    int totalProducts = (int) request.getAttribute("counts");
     int itemsPerPage = 20;
     int totalPages = (int) Math.ceil((double) totalProducts / itemsPerPage);
-    
-    // Assicurati che il numero totale di pagine sia almeno 1
-    totalPages = Math.max(1, totalPages);
-
-    // Recupera la pagina corrente dai parametri della richiesta, altrimenti imposta su 1
-    int currentPage = (request.getParameter("page") != null) ? Integer.parseInt(request.getParameter("page")) : 1;
-
-    // Assicurati che currentPage sia compresa tra 1 e totalPages
-    currentPage = Math.max(1, Math.min(currentPage, totalPages));
-
-    int maxPagesToShow = 5;
-    int startPage = Math.max(1, currentPage - 2);
-    int endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
-
-    // Aggiusta startPage se endPage raggiunge il limite massimo
-    if (endPage - startPage < maxPagesToShow - 1) {
-        startPage = Math.max(1, endPage - maxPagesToShow + 1);
-    }
+    int currentPage = request.getParameter("page") != null ? Integer.parseInt(request.getParameter("page")) : 1;
 %>
 
-
-
-
+<c:set var="totalPages" value="<%= totalPages %>" />
+<c:set var="currentPage" value="<%= currentPage %>" />
 
 <!-- Pagination -->
 <nav aria-label="Page navigation" class="mt-4">
     <ul class="pagination justify-content-center">
-        <!-- Collegamento alla prima pagina -->
-        <c:if test="${startPage > 1}">
-            <li class="page-item">
-                <a class="page-link" href="GetAllBook?page=1">1</a>
-            </li>
-            <li class="page-item disabled">
-                <span class="page-link">...</span>
-            </li>
-        </c:if>
-
-        <!-- Collegamenti alle pagine intermedie -->
-        <c:forEach var="i" begin="${startPage}" end="${endPage}">
+        <c:forEach var="i" begin="1" end="${totalPages}">
             <li class="page-item ${i == currentPage ? 'active' : ''}">
                 <a class="page-link" href="GetAllBook?page=${i}">${i}</a>
             </li>
         </c:forEach>
-
-        <!-- Collegamento all'ultima pagina -->
-        <c:if test="${endPage < totalPages}">
-            <li class="page-item disabled">
-                <span class="page-link">...</span>
-            </li>
-            <li class="page-item">
-                <a class="page-link" href="GetAllBook?page=${totalPages}">${totalPages}</a>
-            </li>
-        </c:if>
     </ul>
 </nav>
+
 
 
 

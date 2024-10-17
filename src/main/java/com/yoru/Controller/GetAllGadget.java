@@ -81,8 +81,11 @@ private static final Logger LOGGER = Logger.getLogger(GetAllGadget.class.getName
 		
 		try {
 			Collection<Gadgets> items = itemDAO.getAllGadgets(page, limit);
+			int counts = itemDAO.itemsCount(Prodotto.ItemType.GADGET);
 			Iterator<Gadgets> iterator = items.iterator();
 			request.setAttribute("items", items);
+			request.setAttribute("currentPAge", page);
+			request.setAttribute("counts", counts);
 			request.getRequestDispatcher("jsp/gadget.jsp").forward(request, response);
 			return;
 		
