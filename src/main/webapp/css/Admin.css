@@ -1,67 +1,104 @@
-.list-group-item.active:active, .list-group-item.active:hover, .list-group-item.active:visited {
-    z-index: 2;
-    color: #495057 !important;
-    
+.list-group-item.active:active, .list-group-item.active:hover,
+	.list-group-item.active:visited {
+	z-index: 2;
+	color: #495057 !important;
 }
 
-.list-group-item.active:active, .list-group-item.active:visited, .list-group-item.active  {
-    z-index: 2;
-    background-color: white;
-    border-color: rgba(0, 0, 0, 0.125) !important;
-    
+.list-group-item.active:active, .list-group-item.active:visited,
+	.list-group-item.active {
+	z-index: 2;
+	background-color: white;
+	border-color: rgba(0, 0, 0, 0.125) !important;
 }
-.list-group-item.active:hover{
+
+.list-group-item.active:hover {
 	background-color: rgba(0, 0, 0, 0.125) !important;
-    border-color: rgba(0, 0, 0, 0.125) !important;
+	border-color: rgba(0, 0, 0, 0.125) !important;
 }
 
-.btn-success{
-	
+.btn-success {
 	background-color: #ff7000 !important;
-    border-color: #ff7000 !important;
+	border-color: #ff7000 !important;
 }
 
-.btn-success:hover{
+/* Dropdown styling for "Seleziona la casa editrice" */
+.form-group select {
+    width: 100%;
+    font-size: 16px;
+    color: #333;
+    background-color: #f9f9f9;
+    border: 1px solid #ff7000;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+.form-group-editor select  {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    color: #333;
+    background-color: #f9f9f9;
+    border: 1px solid #ff7000;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+}
 
+/* Hover and focus effect for the select dropdown */
+.form-group select:hover, .form-group select:focus, .form-group-editor select:hover, .form-group-editor select:focus {
+    border-color: #e06600;
+    background-color: #fff5e6;
+    outline: none;
+}
+
+/* Dropdown arrow styling for consistency */
+.form-group select {
+    -webkit-appearance: none; /* For WebKit-based browsers */
+    -moz-appearance: none; /* For Firefox */
+    appearance: none; /* Standard */
+    background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"><path fill="%23ff7000" d="M7 10l5 5 5-5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 12px;
+}
+
+
+.btn-success:hover {
 	background-color: #e06600 !important;
 	border-color: #e06600 !important;
 	transition: all .2s ease-in;
 }
 
-.btn-primary{
-	
+.btn-primary {
 	background-color: #ff7000 !important;
-    border-color: #ff7000 !important;
+	border-color: #ff7000 !important;
 }
 
-.btn-primary:hover{
-
+.btn-primary:hover {
 	background-color: #e06600 !important;
 	border-color: #e06600 !important;
 	transition: all .2s ease-in;
 }
 
-.mb-4 button, .mb-4 a{
-	
+.mb-4 button, .mb-4 a {
 	margin-top: 10px;
 }
 
-.profile-card h4{
-	margin-bottom:30px;
+.profile-card h4 {
+	margin-bottom: 30px;
 }
 
 .mt-5, .my-5 {
-    margin-top: 1rem !important;
+	margin-top: 1rem !important;
 }
 /* Toglie gli spinner ai form per i numeri*/
 /* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
 }
 
 /* Firefox */
 input[type=number] {
-  -moz-appearance: textfield;
+	-moz-appearance: textfield;
 }
