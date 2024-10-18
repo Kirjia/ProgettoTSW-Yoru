@@ -12,10 +12,10 @@
   }
 }
 
-body{
+                    body{
   margin: 0px;
   padding: 0px;
-}
+                        }
 
 header {
   background-color: #343a40;
@@ -24,7 +24,7 @@ header {
 }
 
 .header a {
-  color: #ff7000;
+          color: #ff7000;
   float: left;
   text-align: center;
   padding: 12px;
@@ -45,7 +45,7 @@ header {
 }
 
 a{
-	color:#ff7000 !important;
+	color:#ff7000 ;
 }
 a:hover{
 	color:#343a40;
@@ -81,7 +81,11 @@ li.drop {
       display: inline-block;
       position: relative;
       text-decoration: none;
-      	font-weight:bolder;
+      	    
+      	    
+      	    
+      	    
+      	    font-weight:bolder;
 	margin-left: 2px;
 	font-family: 'Quicksand', sans-serif;
 	padding:20px 20px 20px 20px;
@@ -149,4 +153,29 @@ li.drop {
 /* Colore delle icone all'interno dei link */
 .slider-menu li.icon  a i {
     color: inherit; /* Inherit per usare il colore del link */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     
+.dropdown a{
+	color:#ff7000 !important;
 }

@@ -12,7 +12,6 @@
 
 <body>
 
- <a href="${pageContext.request.contextPath}/jsp/home.jsp"><img class="logo" src="../images/LOGO.png"></a>
  
 
     <div class="container" id="container">
@@ -56,12 +55,14 @@
         <div class="toggle-container">
             <div class="toggle">
                 <div class="toggle-panel toggle-left">
-                    <h1>Bentornato!</h1>
+                    
+ 					<a href="${pageContext.request.contextPath}/jsp/home.jsp"><img class="logo" src="../images/LOGO_bianco.png"></a>
                     <p>Inserisci i tuoi dati personali per utilizzare tutte le funzionalità del sito</p>
                     <button class="hidden" id="login">Accedi</button>
                 </div>
                 <div class="toggle-panel toggle-right">
-                    <h1>Ciao Ornn!</h1>
+                    
+ 					<a href="${pageContext.request.contextPath}/jsp/home.jsp"><img class="logo" src="../images/LOGO_bianco.png"></a>
                     <p>Registrati con i tuoi dati personali per utilizzare tutte le funzionalità del sito</p>
                     <button class="hidden" id="register">Registrati</button>
                 </div>

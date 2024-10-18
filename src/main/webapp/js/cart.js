@@ -20,7 +20,7 @@ $(document).ready(function(){
 					}
                 }))
 				.fail(function(error) {
-		                alert("Si è verificato un errore durante l'aggiunta al carrello." + error);
+		                alert("Si è verificato un errore durante l'aggiunta al carrello " + error);
 
             });
 	})

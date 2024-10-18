@@ -293,3 +293,14 @@ a:hover {
     background-color: #23272b; /* Colore di hover */
     border-color: #23272b;
 }
+.page-link{
+	color:white !important;
+}
+
+.aggiungi-al-carrello:hover{
+	
+	background-color:#343a40;
+	
+	transition: all .1s ease-in;
+	
+	}
