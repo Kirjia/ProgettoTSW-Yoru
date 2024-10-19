@@ -56,13 +56,13 @@
             <div class="toggle">
                 <div class="toggle-panel toggle-left">
                     
- 					<a href="${pageContext.request.contextPath}/jsp/home.jsp"><img class="logo" src="../images/LOGO_bianco.png"></a>
+ 					<a href="${pageContext.request.contextPath}/jsp/home.jsp"><img class="logo" src="../images/LOGO_bianco2.2.png"></a>
                     <p>Inserisci i tuoi dati personali per utilizzare tutte le funzionalità del sito</p>
                     <button class="hidden" id="login">Accedi</button>
                 </div>
                 <div class="toggle-panel toggle-right">
                     
- 					<a href="${pageContext.request.contextPath}/jsp/home.jsp"><img class="logo" src="../images/LOGO_bianco.png"></a>
+ 					<a href="${pageContext.request.contextPath}/jsp/home.jsp"><img class="logo" src="../images/LOGO_bianco2.2.png"></a>
                     <p>Registrati con i tuoi dati personali per utilizzare tutte le funzionalità del sito</p>
                     <button class="hidden" id="register">Registrati</button>
                 </div>
