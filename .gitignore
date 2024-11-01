@@ -1,7 +1,6 @@
 /build/
 *.class
 /src/main/webapp/META-INF
-.xml
 .classpath
 /.settings
 src/main/java/com/yoru/Controller/GetItem.java
