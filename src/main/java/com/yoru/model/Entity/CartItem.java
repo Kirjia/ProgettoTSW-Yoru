@@ -4,15 +4,15 @@ package com.yoru.model.Entity;
 
 public class CartItem {
 
-	private int cartId;
+	private int userId;
 	private int SKU;
 	private int quantity;
 	private float prezzo;
 	private String nome;
 	
 	
-	public CartItem(int cartId, int itemSKU, int quantity, float prezzo, String item_name) {
-		this.cartId = cartId;
+	public CartItem(int userId, int itemSKU, int quantity, float prezzo, String item_name) {
+		this.userId = userId;
 		this.SKU = itemSKU;
 		this.quantity = quantity;
 		this.nome = item_name;
@@ -21,10 +21,10 @@ public class CartItem {
 	
 	
 	public int getIdcartId() {
-		return cartId;
+		return userId;
 	}
 	public void setIdcartId(int idcartId) {
-		this.cartId = idcartId;
+		this.userId = idcartId;
 	}
 	public int getSKU() {
 		return SKU;

@@ -2,6 +2,9 @@ package com.yoru.Controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,10 +20,12 @@ import javax.sql.DataSource;
 import org.json.JSONObject;
 
 import com.mysql.cj.Session;
+import com.yoru.model.DAO.ItemDAO;
 import com.yoru.model.DAO.OrderDAO;
 import com.yoru.model.Entity.User;
 import com.yoru.model.Entity.Cart;
 import com.yoru.model.Entity.CartItem;
+import com.yoru.model.Entity.Prodotto;
 
 
 /**
@@ -30,7 +35,9 @@ import com.yoru.model.Entity.CartItem;
 public class Carrello extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOGGER = Logger.getLogger(Carrello.class.getName());
+	
 	private OrderDAO orderDAO;
+	private ItemDAO itemDAO;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -45,6 +52,7 @@ public class Carrello extends HttpServlet {
     	super.init();
     	DataSource ds =  (DataSource) super.getServletContext().getAttribute("DataSource");
     	orderDAO = new OrderDAO(ds);
+    	itemDAO = new ItemDAO(ds);
     }
 
 	/**
@@ -65,12 +73,10 @@ public class Carrello extends HttpServlet {
 		
 		User user = (User) session.getAttribute("user");
 	
-		Cart cart;
-		
 		if(user != null) {
 			
 			try {
-				cart = orderDAO.getCart(user.getId());
+				Cart cart = orderDAO.getCart(user.getId());
 				request.setAttribute("carrello", cart.getItems());
 				request.setAttribute("tot", cart.getTotal());
 				
@@ -83,8 +89,30 @@ public class Carrello extends HttpServlet {
 		}else {
 			
 			@SuppressWarnings("unchecked")
-			List<CartItem> items = (List<CartItem>) session.getAttribute("cart");
-			request.setAttribute("carrello", items);
+			HashMap<String, Integer> items = (HashMap<String, Integer>) session.getAttribute("cart");
+			Iterator<String> iter = items.keySet().iterator();
+			List<CartItem> cart = new ArrayList<>();
+			while(iter.hasNext()) {
+				String key = iter.next();
+				int skuIter = Integer.parseInt(key);
+				try {
+					Prodotto item = itemDAO.getById(skuIter);
+					CartItem itemCart = new CartItem(-1,
+							skuIter,
+							items.get(key),
+							item.getPrezzo(),
+							item.getNome());
+					cart.add(itemCart);
+				
+					
+					
+				} catch (SQLException e) {
+					LOGGER.log(null);
+				}
+				
+			}
+			
+			request.setAttribute("carrello", cart);
 			
 		}
 		
