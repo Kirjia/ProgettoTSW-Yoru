@@ -2,6 +2,7 @@ package com.yoru.Controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
@@ -63,18 +64,37 @@ public class RemoveFromCart extends HttpServlet {
 		
 		HttpSession session = (HttpSession) request.getSession(false);
 		
-		if (session == null) {
-			return;
-		}
 		User user = (User) session.getAttribute("user");
 		
 		String skuStr = request.getParameter("sku");
+		String delete = request.getParameter("del");
+		boolean del = (delete != null) ? true : false;
 		
+		if(user == null) {
+			@SuppressWarnings("unchecked")
+			HashMap<String, Integer> cart = (HashMap<String, Integer>) session.getAttribute("cart");
+			if(cart != null) {
+					
+				if(cart.containsKey(skuStr))
+					if(del)
+						cart.remove(skuStr);
+					else
+						cart.put(skuStr, cart.get(skuStr) - 1);
+				
+				session.setAttribute("cart", cart);
+				try {
+					jsonObject.append("response", true);
+				} catch (JSONException e) {
+					LOGGER.log(Level.WARNING, "JSON error", e);
+				}
+			}
+			
+		}
 		
 		
 		try {
 			int sku = Integer.parseInt(skuStr);
-			if (orderDAO.removeFromCart(user.getId(), sku))
+			if (orderDAO.removeFromCart(user.getId(), sku, del))
 				jsonObject.append("result", true);
 			else
 				jsonObject.append("result", false);

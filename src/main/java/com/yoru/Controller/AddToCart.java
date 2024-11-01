@@ -3,6 +3,9 @@ package com.yoru.Controller;
 import java.io.IOException;
 import java.nio.file.attribute.UserDefinedFileAttributeView;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,6 +21,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.yoru.model.DAO.OrderDAO;
+import com.yoru.model.Entity.CartItem;
 import com.yoru.model.Entity.User;
 
 /**
@@ -59,30 +63,46 @@ public class AddToCart extends HttpServlet {
 		response.setContentType("application/json");
 		JSONObject jsonObject = new JSONObject();
 		
-		HttpSession session = (HttpSession) request.getSession(false);
-		if (session == null) {
-			return;
-		}
-		User user = (User) session.getAttribute("user");
-		if (user == null) {
-			return;
-		}
-		
 		String skuString = request.getParameter("sku");
+		String qnt = request.getParameter("quantity");
 		int sku = Integer.parseInt(skuString);
+		int quantity = (qnt == null) ? 1 : Integer.parseInt(qnt);
 		
-		try {
-			if (orderDAO.insertIntoCart(user.getId(), sku, 1)) 
+		HttpSession session = (HttpSession) request.getSession();
+		User user = (User) session.getAttribute("user");
+		
+		if (user == null) {
+			@SuppressWarnings("unchecked")
+			HashMap<String, Integer> cart = (HashMap<String, Integer>) session.getAttribute("cart");
+			if(cart == null)
+				cart = new HashMap<>();
+			if(cart.containsKey(skuString))
+				cart.put(skuString, cart.get(skuString) + quantity);
+			else
+				cart.put(skuString, quantity);
+			
+			session.setAttribute("cart", cart);
+			try {
 				jsonObject.append("response", true);
+			} catch (JSONException e) {
+				LOGGER.log(Level.WARNING, "JSON error", e);
+			}
 			
 			
-			
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			LOGGER.log(Level.WARNING, "JSON error", e);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			LOGGER.log(Level.WARNING, "add cart error", e);
+		}else {
+			try {
+				if (orderDAO.insertIntoCart(user.getId(), sku, quantity)) 
+					jsonObject.append("response", true);
+				
+				
+				
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				LOGGER.log(Level.WARNING, "JSON error", e);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				LOGGER.log(Level.WARNING, "add cart error", e);
+			}
 		}
 		
 		response.getWriter().print(jsonObject);

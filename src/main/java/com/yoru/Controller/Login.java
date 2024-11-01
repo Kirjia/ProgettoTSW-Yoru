@@ -3,6 +3,8 @@ package com.yoru.Controller;
 import java.io.IOException;
 
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,7 +24,9 @@ import org.json.JSONObject;
 
 import com.yoru.model.DAO.AuthDAO;
 import com.yoru.model.DAO.AutoreDAO;
+import com.yoru.model.DAO.OrderDAO;
 import com.yoru.model.DAO.UserDAO;
+import com.yoru.model.Entity.CartItem;
 import com.yoru.model.Entity.User;
 import com.yoru.model.Entity.UserAuthToken;
 
@@ -38,7 +42,9 @@ public class Login extends HttpServlet {
 	private static final Logger LOGGER = Logger.getLogger( Login.class.getName() );
 	private static final String REMEMBER_ME = "true";
 	
-	private DataSource ds;
+	private UserDAO userDAO;
+	private OrderDAO cartDAO;
+	private AuthDAO authDAO;
 	
   
 	
@@ -50,7 +56,11 @@ public class Login extends HttpServlet {
     
 	public void init() throws ServletException {
 		super.init();
-		ds = (DataSource) super.getServletContext().getAttribute("DataSource");
+		DataSource ds = (DataSource) super.getServletContext().getAttribute("DataSource");
+		userDAO = new UserDAO(ds);
+		cartDAO = new OrderDAO(ds);
+		authDAO = new AuthDAO(ds);
+		
 	}
 
 
@@ -95,7 +105,7 @@ public class Login extends HttpServlet {
 			}
 		}
 		else {
-			UserDAO userDAO = new UserDAO(ds);
+			
 			try {
 				user = userDAO.login(email, password);
 			} catch (SQLException e) {
@@ -108,12 +118,15 @@ public class Login extends HttpServlet {
 					System.out.println("login");
 					HttpSession session = request.getSession(true);
 					session.setAttribute("user", user);
+					
+					mergeCart(session, user.getId());
+					
 					jsonObject.append("outcome", true);
 					if (rememberMe) {
 						String selector = RandomStringUtils.randomAlphabetic(16);
 					 	String rawValidator =  Argon2Hashing.generateToken();
 					 	String validatorString = Argon2Hashing.hashPassword(rawValidator);
-					 	AuthDAO authDAO = new AuthDAO(ds);
+					 	
 					 	UserAuthToken userAuthToken = new UserAuthToken();
 					 	userAuthToken.setUserID(user.getId());
 					 	userAuthToken.setSelector(selector);
@@ -144,6 +157,21 @@ public class Login extends HttpServlet {
 		
 		
 		
+		
+	}
+	
+	@SuppressWarnings("unchecked")
+	private void mergeCart(HttpSession session, int user_id) {
+		
+		HashMap<String, Integer> items = (HashMap<String, Integer>) session.getAttribute("cart");
+		if(items != null) {
+			try {
+				cartDAO.mergeCart(user_id, items);
+			} catch (SQLException e) {
+				LOGGER.log(null);
+			}
+		}
+		session.removeAttribute("cart");
 		
 	}
 	

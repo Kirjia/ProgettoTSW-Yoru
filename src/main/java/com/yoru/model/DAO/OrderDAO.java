@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Savepoint;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
@@ -392,6 +393,39 @@ public class OrderDAO implements GenericDBOp<Order>{
 			
 		}
 	    
+	    public boolean mergeCart(int user_id, HashMap<String, Integer> items) throws SQLException{
+	    	
+	    	boolean result = false;
+	    	String sql = "INSERT INTO cart_items (user_id, SKU, quantity, insert_at, modified_at)\r\n"
+	    			+ "VALUES (?, ?, ?, date(), date())\r\n"
+	    			+ "ON DUPLICATE KEY UPDATE\r\n"
+	    			+ "quantity = quantity + VALUES(?), \r\n"
+	    			+ "modified_at = VALUES(date());";
+	    	
+	    	try(Connection connection = ds.getConnection();
+	    			PreparedStatement ps = connection.prepareStatement(sql)){
+	    		
+	    		
+	    		Iterator<String> iter = items.keySet().iterator();
+	    		while(iter.hasNext()) {
+	    			String sku = iter.next();
+	    			int quantity = items.get(sku);
+	    			ps.setInt(1, user_id);
+		    		ps.setInt(2,Integer.parseInt(sku));
+		    		ps.setInt(3, quantity);
+		    		ps.setInt(4, quantity);
+		    		ps.addBatch();
+		    		
+	    			
+	    		}
+	    		int[] results = ps.executeBatch();
+	    		result = !results.toString().contains("0");
+	    		
+	    	}
+	    	
+	    	return result;
+	    }
+	    
 	    
 
 	    @Override
@@ -490,7 +524,7 @@ public class OrderDAO implements GenericDBOp<Order>{
 	        return statement;
 	    }
 
-	    public boolean removeFromCart(int user_id, int sku) throws SQLException {
+	    public boolean removeFromCart(int user_id, int sku, boolean del) throws SQLException {
 	    	Connection connection = null;
 	    	PreparedStatement pStatement = null;
 	    	boolean result = false;
@@ -499,17 +533,29 @@ public class OrderDAO implements GenericDBOp<Order>{
 				connection = ds.getConnection();
 				connection.setAutoCommit(false);
 				String cartSQL = "DELETE FROM cart_items WHERE user_id = ? AND SKU = ? ";
+				String noDelSQL = "UPDATE cart_items SET quantity = quantity -1 user_id = ? AND WHERE SKU = ?";
 				
-				pStatement = connection.prepareStatement(cartSQL);
-				pStatement.setInt(1, user_id);
-				pStatement.setInt(2, sku);
-				
-				
-				
-				
-				if (pStatement.executeUpdate(cartSQL) > 0)
-					result = true;
-				
+				if(del) {
+					pStatement = connection.prepareStatement(cartSQL);
+					pStatement.setInt(1, user_id);
+					pStatement.setInt(2, sku);
+					
+					
+					
+					
+					if (pStatement.executeUpdate(cartSQL) > 0)
+						result = true;
+				}else {
+					pStatement = connection.prepareStatement(noDelSQL);
+					pStatement.setInt(1, user_id);
+					pStatement.setInt(2, sku);
+					
+					
+					
+					
+					if (pStatement.executeUpdate(cartSQL) > 0)
+						result = true;
+				}
 				
 				
 			} finally {
