@@ -21,6 +21,7 @@
 	rel="stylesheet">
 <link href="${pageContext.request.contextPath}/css/Admin.css"
 	rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
 <%
 User admin = (User) session.getAttribute("user");
@@ -137,6 +138,7 @@ if (admin == null) {
 		   
 						   </select>
 					   </div>
+					   
 						<div class="form-group">
 							<label for="product-type">Tipo Prodotto</label> <select
 								class="form-control" id="product-type" required>
@@ -147,6 +149,10 @@ if (admin == null) {
 							</select>
 						</div>
 						<div id="additional-fields"></div>
+						<div class="form-group">
+					        <label for="description">Descrizione</label>
+					        <textarea class="form-control" id="description" name="description" rows="4" placeholder="Inserisci la descrizione del prodotto"></textarea>
+				    	</div>
 						<div class="mb-3">
 							<label for="formFileSm" class="form-label">Inserisci una cover</label>
 							<input class="form-control form-control-sm" id="formFileSm" type="file">
@@ -166,6 +172,7 @@ if (admin == null) {
 		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 	<script
 		src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 	<script
 		src="${pageContext.request.contextPath}/js/admin.js"></script>
 

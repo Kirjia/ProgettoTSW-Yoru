@@ -138,10 +138,8 @@ public class InsertItem extends HttpServlet {
 	        	List<String> materiali = new ArrayList<>();
 	        	
 	        	for(int i = 0; i < jsonArray.length(); i++) {
-	        		JSONObject item = jsonArray.getJSONObject(i);
-	        		
-	        		String materialeString = item.getString("materiale");
-        			materiali.add(materialeString);
+	        		String item = jsonArray.getString(i);        		
+        			materiali.add(item);
 	        	}
 	        	gadgets.setMateriali(materiali);
 	        	

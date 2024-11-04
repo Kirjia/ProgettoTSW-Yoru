@@ -68,9 +68,7 @@ public class Argon2Hashing {
 		 byte[] result = new byte[hashLength];
          generator.generateBytes(toCheck.toCharArray(), result);
          String passwordHashed = Base64.getEncoder().encodeToString(result);
-		 
-		 System.out.println(hashedPassword);
-		 System.out.println(passwordHashed);
+
 		 return hashedPassword.equals(passwordHashed);
 		 
 		 

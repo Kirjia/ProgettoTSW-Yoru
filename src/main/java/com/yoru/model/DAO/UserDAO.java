@@ -258,7 +258,7 @@ public class UserDAO implements GenericDBOp<User> {
             rs = ps.executeQuery();
             
             if(rs.next()) {
-                String pass = rs.getString(1);
+                //String pass = rs.getString(1);
                 if (Argon2Hashing.checkPass( rs.getString(1), password)) {
                 	String loginsql = "SELECT id, email, nome, cognome, telefono, role FROM "+ UserDAO.TABLE_NAME + " WHERE email = ?";
                     ps = connection.prepareStatement(loginsql);

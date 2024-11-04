@@ -1,5 +1,9 @@
 $(document).ready(function() {
 	
+    $('#autori').select2();
+	$('#materiali').select2();
+
+	
 	
 	
 	$('#add-product-form').submit(	function insertItem(){
@@ -13,18 +17,20 @@ $(document).ready(function() {
 			prezzo: $("#prezzo").val(),
 			quantity: $("#quantity").val(),
 			itemType: $("#product-type").val(),
+			descrizione: $("#description").val(),
 			produttore: $('#editorDropdown').find('option:selected').attr('value')
 		}
 		
 		// Condizionale per i campi specifici
 	    if (item.itemType === "libro") {
-	        item.autori = [$("#autori").find('option:selected').attr('value')];
+	        item.autori = $("#autori").val();
 	        item.ISBN = $("#ISBN").val();
-			item.descrizione = $("#description").val();
+			
 			item.lingua = $("#lingua").val();
 			item.pagine = $("#pagine").val();
 			
-	    } else if (item.itemType === "gadgets") {
+	    } else if (item.itemType === "gadget") {
+			item.materiali = $("#materiali").val();
 	       	item.marchio = $("#marchio").val();
 			item.modello = $("#modello").val();
 			
@@ -85,63 +91,63 @@ $(document).ready(function() {
 
 	
 	
-	            // Carica i prodotti
-	            function loadProducts() {
-	                $.ajax({
-	                    url: '${pageContext.request.contextPath}/Prodotti', // Servlet che restituisce prodotti in formato JSON
-	                    method: 'POST',
-	                    dataType: 'json',
-	                    success: function(data) {
-	                        $('#products-list').empty();
-	                        data.forEach(function(prodotto) {
-	                            $('#products-list').append(`
-	                                <div class="col-md-4">
-	                                    <div class="card mb-4">
-	                                        <div class="card-body">
-	                                            <h5 class="card-title">${prodotto.nome}</h5>
-	                                            <p class="card-text">Prezzo: €${prodotto.prezzo}</p>
-	                                            <button class="btn btn-danger delete-product" data-id="${prodotto.SKU}">Elimina</button>
-	                                        </div>
-	                                    </div>
-	                                </div>
-	                            `);
-	                        });
+        // Carica i prodotti
+        function loadProducts() {
+            $.ajax({
+                url: '${pageContext.request.contextPath}/Prodotti', // Servlet che restituisce prodotti in formato JSON
+                method: 'POST',
+                dataType: 'json',
+                success: function(data) {
+                    $('#products-list').empty();
+                    data.forEach(function(prodotto) {
+                        $('#products-list').append(`
+                            <div class="col-md-4">
+                                <div class="card mb-4">
+                                    <div class="card-body">
+                                        <h5 class="card-title">${prodotto.nome}</h5>
+                                        <p class="card-text">Prezzo: €${prodotto.prezzo}</p>
+                                        <button class="btn btn-danger delete-product" data-id="${prodotto.SKU}">Elimina</button>
+                                    </div>
+                                </div>
+                            </div>
+                        `);
+                    });
 
-	                        // Listener per il pulsante "Elimina"
-	                        $('.delete-product').click(function() {
-	                            const sku = $(this).data('id');
-	                            deleteProduct(sku);
-	                        });
-	                    },
-	                    error: function(error) {
-	                        console.error('Errore durante il caricamento dei prodotti', error);
-	                    }
-	                });
-	            }
+                    // Listener per il pulsante "Elimina"
+                    $('.delete-product').click(function() {
+                        const sku = $(this).data('id');
+                        deleteProduct(sku);
+                    });
+                },
+                error: function(error) {
+                    console.error('Errore durante il caricamento dei prodotti', error);
+                }
+            });
+        }
 
-	            // Elimina un prodotto
-	            function deleteProduct(sku) {
-	                $.ajax({
-	                    url: 'DeleteProduct', // Servlet per eliminare un prodotto
-	                    method: 'POST',
-	                    data: { sku: sku },
-	                    success: function(response) {
-	                        alert('Prodotto eliminato con successo!');
-	                        loadProducts(); // Ricarica i prodotti
-	                    },
-	                    error: function(error) {
-	                        console.error('Errore durante l\'eliminazione del prodotto', error);
-	                    }
-	                });
-	            }
+        // Elimina un prodotto
+        function deleteProduct(sku) {
+            $.ajax({
+                url: 'DeleteProduct', // Servlet per eliminare un prodotto
+                method: 'POST',
+                data: { sku: sku },
+                success: function(response) {
+                    alert('Prodotto eliminato con successo!');
+                    loadProducts(); // Ricarica i prodotti
+                },
+                error: function(error) {
+                    console.error('Errore durante l\'eliminazione del prodotto', error);
+                }
+            });
+        }
 
-	            
-	            
-	            	$('#add-product-btn').click(function() {
-	                $('#add-product-form')[0].reset();  
-	                $('#additional-fields').empty();   
-	                $('#addProductModal').modal('show');
-	            });
+        
+        
+        	$('#add-product-btn').click(function() {
+            $('#add-product-form')[0].reset();  
+            $('#additional-fields').empty();   
+            $('#addProductModal').modal('show');
+        });
 
 	            // Gestione dinamica del form quando si cambia tipo di prodotto
 
@@ -153,7 +159,7 @@ $(document).ready(function() {
 		        additionalFieldsHtml = `
 		        	   <div class="form-group-editor">
 		        	<label for="autori">Seleziona un autore:</label>
-		            <select id="autori" name="autori" class="form-select">
+		            <select id="autori" name="autori" class="select2" multiple="multiple">
 		                <option value="">-- Seleziona un autore --</option>
 		                <!-- Le opzioni verranno popolate tramite AJAX -->
 		            </select>
@@ -181,71 +187,33 @@ $(document).ready(function() {
 		                <!-- Puoi aggiungere altre lingue qui -->
 		            </select>
 		            </div>
-					<div class="form-group">
-				        <label for="description">Descrizione</label>
-				        <textarea class="form-control" id="description" name="description" rows="4" placeholder="Inserisci la descrizione del prodotto"></textarea>
-				    </div>
+					
 		        `;
-		        // Function to fetch publisher data and populate the dropdown
-	function fetchPublishers() {
-		
-	 // Effettua una richiesta AJAX per ottenere gli autori
-	    $.ajax({
-	        url: '/Yoru/Autori',
-	        method: 'POST',
-	        dataType: 'json', // Specifica che ti aspetti una risposta JSON
-	        success: function(autori) {
-	            let select = document.getElementById('autori'); // Campo select esistente
-	            
-	            // Pulisci il select prima di aggiungere nuovi elementi
-	            select.innerHTML = '';
+		        $('#additional-fields').html(additionalFieldsHtml);
+				
 
-	            // Aggiungi un'opzione iniziale con il testo "Scegli l'autore"
-	            let defaultOption = document.createElement('option');
-	            defaultOption.value = ''; // Valore vuoto per l'opzione predefinita
-	            defaultOption.textContent = '-- Scegli l\'autore --'; // Testo descrittivo
-	            select.appendChild(defaultOption); // Aggiungi l'opzione al select
-	            
-	            
-	            if (Array.isArray(autori)) {
-	                autori.forEach(function(item) {
-	                    // Crea l'opzione per il campo select
-	                    let option = document.createElement('option');
-	                    option.value = item.id; 
-	                    option.textContent = item.aka ? item.aka : item.cognome; // Mostra 'aka' o 'nome' se 'aka' non è presente
-
-	                    // Aggiungi l'opzione al campo select
-	                    select.appendChild(option);
-	                });
-	            } else {
-	                console.error('La risposta non è un array:', autori);
-	            }
-	        },
-	        error: function(error) {
-	            console.error('Errore nel caricamento degli autori', error);
-	            alert('Impossibile caricare gli autori. Riprova più tardi.');
-	        }
-	    });
-
-	}
-
-	// Call the function when the document is ready or when the selected type is 'libro'
-	$(document).ready(function() {
-	    if (selectedType === 'libro') {
-	        fetchPublishers();
-	    }
-	});
-
-		        
-	    
-	        $('#additional-fields').html(additionalFieldsHtml);
+				$('#autori').select2({
+				// Effettua una richiesta AJAX per ottenere gli autori
+				   ajax: {
+				       url: '/Yoru/Autori',
+				       method: 'POST',
+				       dataType: 'json', 
+					processResults: function (data) {
+				      			return {
+				              		results: data.map(item => ({ id: item.id, text: item.cognome }))
+				          };
+				      }
+				   }
+				});
 	    } else if (selectedType === 'gadget') {
 	         additionalFieldsHtml = `
-	    	            <fieldset class="form-group">
-	    	                <legend> Materiali</legend>
-	                        <div id="materiali">
-	                        </div>
-	    	            </fieldset>
+	    	            <div class="form-group-editor">
+								<label for="materiali">Seleziona i materiali:</label>
+					            <select id="materiali" name="autori" class="select2" multiple="multiple">
+		                		<option value="">-- Seleziona materiali --</option>
+				                <!-- Le opzioni verranno popolate tramite AJAX -->
+				            </select>
+                        </div>
 	    	            <div class="form-group">
 	    	                <label for="modello">Modello:</label>
 	    	                <input type="text" class="form-control" id="modello">
@@ -259,60 +227,22 @@ $(document).ready(function() {
 
 	    	        $('#additional-fields').html(additionalFieldsHtml);
 	               
-	               
-	    	        console.log('Checkboxes aggiunte al DOM:', additionalFieldsHtml);
-	        // Effettua una richiesta AJAX per ottenere i materiali
-	    	$.ajax({
-	    	    url: '${pageContext.request.contextPath}/Materiali',
-	    	    method: 'POST',
-	    	    dataType: 'json', // Specifica che ti aspetti una risposta JSON
-	    	    success: function(materials) {
-	    	       
-	                let container = document.getElementById('materiali');
-	               
-	    	        if (Array.isArray(materials)) {
-	    	            materials.forEach(function(item) {
-	                         console.log('[' + item.materiale + ']'); // Log per verificare la risposta
-	                         
-	                            let div = document.createElement('div');
-	                            div.className = "form-check";
+	          
+			$('#materiali').select2({
+				ajax:{
+					url: '/Yoru/Materiali',
+					method: "POST",
+					dataType: 'json', 
+					processResults: function (data) {
+	           			return {
+		               		results: data.map(item => ({ id: item.materiale, text: item.materiale }))
+			           };
+			       }
+					
+				}
+			})     
 
-	                            let input = document.createElement('input');
-	                            input.className = "form-check-input";
-	                            input.type = "checkbox";
-	                            input.id = `materiale-${item.materiale}`; // Usa il valore dinamico
-	                            input.name = "materiale";
-	                            input.value = item.materiale;
-
-	                            let label = document.createElement('label');
-	                            label.className = "form-check-label";
-	                            label.setAttribute('for', `materiale-${item.materiale}`);
-
-	                            // Assegna il valore dinamico alla label
-	                            label.textContent = item.materiale; // O innerHTML se hai HTML complesso
-
-	                            // Appendi gli elementi nel DOM
-	                            div.appendChild(input);
-	                            div.appendChild(label);
-	                            container.appendChild(div);
-	                        
-
-	    	            });
-	    	        } else {
-	    	            console.error('La risposta non è un array:', materials);
-	    	        }
-
-	    	       
-	    	    },
-	    	    error: function(error) {
-	    	        console.error('Errore nel caricamento dei materiali', error);
-	    	        alert('Impossibile caricare i materiali. Riprova più tardi.');
-	    	    }
-	    	});
-
-	    }
-
-	 else {
+	    }else {
 	        $('#additional-fields').empty();
 	    }
 	});
