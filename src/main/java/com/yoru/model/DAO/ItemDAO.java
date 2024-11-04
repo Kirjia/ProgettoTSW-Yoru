@@ -484,7 +484,7 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
         PreparedStatement autor = null;
         Savepoint savepoint = null;
         ResultSet rs = null;
-        int id = -1;
+        int SKU = -1;
 
 
 
@@ -510,7 +510,7 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
                 String productIdSql = "SELECT MAX(SKU) AS lastID FROM prodotto";
                 prodId = connection.prepareStatement(productIdSql);
                 rs = prodId.executeQuery();
-                int SKU = -1;
+                SKU = -1;
                 if (rs.next()) {
                     SKU = rs.getInt("lastID");
                     System.out.println("SKU: " + SKU);
@@ -525,7 +525,7 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
 	                        
                         	List<Autore> autoriList =  book.getAutori();
 	                        for (Autore a : autoriList) {
-	                            id = a.getID();
+	                            int id = a.getID();
 	                            autor.setInt(1, id);
 	                            autor.setInt(2, SKU);
 	                            autor.addBatch();
@@ -592,7 +592,7 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
 		    	connection.close();
             
         }
-        return id;
+        return SKU;
     }
     
     private synchronized int insertBook(Libro book, Connection connection, int SKU) throws SQLException{

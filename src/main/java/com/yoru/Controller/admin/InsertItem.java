@@ -9,6 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -32,6 +33,11 @@ import com.yoru.model.Entity.Prodotto;
  * Servlet implementation class InsertItem
  */
 @WebServlet("/admin/InsertItem")
+@MultipartConfig(
+	    fileSizeThreshold = 1024 * 1024,  // 1 MB
+	    maxFileSize = 1024 * 1024 * 5,    // 5 MB
+	    maxRequestSize = 1024 * 1024 * 10 // 10 MB
+	)
 public class InsertItem extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOGGER = Logger.getLogger(InsertItem.class.getName());
@@ -64,10 +70,12 @@ public class InsertItem extends HttpServlet {
 		response.setContentType("application/json");
 		JSONObject jsonObject = new JSONObject();
 		JSONObject responeObject = new JSONObject();
-		Part coverPart = request.getPart("cover");
+		Part coverPart = request.getPart("file");
 		
 		  // Ottieni il JSON del prodotto
-        String productJson = request.getParameter("product");
+        String productJson = request.getParameter("item");
+        
+        System.out.println(productJson);
 			
 		
 		
@@ -92,9 +100,9 @@ public class InsertItem extends HttpServlet {
 	        	List<Autore> autori = new ArrayList<>();
 	        	
 	        	for(int i = 0; i < jsonArray.length(); i++) {
-	        		JSONObject item = jsonArray.getJSONObject(i);
+	        		String autoreId = jsonArray.getString(i);
 	        		Autore autore = new Autore();
-	        		autore.setID(Integer.parseInt(item.getString("autore")));
+	        		autore.setID(Integer.parseInt(autoreId));
 	        		autori.add(autore);
 	        	}
 	        	libro.setAutori(autori);
@@ -102,11 +110,12 @@ public class InsertItem extends HttpServlet {
 	        	int id = itemDAO.insert(libro);
 	        	if(id > 0){
 	        		if(coverPart.getSize() > 0) {
-	                    String filename = "items/" + id + ".jpg";
+	                    String filename = id + ".jpg";
+	                    LOGGER.log(Level.INFO, "image id: " + id);
 	                    request.setAttribute("Upload", true);
 	                    request.setAttribute("InputStream", coverPart.getInputStream());
 	                    request.setAttribute("Path", filename);
-	                    request.getRequestDispatcher("files").include(request, response);
+	                    request.getRequestDispatcher("../FileManager").include(request, response);
 	                }
 	        		responeObject.put("result", true);
 					response.getWriter().print(responeObject);
@@ -143,7 +152,7 @@ public class InsertItem extends HttpServlet {
 	                    request.setAttribute("Upload", true);
 	                    request.setAttribute("InputStream", coverPart.getInputStream());
 	                    request.setAttribute("Path", filename);
-	                    request.getRequestDispatcher("files").include(request, response);
+	                    request.getRequestDispatcher("../FileManager").include(request, response);
 	                }
 					
 					responeObject.put("result", true);

@@ -2,13 +2,16 @@ package com.yoru.Controller;
 
 import java.io.*;
 import java.net.URLDecoder;
+import java.nio.file.CopyOption;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -23,7 +26,7 @@ public class FileSystemManager extends HttpServlet {
 	private static final Logger LOGGER = Logger.getLogger(FileSystemManager.class.getName());
 	
 	 // Percorso della cartella esterna dove verranno salvati i file caricati
-    private static final String UPLOAD_DIR = "/uploads/files/";
+    private static final String UPLOAD_DIR = "/files/images/";
        
 	private static final int BUFFER = 4096;
     private String filePath;
@@ -38,7 +41,6 @@ public class FileSystemManager extends HttpServlet {
     @Override
     public void init() throws ServletException {
     	super.init();
-    	this.filePath = "/files";
     }
 
 	/**
@@ -54,12 +56,7 @@ public class FileSystemManager extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Boolean upload = request.getAttribute("Upload") != null;
 		
-		// Assicuriamoci che la directory di upload esista, altrimenti creiamola
-        File uploadDir = new File(UPLOAD_DIR);
-        if (!uploadDir.exists()) {
-            uploadDir.mkdirs();
-        }
-
+		
         
         if(!upload) {
 
@@ -88,24 +85,27 @@ public class FileSystemManager extends HttpServlet {
             input.close();
 
         } else {
+        	
+        	 String path = (String) request.getAttribute("Path");
+            // Definisci il percorso del file di destinazione
+            String relativePath = UPLOAD_DIR + path;
+            
+            Path uploadPath = Paths.get(getServletContext().getRealPath(""), relativePath);
+    		
+    		 // Crea la directory se non esiste
+            Path dir = uploadPath.getParent();
+            Files.createDirectories(dir);
 
             InputStream in = (InputStream) request.getAttribute("InputStream");
-            String path = (String) request.getAttribute("Path");
-
-            File file = new File(filePath + "/" + path);
-            OutputStream out = null;
-            
            
-            // Percorso completo del file salvato
-            Path filePath = Paths.get(UPLOAD_DIR + path);
             
             // Salva il file nel percorso specificato
             try {
-                Files.copy((InputStream)request.getAttribute("InputStream"), filePath);
+            	
+                Files.copy(in, uploadPath, StandardCopyOption.REPLACE_EXISTING);
             } catch (IOException e) {
-                e.printStackTrace();
-                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Errore durante il caricamento del file");
-                return;
+            	 LOGGER.log(Level.WARNING, "Uploader error", e);
+                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Errore nel salvataggio del file.");
             }
             
             

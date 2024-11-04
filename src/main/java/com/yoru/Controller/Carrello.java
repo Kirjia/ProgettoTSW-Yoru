@@ -90,26 +90,31 @@ public class Carrello extends HttpServlet {
 			
 			@SuppressWarnings("unchecked")
 			HashMap<String, Integer> items = (HashMap<String, Integer>) session.getAttribute("cart");
-			Iterator<String> iter = items.keySet().iterator();
+			
 			List<CartItem> cart = new ArrayList<>();
-			while(iter.hasNext()) {
-				String key = iter.next();
-				int skuIter = Integer.parseInt(key);
-				try {
-					Prodotto item = itemDAO.getById(skuIter);
-					CartItem itemCart = new CartItem(-1,
-							skuIter,
-							items.get(key),
-							item.getPrezzo(),
-							item.getNome());
-					cart.add(itemCart);
+			if (items != null) {
+				Iterator<String> iter = items.keySet().iterator();
 				
+			
+				while(iter.hasNext()) {
+					String key = iter.next();
+					int skuIter = Integer.parseInt(key);
+					try {
+						Prodotto item = itemDAO.getById(skuIter);
+						CartItem itemCart = new CartItem(-1,
+								skuIter,
+								items.get(key),
+								item.getPrezzo(),
+								item.getNome());
+						cart.add(itemCart);
 					
+						
+						
+					} catch (SQLException e) {
+						LOGGER.log(null);
+					}
 					
-				} catch (SQLException e) {
-					LOGGER.log(null);
 				}
-				
 			}
 			
 			request.setAttribute("carrello", cart);

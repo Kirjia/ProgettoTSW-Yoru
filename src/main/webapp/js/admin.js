@@ -1,48 +1,321 @@
-function insertItem(){
+$(document).ready(function() {
 	
-	var formData = new FormData();
 	
-	var fileInput = $("#fileInput");
-	var file = fileInput.files[0];
 	
-	formData.append("file", file);
-	
-	var item = {
-		nome: $("#nome").value,
-		prezzo: $("#prezzo").value,
-		quantity: $("#quantity").value,
-		itemType: $("#itemType").value,
-		descrizione: $("#descrizione").value,
-		produttore: $("#produttore").value
-	}
-	
-	// Condizionale per i campi specifici
-    if (item.itemType === "libro") {
-        item.author = document.getElementById("bookAuthor").value;
-        item.ISBN = $("#ISBN").value;
-		item.lingua = $("#lingua").value;
-		item.pagine = $("#pagine").value;
+	$('#add-product-form').submit(	function insertItem(){
 		
-    } else if (item.itemType === "gadgets") {
-       	item.marchio = $("#marchio").value;
-		item.modello = $("#modello").value;
+		var formData = new FormData();
 		
-    }
-	
-	formData.append("item", JSON.stringify(item));
-	 
-	
-	$.ajax({
-		url: "/Yoru/admin/InsertItem",
-		method: "POST",
-		data: formData,
-		contentType: "application/json",
-		success: function(data){
-			if(data.result){
-				
-			}else{
-				
-			}
+		
+		
+		var item = {
+			nome: $("#nome").val(),
+			prezzo: $("#prezzo").val(),
+			quantity: $("#quantity").val(),
+			itemType: $("#product-type").val(),
+			produttore: $('#editorDropdown').find('option:selected').attr('value')
 		}
+		
+		// Condizionale per i campi specifici
+	    if (item.itemType === "libro") {
+	        item.autori = [$("#autori").find('option:selected').attr('value')];
+	        item.ISBN = $("#ISBN").val();
+			item.descrizione = $("#description").val();
+			item.lingua = $("#lingua").val();
+			item.pagine = $("#pagine").val();
+			
+	    } else if (item.itemType === "gadgets") {
+	       	item.marchio = $("#marchio").val();
+			item.modello = $("#modello").val();
+			
+	    }
+		console.log(item);
+		
+		formData.append("item", JSON.stringify(item));
+		const fileInput = $('#formFileSm')[0];
+		if (fileInput.files.length > 0) {
+		    formData.append('file', fileInput.files[0]); // Aggiunge il file al FormData
+		}
+		 
+		
+		$.ajax({
+			url: "/Yoru/admin/InsertItem",
+			method: "POST",
+			data: formData,
+			processData: false,  
+		   	contentType: false,
+			success: function(data){
+				if(data.result){
+					console.log("ok");
+				}else{
+					
+				}
+			}
+		});
 	});
-}
+	
+	
+		
+	$.ajax({
+	    url: '/Yoru/Producers', // URL della servlet
+	    method: 'POST',
+	    dataType: 'json',
+	    success: function(data) {
+	        const editorDropdown = $('#editorDropdown');
+	        editorDropdown.empty(); // Pulisci il select prima di aggiungere nuove opzioni
+	
+	        // Aggiungi l'opzione iniziale con il testo "Scegli l'editore"
+	        const defaultOption = $('<option></option>')
+	            .attr('value', '') // Valore vuoto per l'opzione predefinita
+	            .text('-- Scegli l\'editore --'); // Testo descrittivo
+	        editorDropdown.append(defaultOption);
+	
+	        // Cicla attraverso ogni editore nella risposta JSON e aggiungi un'opzione al dropdown
+	        data.forEach(publisher => {
+	            const option = $('<option></option>')
+	                .attr('value', publisher.id)
+	                .text(publisher.nome); // Usa il nome dell'editore come testo
+	            editorDropdown.append(option);
+	        });
+	    },
+	    error: function(xhr, status, error) {
+	        console.error('Errore nel caricamento dei dati degli editori:', error);
+	    }
+	});
+
+	
+	
+	            // Carica i prodotti
+	            function loadProducts() {
+	                $.ajax({
+	                    url: '${pageContext.request.contextPath}/Prodotti', // Servlet che restituisce prodotti in formato JSON
+	                    method: 'POST',
+	                    dataType: 'json',
+	                    success: function(data) {
+	                        $('#products-list').empty();
+	                        data.forEach(function(prodotto) {
+	                            $('#products-list').append(`
+	                                <div class="col-md-4">
+	                                    <div class="card mb-4">
+	                                        <div class="card-body">
+	                                            <h5 class="card-title">${prodotto.nome}</h5>
+	                                            <p class="card-text">Prezzo: €${prodotto.prezzo}</p>
+	                                            <button class="btn btn-danger delete-product" data-id="${prodotto.SKU}">Elimina</button>
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                            `);
+	                        });
+
+	                        // Listener per il pulsante "Elimina"
+	                        $('.delete-product').click(function() {
+	                            const sku = $(this).data('id');
+	                            deleteProduct(sku);
+	                        });
+	                    },
+	                    error: function(error) {
+	                        console.error('Errore durante il caricamento dei prodotti', error);
+	                    }
+	                });
+	            }
+
+	            // Elimina un prodotto
+	            function deleteProduct(sku) {
+	                $.ajax({
+	                    url: 'DeleteProduct', // Servlet per eliminare un prodotto
+	                    method: 'POST',
+	                    data: { sku: sku },
+	                    success: function(response) {
+	                        alert('Prodotto eliminato con successo!');
+	                        loadProducts(); // Ricarica i prodotti
+	                    },
+	                    error: function(error) {
+	                        console.error('Errore durante l\'eliminazione del prodotto', error);
+	                    }
+	                });
+	            }
+
+	            
+	            
+	            	$('#add-product-btn').click(function() {
+	                $('#add-product-form')[0].reset();  
+	                $('#additional-fields').empty();   
+	                $('#addProductModal').modal('show');
+	            });
+
+	            // Gestione dinamica del form quando si cambia tipo di prodotto
+
+	$('#product-type').change(function() {
+	    const selectedType = $(this).val();
+	    let additionalFieldsHtml = '';
+
+		    if (selectedType === 'libro') {
+		        additionalFieldsHtml = `
+		        	   <div class="form-group-editor">
+		        	<label for="autori">Seleziona un autore:</label>
+		            <select id="autori" name="autori" class="form-select">
+		                <option value="">-- Seleziona un autore --</option>
+		                <!-- Le opzioni verranno popolate tramite AJAX -->
+		            </select>
+		            <div>
+	            </fieldset>
+		            
+		            <div class="form-group">
+		                <label for="ISBN">ISBN:</label>
+		                <input type="number" class="form-control" id="ISBN">
+		            </div>
+		            <div class="form-group">
+		                <label for="pagine">Numero di Pagine:</label>
+		                <input type="number" class="form-control" id="pagine">
+		            </div>
+		            <div class="form-group">
+		            <label for="lingua">Seleziona la lingua:</label>
+		            <select id="lingua" name="lingua" class="form-select">
+		                <option value="">-- Seleziona una lingua --</option>
+		                <option value="Italiano">Italiano</option>
+		                <option value="Inglese">Inglese</option>
+		                <option value="Francese">Francese</option>
+		                <option value="Spagnolo">Spagnolo</option>
+		                <option value="Tedesco">Tedesco</option>
+						<option value="Giapponese">Giapponese</option>
+		                <!-- Puoi aggiungere altre lingue qui -->
+		            </select>
+		            </div>
+					<div class="form-group">
+				        <label for="description">Descrizione</label>
+				        <textarea class="form-control" id="description" name="description" rows="4" placeholder="Inserisci la descrizione del prodotto"></textarea>
+				    </div>
+		        `;
+		        // Function to fetch publisher data and populate the dropdown
+	function fetchPublishers() {
+		
+	 // Effettua una richiesta AJAX per ottenere gli autori
+	    $.ajax({
+	        url: '/Yoru/Autori',
+	        method: 'POST',
+	        dataType: 'json', // Specifica che ti aspetti una risposta JSON
+	        success: function(autori) {
+	            let select = document.getElementById('autori'); // Campo select esistente
+	            
+	            // Pulisci il select prima di aggiungere nuovi elementi
+	            select.innerHTML = '';
+
+	            // Aggiungi un'opzione iniziale con il testo "Scegli l'autore"
+	            let defaultOption = document.createElement('option');
+	            defaultOption.value = ''; // Valore vuoto per l'opzione predefinita
+	            defaultOption.textContent = '-- Scegli l\'autore --'; // Testo descrittivo
+	            select.appendChild(defaultOption); // Aggiungi l'opzione al select
+	            
+	            
+	            if (Array.isArray(autori)) {
+	                autori.forEach(function(item) {
+	                    // Crea l'opzione per il campo select
+	                    let option = document.createElement('option');
+	                    option.value = item.id; 
+	                    option.textContent = item.aka ? item.aka : item.cognome; // Mostra 'aka' o 'nome' se 'aka' non è presente
+
+	                    // Aggiungi l'opzione al campo select
+	                    select.appendChild(option);
+	                });
+	            } else {
+	                console.error('La risposta non è un array:', autori);
+	            }
+	        },
+	        error: function(error) {
+	            console.error('Errore nel caricamento degli autori', error);
+	            alert('Impossibile caricare gli autori. Riprova più tardi.');
+	        }
+	    });
+
+	}
+
+	// Call the function when the document is ready or when the selected type is 'libro'
+	$(document).ready(function() {
+	    if (selectedType === 'libro') {
+	        fetchPublishers();
+	    }
+	});
+
+		        
+	    
+	        $('#additional-fields').html(additionalFieldsHtml);
+	    } else if (selectedType === 'gadget') {
+	         additionalFieldsHtml = `
+	    	            <fieldset class="form-group">
+	    	                <legend> Materiali</legend>
+	                        <div id="materiali">
+	                        </div>
+	    	            </fieldset>
+	    	            <div class="form-group">
+	    	                <label for="modello">Modello:</label>
+	    	                <input type="text" class="form-control" id="modello">
+	    	            </div>
+	    	            <div class="form-group">
+	    	                <label for="marchio">Marchio:</label>
+	    	                <input type="text" class="form-control" id="marchio">
+	    	            </div>
+	    	        `;
+	    	        
+
+	    	        $('#additional-fields').html(additionalFieldsHtml);
+	               
+	               
+	    	        console.log('Checkboxes aggiunte al DOM:', additionalFieldsHtml);
+	        // Effettua una richiesta AJAX per ottenere i materiali
+	    	$.ajax({
+	    	    url: '${pageContext.request.contextPath}/Materiali',
+	    	    method: 'POST',
+	    	    dataType: 'json', // Specifica che ti aspetti una risposta JSON
+	    	    success: function(materials) {
+	    	       
+	                let container = document.getElementById('materiali');
+	               
+	    	        if (Array.isArray(materials)) {
+	    	            materials.forEach(function(item) {
+	                         console.log('[' + item.materiale + ']'); // Log per verificare la risposta
+	                         
+	                            let div = document.createElement('div');
+	                            div.className = "form-check";
+
+	                            let input = document.createElement('input');
+	                            input.className = "form-check-input";
+	                            input.type = "checkbox";
+	                            input.id = `materiale-${item.materiale}`; // Usa il valore dinamico
+	                            input.name = "materiale";
+	                            input.value = item.materiale;
+
+	                            let label = document.createElement('label');
+	                            label.className = "form-check-label";
+	                            label.setAttribute('for', `materiale-${item.materiale}`);
+
+	                            // Assegna il valore dinamico alla label
+	                            label.textContent = item.materiale; // O innerHTML se hai HTML complesso
+
+	                            // Appendi gli elementi nel DOM
+	                            div.appendChild(input);
+	                            div.appendChild(label);
+	                            container.appendChild(div);
+	                        
+
+	    	            });
+	    	        } else {
+	    	            console.error('La risposta non è un array:', materials);
+	    	        }
+
+	    	       
+	    	    },
+	    	    error: function(error) {
+	    	        console.error('Errore nel caricamento dei materiali', error);
+	    	        alert('Impossibile caricare i materiali. Riprova più tardi.');
+	    	    }
+	    	});
+
+	    }
+
+	 else {
+	        $('#additional-fields').empty();
+	    }
+	});
+
+	           
+});
