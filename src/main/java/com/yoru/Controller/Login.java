@@ -168,7 +168,7 @@ public class Login extends HttpServlet {
 			try {
 				cartDAO.mergeCart(user_id, items);
 			} catch (SQLException e) {
-				LOGGER.log(null);
+				LOGGER.log(Level.WARNING, "errore nel merge del carrello", e);
 			}
 		}
 		session.removeAttribute("cart");

@@ -56,7 +56,7 @@
                                     
                                     <div class="row border-bottom">
                                         <div class="col-md-4">
-                                            <img src="images/${p.SKU}.jpg" class="img-fluid" alt="${p.nome}" onerror="this.src='images/placeholder.jpg'">
+                                            <img src="files/images/${prodotto.SKU}.jpg" class="img-fluid" alt="${p.nome}" onerror="this.src='files/images/err.jpg'">
                                         </div>
                                         <div class="col-md-5">
                                             <h5>${p.nome}</h5>

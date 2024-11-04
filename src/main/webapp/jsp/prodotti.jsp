@@ -39,7 +39,7 @@ if (items == null) {
             <div class="part-1">
                 <!-- Link intorno all'immagine del prodotto -->
                 <a href="Item?sku=${prodotto.SKU}">
-                    <img src="images/${prodotto.SKU}.jpg" alt="${prodotto.nome}" onerror="this.src='images/err.jpeg'">
+                    <img src="files/images/${prodotto.SKU}.jpg" alt="${prodotto.nome}" onerror="this.src='files/images/err.jpeg'">
                 </a>
             </div>
             <!-- Product Details -->

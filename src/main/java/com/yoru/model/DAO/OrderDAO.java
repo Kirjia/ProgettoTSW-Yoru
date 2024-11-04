@@ -396,11 +396,8 @@ public class OrderDAO implements GenericDBOp<Order>{
 	    public boolean mergeCart(int user_id, HashMap<String, Integer> items) throws SQLException{
 	    	
 	    	boolean result = false;
-	    	String sql = "INSERT INTO cart_items (user_id, SKU, quantity, insert_at, modified_at)\r\n"
-	    			+ "VALUES (?, ?, ?, date(), date())\r\n"
-	    			+ "ON DUPLICATE KEY UPDATE\r\n"
-	    			+ "quantity = quantity + VALUES(?), \r\n"
-	    			+ "modified_at = VALUES(date());";
+	    	String sql = "INSERT INTO cart_items (user_id, SKU, quantity, insert_at, modified_at) VALUES (?, ?, ?, now(), now())"
+	    			+ " ON DUPLICATE KEY UPDATE quantity = quantity + ?, modified_at = now();";
 	    	
 	    	try(Connection connection = ds.getConnection();
 	    			PreparedStatement ps = connection.prepareStatement(sql)){

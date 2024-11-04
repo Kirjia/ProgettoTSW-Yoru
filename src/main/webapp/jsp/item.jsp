@@ -33,7 +33,7 @@ if (prodotto == null) {
     <div class="row justify-content-center">
         <!-- Sezione immagine del prodotto -->
         <div class="col-md-5 text-center"> <!-- Riduciamo la larghezza della colonna e centriamo -->
-            <img src="images/<%=prodotto.getSKU() %>.jpg" class="product-img img-fluid" alt="${prodotto.nome}" onerror="this.src='images/err.jpeg'">
+            <img src="files/images/<%=prodotto.getSKU() %>.jpg" class="product-img img-fluid" alt="${prodotto.nome}" onerror="this.src='files/images/err.jpeg'">
         </div>
 
         <!-- Sezione informazioni prodotto -->
