@@ -78,7 +78,7 @@ public class SignUp extends HttpServlet {
 			user.setPassword(Argon2Hashing.hashPassword(password));
 			
 			try {
-				if(userDAO.insert(user))
+				if(userDAO.insert(user) > 0)
 					jsonObject.append("result", true);
 				else 
 					jsonObject.append("result", false);

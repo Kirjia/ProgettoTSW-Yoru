@@ -476,17 +476,15 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
     	return counts;
     }
 
-
-
-    @Override
-    public synchronized boolean insert(Prodotto entity) throws SQLException{
+  	@Override
+    public synchronized int insert(Prodotto entity) throws SQLException{
     	Connection connection =null;
         PreparedStatement ps = null;
         PreparedStatement prodId = null;
         PreparedStatement autor = null;
         Savepoint savepoint = null;
         ResultSet rs = null;
-        boolean statement = false;
+        int id = -1;
 
 
 
@@ -527,7 +525,7 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
 	                        
                         	List<Autore> autoriList =  book.getAutori();
 	                        for (Autore a : autoriList) {
-	                            int id = a.getID();
+	                            id = a.getID();
 	                            autor.setInt(1, id);
 	                            autor.setInt(2, SKU);
 	                            autor.addBatch();
@@ -535,7 +533,7 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
 	
 	                        autor.executeBatch();
 	                        System.out.println("Inserimento effettuato con successo\n");
-	                        statement = true;
+	                        
 	
 	                    }
 	                    else
@@ -558,7 +556,7 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
 
 
                             System.out.println("Inserimento effettuato con successo\n");
-                            statement = true;
+                           
                         }
                         else
                             connection.rollback(savepoint);
@@ -594,7 +592,7 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
 		    	connection.close();
             
         }
-        return statement;
+        return id;
     }
     
     private synchronized int insertBook(Libro book, Connection connection, int SKU) throws SQLException{

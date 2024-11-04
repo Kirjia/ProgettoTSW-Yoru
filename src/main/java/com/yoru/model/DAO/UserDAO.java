@@ -118,10 +118,10 @@ public class UserDAO implements GenericDBOp<User> {
     }
 
     @Override
-    public synchronized boolean insert(User user) throws SQLException{
+    public synchronized int insert(User user) throws SQLException{
         Connection connection =null;
         PreparedStatement ps = null;
-        boolean statement = false;
+        int result = -1;
 
 
         try {
@@ -140,11 +140,11 @@ public class UserDAO implements GenericDBOp<User> {
 
 
 
-            int result = ps.executeUpdate();
+            result = ps.executeUpdate();
 
             if (result > 0) {
                 System.out.println("Inserimento effettuato con successo\n");
-                statement = true;
+                
             }
             else
                 System.out.println("Impossibile inserire il record \n");
@@ -158,7 +158,7 @@ public class UserDAO implements GenericDBOp<User> {
             connection.close();
              
         }
-        return statement;
+        return result;
     }
 
     @Override

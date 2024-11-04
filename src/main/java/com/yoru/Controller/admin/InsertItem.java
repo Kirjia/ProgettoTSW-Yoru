@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,9 +13,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 import javax.sql.DataSource;
 
-import org.apache.jasper.tagplugins.jstl.core.If;
+import org.apache.tomcat.util.json.JSONParser;
+import org.apache.tomcat.util.json.ParseException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -63,20 +64,17 @@ public class InsertItem extends HttpServlet {
 		response.setContentType("application/json");
 		JSONObject jsonObject = new JSONObject();
 		JSONObject responeObject = new JSONObject();
+		Part coverPart = request.getPart("cover");
 		
-		 // 1. Leggi il body della richiesta come testo (String)
-        StringBuilder bodyBuffer = new StringBuilder();
-        BufferedReader reader = request.getReader();
-        String line;
-        while ((line = reader.readLine()) != null) {
-            bodyBuffer.append(line);
-        }
-        String body = bodyBuffer.toString();
+		  // Ottieni il JSON del prodotto
+        String productJson = request.getParameter("product");
+			
+		
+		
         
         try {
 
-        // 2. Converte il body della richiesta in un oggetto JSON
-        JSONObject jsonBody = new JSONObject(body);
+        	JSONObject jsonBody = new JSONObject(productJson);
         
 	        if (jsonBody.getString("itemType").equals("libro")) {
 	        	Libro libro = new Libro();
@@ -101,7 +99,15 @@ public class InsertItem extends HttpServlet {
 	        	}
 	        	libro.setAutori(autori);
 	        	
-	        	if(itemDAO.insert(libro)){
+	        	int id = itemDAO.insert(libro);
+	        	if(id > 0){
+	        		if(coverPart.getSize() > 0) {
+	                    String filename = "items/" + id + ".jpg";
+	                    request.setAttribute("Upload", true);
+	                    request.setAttribute("InputStream", coverPart.getInputStream());
+	                    request.setAttribute("Path", filename);
+	                    request.getRequestDispatcher("files").include(request, response);
+	                }
 	        		responeObject.put("result", true);
 					response.getWriter().print(responeObject);
 					return;
@@ -130,8 +136,16 @@ public class InsertItem extends HttpServlet {
 	        	}
 	        	gadgets.setMateriali(materiali);
 	        	
-				
-				if(itemDAO.insert(gadgets)) {
+				int id = itemDAO.insert(gadgets);
+				if(id > 0) {
+					if(coverPart.getSize() > 0) {
+	                    String filename = "items/" + id + ".jpg";
+	                    request.setAttribute("Upload", true);
+	                    request.setAttribute("InputStream", coverPart.getInputStream());
+	                    request.setAttribute("Path", filename);
+	                    request.getRequestDispatcher("files").include(request, response);
+	                }
+					
 					responeObject.put("result", true);
 					response.getWriter().print(responeObject);
 					return;

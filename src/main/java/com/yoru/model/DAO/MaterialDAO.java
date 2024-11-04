@@ -52,9 +52,9 @@ public class MaterialDAO implements GenericDBOp<String>{
 	}
 
 	@Override
-	public boolean insert(String entity) throws SQLException {
+	public int insert(String entity) throws SQLException {
 		// TODO Auto-generated method stub
-		return false;
+		return -1;
 	}
 
 	@Override

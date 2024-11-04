@@ -109,10 +109,10 @@ public class AutoreDAO implements GenericDBOp<Autore> {
     }
 
     @Override
-    public synchronized boolean insert(Autore autore)throws SQLException{
+    public synchronized int insert(Autore autore)throws SQLException{
         Connection connection =null;
         PreparedStatement ps = null;
-        boolean statement = false;
+        int result = -1;
 
 
         try {
@@ -124,11 +124,11 @@ public class AutoreDAO implements GenericDBOp<Autore> {
             ps.setString(2, autore.getCognome());
             ps.setString(3, autore.getNomeArte());
 
-            int result = ps.executeUpdate();
+            result = ps.executeUpdate();
 
             if (result > 0) {
                 System.out.println("Inserimento effettuato con successo\n");
-                statement = true;
+                
             }
             else
                 System.out.println("Impossibile inserire il record \n");
@@ -142,7 +142,7 @@ public class AutoreDAO implements GenericDBOp<Autore> {
             connection.close();
              
         }
-        return statement;
+        return result;
     }
 
     @Override

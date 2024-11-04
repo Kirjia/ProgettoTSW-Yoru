@@ -45,7 +45,7 @@
 	<%
 	Collection<?> items = (Collection<?>) request.getAttribute("bestsellers");
 	if (items == null) {
-		response.sendRedirect("../BestSellers");
+		response.sendRedirect(request.getContextPath() + "/BestSellers");
 		return;
 	}
 	%>

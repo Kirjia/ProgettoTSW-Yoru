@@ -429,14 +429,14 @@ public class OrderDAO implements GenericDBOp<Order>{
 	    
 
 	    @Override
-	    public synchronized boolean insert(Order order) throws SQLException{
+	    public synchronized int insert(Order order) throws SQLException{
 	        Connection connection =null;
 	        PreparedStatement ps = null;
 	        PreparedStatement prodId = null;
 	        PreparedStatement bookSt = null;
 	        Savepoint savepoint = null;
 	        ResultSet rs = null;
-	        boolean statement = false;
+	        int result = -1;
 
 
 
@@ -454,7 +454,7 @@ public class OrderDAO implements GenericDBOp<Order>{
 	            ps.setFloat(5, order.getImportoPagamento());
 	            ps.setString(6, order.getEmail());
 
-	            int result = ps.executeUpdate();
+	            result = ps.executeUpdate();
 
 	            if (result > 0) {
 	                System.out.println("Inserimento effettuato con successo\n");
@@ -521,7 +521,7 @@ public class OrderDAO implements GenericDBOp<Order>{
                 connection.close();
 	            
 	        }
-	        return statement;
+	        return result;
 	    }
 
 	    public boolean removeFromCart(int user_id, int sku, boolean del) throws SQLException {

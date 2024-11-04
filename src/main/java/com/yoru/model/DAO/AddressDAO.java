@@ -66,9 +66,9 @@ public class AddressDAO implements GenericDBOp<Indirizzo>{
 	}
 
 	@Override
-	public boolean insert(Indirizzo entity) throws SQLException {
+	public int insert(Indirizzo entity) throws SQLException {
 		// TODO Auto-generated method stub
-		return false;
+		return -1;
 	}
 
 	@Override

@@ -2,6 +2,9 @@ package com.yoru.Controller;
 
 import java.io.*;
 import java.net.URLDecoder;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,6 +21,9 @@ import javax.servlet.http.HttpServletResponse;
 public class FileSystemManager extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOGGER = Logger.getLogger(FileSystemManager.class.getName());
+	
+	 // Percorso della cartella esterna dove verranno salvati i file caricati
+    private static final String UPLOAD_DIR = "/uploads/files/";
        
 	private static final int BUFFER = 4096;
     private String filePath;
@@ -47,7 +53,14 @@ public class FileSystemManager extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Boolean upload = request.getAttribute("Upload") != null;
+		
+		// Assicuriamoci che la directory di upload esista, altrimenti creiamola
+        File uploadDir = new File(UPLOAD_DIR);
+        if (!uploadDir.exists()) {
+            uploadDir.mkdirs();
+        }
 
+        
         if(!upload) {
 
             String requestedFile = request.getPathInfo();
@@ -81,19 +94,19 @@ public class FileSystemManager extends HttpServlet {
 
             File file = new File(filePath + "/" + path);
             OutputStream out = null;
+            
+           
+            // Percorso completo del file salvato
+            Path filePath = Paths.get(UPLOAD_DIR + path);
+            
+            // Salva il file nel percorso specificato
             try {
-            out = new FileOutputStream(file);
-            	byte[] buffer = new byte[BUFFER];
-                while(in.read(buffer) >= 0)
-                    out.write(buffer);
-            }catch (IOException e) {
-				LOGGER.log(Level.WARNING, "Uploder error", e);
-			
-			} finally {
-				 
-	            out.close();
-	            in.close();
-			}
+                Files.copy((InputStream)request.getAttribute("InputStream"), filePath);
+            } catch (IOException e) {
+                e.printStackTrace();
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Errore durante il caricamento del file");
+                return;
+            }
             
             
 

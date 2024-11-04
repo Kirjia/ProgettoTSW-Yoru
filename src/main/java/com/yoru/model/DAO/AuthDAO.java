@@ -82,10 +82,10 @@ public class AuthDAO implements GenericDBOp<UserAuthToken>{
 	}
 
 	@Override
-	public boolean insert(UserAuthToken entity) throws SQLException {
+	public int insert(UserAuthToken entity) throws SQLException {
 		Connection connection = null;
         PreparedStatement ps = null;
-        boolean result = false;
+       int result = -1;
         
         try {
         	
@@ -97,7 +97,7 @@ public class AuthDAO implements GenericDBOp<UserAuthToken>{
 			ps.setString(2, entity.getSelector());
 			ps.setString(3, entity.getValidator());
 			if(ps.executeUpdate() > 0)
-				result = true;
+				result = 1;
 			
 			
         	

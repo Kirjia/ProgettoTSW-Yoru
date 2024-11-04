@@ -65,10 +65,10 @@ public class ProducerDAO implements GenericDBOp<Producer> {
     }
 
     @Override
-    public synchronized boolean insert(Producer producer) throws SQLException {
+    public synchronized int insert(Producer producer) throws SQLException {
         Connection connection = null;
         PreparedStatement ps = null;
-        boolean op = false;
+        int result = -1;
 
 
         try{
@@ -83,11 +83,11 @@ public class ProducerDAO implements GenericDBOp<Producer> {
             ps.setString(2, producer.getTelefono());
             ps.setString(3, producer.getEmail());
 
-            int result = ps.executeUpdate();
+            result = ps.executeUpdate();
 
             if (result > 0){
                 System.out.println("Inserimento effettuato con successo\n");
-                op=true;
+               
             }else {
                 System.out.println("Inserimento non effettuato\n");
             }
@@ -99,7 +99,7 @@ public class ProducerDAO implements GenericDBOp<Producer> {
               connection.close();
         }
 
-        return op;
+        return result;
     }
 
     @Override
