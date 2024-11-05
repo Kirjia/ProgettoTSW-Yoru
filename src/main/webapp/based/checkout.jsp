@@ -19,7 +19,7 @@
   
 </head>
 <body>
-	<%@ include file="/jsp/header.jsp"%>
+	<%@ include file="/header.jsp"%>
 	<div class="container">
 
 		<!-- Sezione dettagli utente -->

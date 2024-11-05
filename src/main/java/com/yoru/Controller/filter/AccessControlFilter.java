@@ -54,11 +54,11 @@ public class AccessControlFilter extends HttpFilter implements Filter {
 		System.out.println(pathString);
 		
 		if ((user==null || user.getRole().compareTo(Role.ADMIN) != 0)  && pathString.contains(ADMIN)) {
-			httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/jsp/login.jsp");
+			httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/login.jsp");
 			return;
 			
 		}else if (pathString.contains(BASED) && user == null) {
-			httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/jsp/login.jsp");
+			httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/login.jsp");
 			return;
 		}
 		

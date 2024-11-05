@@ -81,7 +81,7 @@ public class GetAllItem extends HttpServlet {
 		try {
 			Collection<Prodotto> books = itemDAO.getAll();
 			request.setAttribute("items", books);
-			request.getRequestDispatcher("jsp/GestioneProdotti.jsp").forward(request, response);
+			request.getRequestDispatcher("GestioneProdotti.jsp").forward(request, response);
 			return;
 			/*
 			JSONArray array = new JSONArray();

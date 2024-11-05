@@ -19,13 +19,13 @@
 </head>
 <body>
 
-    <%@ include file="/jsp/header.jsp" %>
+    <%@ include file="/header.jsp" %>
 <%@page import="java.util.Collection"%>
 <% 
 
 Prodotto prodotto = (Prodotto) request.getAttribute("item");
 if (prodotto == null) {
-	response.sendRedirect("../GetItem");
+	response.sendRedirect("./GetItem");
 	return;
 }
 %>

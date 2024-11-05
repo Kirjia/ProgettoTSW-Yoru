@@ -86,7 +86,7 @@ private static final Logger LOGGER = Logger.getLogger(GetAllGadget.class.getName
 			request.setAttribute("items", items);
 			request.setAttribute("currentPAge", page);
 			request.setAttribute("counts", counts);
-			request.getRequestDispatcher("jsp/gadget.jsp").forward(request, response);
+			request.getRequestDispatcher("gadget.jsp").forward(request, response);
 			return;
 		
 		} //catch (SQLException | JSONException e) {

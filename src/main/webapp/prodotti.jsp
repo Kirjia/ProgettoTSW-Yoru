@@ -15,7 +15,7 @@
 </head>
 <body>
 
-<%@include file="/jsp/header.jsp" %>
+<%@include file="/header.jsp" %>
 <%@page import="java.util.Collection"%>
 <% 
 
@@ -23,7 +23,7 @@
 Collection<?> items = (Collection<?>) request.getAttribute("items");
 
 if (items == null) {
-    response.sendRedirect("../GetAllBook");
+    response.sendRedirect("./GetAllBook");
     return;
 } %>
 <!-- Product Section -->

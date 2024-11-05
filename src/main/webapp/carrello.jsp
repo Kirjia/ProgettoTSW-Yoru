@@ -22,13 +22,13 @@
 </head>
 <body>
 
-    <%@ include file="/jsp/header.jsp" %>
+    <%@ include file="/header.jsp" %>
 
     <%      
 
         Collection<?> carrello = (Collection<?>) request.getAttribute("carrello");
         if(carrello == null){
-            response.sendRedirect("../Carrello");
+            response.sendRedirect("./Carrello");
             return;
         }
 
@@ -56,7 +56,7 @@
                                     
                                     <div class="row border-bottom">
                                         <div class="col-md-4">
-                                            <img src="files/images/${prodotto.SKU}.jpg" class="img-fluid" alt="${p.nome}" onerror="this.src='files/images/err.jpg'">
+                                            <img src="files/images/${p.SKU}.jpg" class="img-fluid" alt="${p.nome}" onerror="this.src='files/images/err.jpg'">
                                         </div>
                                         <div class="col-md-5">
                                             <h5>${p.nome}</h5>

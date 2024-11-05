@@ -33,7 +33,7 @@ if (admin == null) {
 </head>
 <body>
 
-	<%@ include file="/jsp/header.jsp"%>
+	<%@ include file="/header.jsp"%>
 	<div class="container mt-5" style="margin-top: 1rem !important;">
 
 		<div class="row justify-content-center">

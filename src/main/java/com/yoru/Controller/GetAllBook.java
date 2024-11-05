@@ -85,7 +85,7 @@ public class GetAllBook extends HttpServlet {
 			request.setAttribute("items", books);
 			request.setAttribute("currentPage", page);
 			request.setAttribute("counts", counts);
-			request.getRequestDispatcher("jsp/prodotti.jsp").forward(request, response);
+			request.getRequestDispatcher("prodotti.jsp").forward(request, response);
 			return;
 			/*
 			JSONArray array = new JSONArray();

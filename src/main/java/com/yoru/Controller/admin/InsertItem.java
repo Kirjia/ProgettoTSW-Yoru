@@ -34,7 +34,7 @@ import com.yoru.model.Entity.Prodotto;
  */
 @WebServlet("/admin/InsertItem")
 @MultipartConfig(
-	    fileSizeThreshold = 1024 * 1024,  // 1 MB
+	    fileSizeThreshold = 1024 * 1024 * 2,  // 2 MB
 	    maxFileSize = 1024 * 1024 * 5,    // 5 MB
 	    maxRequestSize = 1024 * 1024 * 10 // 10 MB
 	)

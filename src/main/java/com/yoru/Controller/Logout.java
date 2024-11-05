@@ -100,7 +100,7 @@ public class Logout extends HttpServlet {
 		        }
 		    }
 		    
-		    response.sendRedirect("./jsp/login.jsp");
+		    response.sendRedirect("./login.jsp");
 	
 	}
 

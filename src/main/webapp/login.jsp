@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="noopener">
-    <link rel="stylesheet" href="../css/login.css" rel="noopener">
+    <link rel="stylesheet" href="./css/login.css" rel="noopener">
     <title>Yoru Login Page</title>
 </head>
 
@@ -56,13 +56,13 @@
             <div class="toggle">
                 <div class="toggle-panel toggle-left">
                     
- 					<a href="${pageContext.request.contextPath}/jsp/home.jsp"><img class="logo" src="../images/LOGO_bianco2.2.png"></a>
+ 					<a href="${pageContext.request.contextPath}/home.jsp"><img class="logo" src="./images/LOGO_bianco2.2.png"></a>
                     <p>Inserisci i tuoi dati personali per utilizzare tutte le funzionalità del sito</p>
                     <button class="hidden" id="login">Accedi</button>
                 </div>
                 <div class="toggle-panel toggle-right">
                     
- 					<a href="${pageContext.request.contextPath}/jsp/home.jsp"><img class="logo" src="../images/LOGO_bianco2.2.png"></a>
+ 					<a href="${pageContext.request.contextPath}/home.jsp"><img class="logo" src="./images/LOGO_bianco2.2.png"></a>
                     <p>Registrati con i tuoi dati personali per utilizzare tutte le funzionalità del sito</p>
                     <button class="hidden" id="register">Registrati</button>
                 </div>
@@ -76,7 +76,7 @@
     </div>
 
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="../js/login.js"></script>
+    <script src="./js/login.js"></script>
 </body>
 
 </html>

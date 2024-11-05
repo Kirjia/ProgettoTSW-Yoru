@@ -39,7 +39,7 @@ public class Home extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.setContentType("text/html"); 
-        request.getRequestDispatcher("jsp/home.jsp").forward(request, response);
+        request.getRequestDispatcher("home.jsp").forward(request, response);
 	}
 
 }

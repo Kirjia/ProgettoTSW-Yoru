@@ -15,14 +15,14 @@
 </head>
 <body>
 
-<%@include file="/jsp/header.jsp" %>
+<%@include file="/header.jsp" %>
 <%@page import="java.util.Collection"%>
 <% 
 
 Collection<?> items = (Collection<?>) request.getAttribute("items");
 
 if (items == null) {
-	response.sendRedirect("../GetAllGadget");
+	response.sendRedirect("./GetAllGadget");
 	return;
 } %>
 <!-- Product Section -->
