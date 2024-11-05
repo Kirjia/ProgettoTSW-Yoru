@@ -44,7 +44,7 @@ if (ordini == null) {
 
     <div class="container mt-5">
         <div class="row justify-content-center">
-            <div class="col-md-9">
+            <div class="col-md-9 col-md-10 col-sm-12">
                 <!-- User Info Card -->
                 <div class="profile-card p-3 mb-4 border rounded">
                     <h4><b>Profilo Utente</b></h4>
@@ -79,7 +79,7 @@ if (ordini == null) {
                                 </div>
                                 <div class="col-md-6 text-right">
                                     <p><b>Totale Pagato:</b> €<fmt:formatNumber value="${ordine.costoTotOrdine}" minFractionDigits="2" maxFractionDigits="2" /></p>
-                                    <button class="btn btn-info">Traccia Ordine</button>
+                                    
                                 </div>
                             </div>
                             <div class="row">

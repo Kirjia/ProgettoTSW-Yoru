@@ -27,7 +27,7 @@ if (items == null) {
 } %>
 <!-- Product Section -->
 <section class="section-products container mt-5">
-    <h1 class="text-center mb-4">I nostri prodotti</h1>
+    <h1 class="text-center mb-4">I nostri gadget</h1>
     <div class="row">
         <!-- Itera sui prodotti passati dal servlet -->
         <c:forEach items="${items}" var="prodotto">
