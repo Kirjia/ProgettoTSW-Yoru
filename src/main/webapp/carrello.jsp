@@ -24,15 +24,7 @@
 
     <%@ include file="/header.jsp" %>
 
-    <%      
-
-        Collection<?> carrello = (Collection<?>) request.getAttribute("carrello");
-        if(carrello == null){
-            response.sendRedirect("./Carrello");
-            return;
-        }
-
-    %>
+    
     <div class="container mt-5">
         <div class="card">
             <div class="row">
@@ -41,41 +33,9 @@
                     <div class="title">
                         <h4><b>Il tuo carrello</b></h4>
                     </div>
+	                <div id="cart-slot" class="cart-items">
+	                </div>
 
-                    <c:choose>
-                        <c:when test="${empty carrello}">
-                            <p class="empty-carrello">Il carrello è vuoto!</p>
-                        </c:when>
-                        <c:otherwise>
-                            <div class="cart-items">
-                                <c:set var="totale" value="0" scope="page"/>
-                                <c:forEach var="p" items="${carrello}">
-                                    <!-- Calcola il subtotale -->
-                                    <c:set var="subtotale" value="${p.prezzo * p.quantity}" scope="page" />
-                                    <c:set var="totale" value="${totale + subtotale}" scope="page" />
-                                    
-                                    <div class="row border-bottom">
-                                        <div class="col-md-4">
-                                            <img src="files/images/${p.SKU}.jpg" class="img-fluid" alt="${p.nome}" onerror="this.src='files/images/err.jpg'">
-                                        </div>
-                                        <div class="col-md-5">
-                                            <h5>${p.nome}</h5>
-                                            <p>Quantità: ${p.quantity}</p>
-                                        </div>
-                                        <div class="col-md-3 d-flex align-items-end justify-content-end">
-                                        
-                                      	  <div class="text-right mt-3">
-											<button class="btn btn-remove">Rimuovi dal carrello</button>
-										  </div>
-                                        
-    										<p class="text-right subtotale-item">subtotale: €<fmt:formatNumber value="${subtotale}" minFractionDigits="2" maxFractionDigits="2" /></p>
-    											
-										</div>
-                                    </div>
-                                </c:forEach>
-                            </div>
-                        </c:otherwise>
-                    </c:choose>
                 </div>
 
                 <!-- Sezione Riepilogo Ordine -->
@@ -84,7 +44,7 @@
                     <hr>
                     <div class="row">
                         <div class="col">Totale</div>
-                        <div class="col text-right">€<fmt:formatNumber value="${totale}" minFractionDigits="2" maxFractionDigits="2" /></div> <!-- Mostra il totale corretto -->
+                        <div id="cart_tot" class="col text-right">€<fmt:formatNumber value="0" minFractionDigits="2" maxFractionDigits="2" /></div> <!-- Mostra il totale corretto -->
                     </div>
                     <a href="${pageContext.request.contextPath}/jsp/checkout.jsp">
                     <button class="btn btn-dark btn-block mt-4">Procedi all'acquisto</button>
@@ -98,9 +58,12 @@
     <%@ include file="/html/footer.html" %>
 
     <!-- Bootstrap JS, Popper.js, and jQuery -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script 
+    	src="${pageContext.request.contextPath}/js/cart.js"></script>
+    
 
 </body>
 </html>

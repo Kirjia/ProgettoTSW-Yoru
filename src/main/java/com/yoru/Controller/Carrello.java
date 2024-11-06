@@ -3,6 +3,7 @@ package com.yoru.Controller;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -17,6 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.mysql.cj.Session;
@@ -67,7 +70,10 @@ public class Carrello extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-	
+		response.setContentType("application/json");
+		
+		JSONObject cartJson = new JSONObject();
+		
 		HttpSession session = (HttpSession) request.getSession();
 		
 		
@@ -77,14 +83,22 @@ public class Carrello extends HttpServlet {
 			
 			try {
 				Cart cart = orderDAO.getCart(user.getId());
-				request.setAttribute("carrello", cart.getItems());
-				request.setAttribute("tot", cart.getTotal());
+				cartJson.put("total", cart.getTotal());
+				JSONArray array = cartJson(cart.getItems());
+				
+				cartJson.put("cart", array);
+				
+				//request.setAttribute("carrello", cart.getItems());
+				//request.setAttribute("tot", cart.getTotal());
 				
 			} catch (NumberFormatException e) {
 				LOGGER.log(Level.INFO, "format error", e);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				LOGGER.log(Level.SEVERE, "sql error", e);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				LOGGER.log(Level.SEVERE, "json error", e);
 			}
 		}else {
 			
@@ -94,6 +108,8 @@ public class Carrello extends HttpServlet {
 			List<CartItem> cart = new ArrayList<>();
 			if (items != null) {
 				Iterator<String> iter = items.keySet().iterator();
+				
+				int total = 0;
 				
 			
 				while(iter.hasNext()) {
@@ -106,23 +122,52 @@ public class Carrello extends HttpServlet {
 								items.get(key),
 								item.getPrezzo(),
 								item.getNome());
+						total += item.getPrezzo() * item.getQuantità();
 						cart.add(itemCart);
-					
+						
 						
 						
 					} catch (SQLException e) {
-						LOGGER.log(null);
+						LOGGER.log(Level.WARNING, "retrieve guest cart error", e);
 					}
 					
 				}
+				try {
+					cartJson.put("total", total);
+					JSONArray array = cartJson(cart);
+					cartJson.put("cart", array);
+				} catch (JSONException e) {
+					LOGGER.log(Level.WARNING, "retrieve guest cart, json error", e);
+				}
+				
 			}
 			
-			request.setAttribute("carrello", cart);
+			//request.setAttribute("carrello", cart);
 			
 		}
 		
-		request.getRequestDispatcher("carrello.jsp").forward(request, response);
+		//request.getRequestDispatcher("carrello.jsp").forward(request, response);
+		response.getWriter().print(cartJson);
 
+		
+	}
+	
+	
+	private JSONArray cartJson(Collection<CartItem> cart) throws JSONException {
+		JSONArray array = new JSONArray();
+		
+		for (Iterator<CartItem> iterator = cart.iterator(); iterator.hasNext();) {
+			CartItem item = (CartItem) iterator.next();
+			JSONObject itemJson = new JSONObject();
+			itemJson.put("nome", item.getNome());
+			itemJson.put("SKU", item.getSKU());
+			itemJson.put("prezzo", item.getPrezzo());
+			itemJson.put("id", item.getIdcartId());
+			itemJson.put("quantity", item.getQuantity());
+			array.put(itemJson);
+			
+		}
+		return array;
 		
 	}
 

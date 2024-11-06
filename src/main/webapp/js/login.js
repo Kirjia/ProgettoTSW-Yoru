@@ -26,9 +26,9 @@ function login() {
 	else
 		rememberMe = "false";
 
-    var jqxhr = $.post("../Login", {email: email, password: password, rememberMe: rememberMe}, function(data){
+    var jqxhr = $.post("./Login", {email: email, password: password, rememberMe: rememberMe}, function(data){
         console.log("risposta" + data.outcome[0]);
-        const home =  "http://localhost:8080/Yoru/jsp/home.jsp";
+        const home =  "https://localhost/Yoru/home.jsp";
         let outcome = data.outcome[0];
         if(outcome){
 			window.location.href = home;
