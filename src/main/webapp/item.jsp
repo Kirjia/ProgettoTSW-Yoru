@@ -108,15 +108,15 @@ if (prodotto == null) {
 			<%} %>
 			</p>
 			<p><b>ISBN:</b><%=libro.getISBN()%></p>
-            <form action="CartServlet" method="POST">
-                <input type="hidden" name="productId" value="<%= libro.getSKU() %>">
+            <form id="addToCart">
+                <input type="hidden" id="sku" name="productId" value="<%= libro.getSKU() %>">
                 
                 
 				<p><b>Quantità:</b></p>
                <div class="d-flex align-items-center">
    				 
    				 <input type="number" id="quantity" name="quantity" class="form-control quantity-box me-2" min="1" value="1"> 
-   				 <button type="submit" class="btn btn-primary"><i class="bi bi-cart-plus"></i></button>
+   				 <button type="submit" class="btn btn-primary aggiungi-al-carrello"><i class="bi bi-cart-plus"></i></button>
 				</div>
 
 
@@ -137,9 +137,10 @@ if (prodotto == null) {
     <%@ include file="/html/footer.html" %>
 
     <!-- Bootstrap JS, Popper.js, and jQuery -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/item.js"></script>
 
 </body>
 </html>
