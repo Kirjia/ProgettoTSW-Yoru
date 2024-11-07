@@ -25,7 +25,9 @@ Collection<?> items = (Collection<?>) request.getAttribute("items");
 if (items == null) {
     response.sendRedirect("./GetAllBook");
     return;
-} %>
+} 
+%>
+
 <!-- Product Section -->
 <section class="section-products container mt-5" style=" margin-top: 1rem !important;"><!-- override -->
     <h1 class="text-center mb-4" style="margin-bottom:50px !important;">I nostri libri</h1>
@@ -39,7 +41,14 @@ if (items == null) {
             <div class="part-1">
                 <!-- Link intorno all'immagine del prodotto -->
                 <a href="Item?sku=${prodotto.SKU}">
-                    <img src="files/images/${prodotto.SKU}.jpg" alt="${prodotto.nome}" onerror="this.src='files/images/err.jpeg'">
+                    <img  alt="${prodotto.nome}" onerror="this.src='files/images/err.jpeg'" 
+                    
+                    src="files/images/${prodotto.SKU}.jpg" class="product-image <c:out value='${prodotto.quantità <= 0 ? "out-of-stock" : ""}'/>">
+        
+        <!-- Overlay per OUT OF STOCK se quantità <= 0 -->
+        <c:if test="${prodotto.quantità <= 0}">
+            <div class="overlay">OUT OF STOCK</div>
+        </c:if>>
                 </a>
             </div>
             <!-- Product Details -->
@@ -53,8 +62,18 @@ if (items == null) {
 
                 <span>€<fmt:formatNumber value="${prodotto.prezzo}" minFractionDigits="2" maxFractionDigits="2" /></span>
 
-                <!-- Add to Cart Button -->
-                <button class="aggiungi-al-carrello" id="${prodotto.SKU}" >Aggiungi al carrello</button>
+                <!-- Add to Cart Button con disabilitazione -->
+                <button 
+                    class="aggiungi-al-carrello" 
+                    id="${prodotto.SKU}"
+                    <c:choose>
+                        <c:when test="${prodotto.quantità <= 0}">
+                            disabled
+                        </c:when>
+                    </c:choose>
+                >
+                    Aggiungi al carrello
+                </button>                   
             </div>
           </div>
         </div>

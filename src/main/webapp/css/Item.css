@@ -23,18 +23,7 @@
 }
 
 .quantity-box {
-	width: 70px;
-}
-
-.buy-btn {
-	background-color: #007bff !important;
-	color: white !important;
-}
-
-.buy-btn:hover {
-	background-color: #28a745 !important;
-	color: white !important;
-	transition: all .2s ease-in;
+	width: 70px !important;
 }
 
 .descrizione-prodotto {
@@ -52,5 +41,8 @@
 .btn-primary {
 	background-color: #ff7000 !important;
 	border-color: #ff7000 !important;
+	width:70px!important;
+	margin-left: 20px !important;
+
 }
 

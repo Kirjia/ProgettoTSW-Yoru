@@ -22,6 +22,35 @@
     color: inherit; /* Mantiene il colore del genitore, in questo caso il colore del testo */
     text-decoration: none; /* Rimuove la sottolineatura */
 }
+.product-image-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.product-image {
+    width: 100%;
+    height: auto;
+}
+
+.out-of-stock {
+    filter: grayscale(50%) brightness(0.5); /* Effetto scurente */
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6); /* Oscura l’immagine */
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5em;
+    font-weight: bold;
+    opacity: 1;
+}
 
 /* Aggiunge un effetto al passaggio del mouse */
 .section-products a:hover {
