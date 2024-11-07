@@ -110,7 +110,7 @@ public class InsertItem extends HttpServlet {
 	        	int id = itemDAO.insert(libro);
 	        	if(id > 0){
 	        		if(coverPart.getSize() > 0) {
-	                    String filename = id + ".jpg";
+	                    String filename = id + ".png";
 	                    LOGGER.log(Level.INFO, "image id: " + id);
 	                    request.setAttribute("Upload", true);
 	                    request.setAttribute("InputStream", coverPart.getInputStream());
@@ -147,7 +147,7 @@ public class InsertItem extends HttpServlet {
 				
 				if(id > 0) {
 					if(coverPart.getSize() > 0) {
-	                    String filename = "items/" + id + ".jpg";
+	                    String filename = id + ".png";
 	                    request.setAttribute("Upload", true);
 	                    request.setAttribute("InputStream", coverPart.getInputStream());
 	                    request.setAttribute("Path", filename);

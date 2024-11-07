@@ -61,8 +61,8 @@ CREATE TABLE Libro(
 DROP TABLE IF EXISTS gadgets;
 CREATE TABLE Gadgets(
 	SKU int unsigned NOT NULL,
-    modello varchar(15),
-    Marchio varchar(20) NOT NULL,
+    modello varchar(60),
+    Marchio varchar(60) NOT NULL,
     
     constraint PK_gadgets
 		primary key(SKU),

@@ -103,7 +103,7 @@ if (prodotto == null) {
         boolean isOutOfStock = libro.getQuantità() <= 0;
         %>
         <div class="col-md-5 text-center position-relative">
-            <img src="files/images/<%= libro.getSKU() %>.jpg" 
+            <img src="files/images/<%= libro.getSKU() %>.png" 
                  class="product-img img-fluid <% if (isOutOfStock) { %> out-of-stock <% } %>" 
                  alt="${prodotto.nome}" 
                  onerror="this.src='files/images/err.jpeg'">

@@ -521,7 +521,7 @@ public class OrderDAO implements GenericDBOp<Order>{
 	        return result;
 	    }
 
-	    public boolean removeFromCart(int user_id, int sku, boolean del) throws SQLException {
+	    public boolean removeFromCart(int user_id, int sku, int del) throws SQLException {
 	    	Connection connection = null;
 	    	PreparedStatement pStatement = null;
 	    	boolean result = false;
@@ -530,9 +530,9 @@ public class OrderDAO implements GenericDBOp<Order>{
 				connection = ds.getConnection();
 				connection.setAutoCommit(false);
 				String cartSQL = "DELETE FROM cart_items WHERE user_id = ? AND SKU = ? ";
-				String noDelSQL = "UPDATE cart_items SET quantity = quantity -1 user_id = ? AND WHERE SKU = ?";
+				String noDelSQL = "UPDATE cart_items SET quantity = quantity -? user_id = ? AND WHERE SKU = ?";
 				
-				if(del) {
+				if(del < 1) {
 					pStatement = connection.prepareStatement(cartSQL);
 					pStatement.setInt(1, user_id);
 					pStatement.setInt(2, sku);
@@ -544,8 +544,9 @@ public class OrderDAO implements GenericDBOp<Order>{
 						result = true;
 				}else {
 					pStatement = connection.prepareStatement(noDelSQL);
-					pStatement.setInt(1, user_id);
-					pStatement.setInt(2, sku);
+					pStatement.setInt(2, del);
+					pStatement.setInt(2, user_id);
+					pStatement.setInt(3, sku);
 					
 					
 					

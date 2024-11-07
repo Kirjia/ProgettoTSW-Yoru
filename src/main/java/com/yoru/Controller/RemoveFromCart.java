@@ -68,7 +68,7 @@ public class RemoveFromCart extends HttpServlet {
 		
 		String skuStr = request.getParameter("sku");
 		String delete = request.getParameter("del");
-		boolean del = (delete != null) ? true : false;
+		int del = (delete == null) ? 0 : Integer.parseInt(delete);
 		
 		if(user == null) {
 			@SuppressWarnings("unchecked")
@@ -76,10 +76,10 @@ public class RemoveFromCart extends HttpServlet {
 			if(cart != null) {
 					
 				if(cart.containsKey(skuStr))
-					if(del)
-						cart.remove(skuStr);
+					if(del > 0)
+						cart.put(skuStr, cart.get(skuStr) - del);
 					else
-						cart.put(skuStr, cart.get(skuStr) - 1);
+						cart.remove(skuStr);
 				
 				session.setAttribute("cart", cart);
 				try {
@@ -89,23 +89,24 @@ public class RemoveFromCart extends HttpServlet {
 				}
 			}
 			
-		}
+		}else {
 		
 		
-		try {
-			int sku = Integer.parseInt(skuStr);
-			if (orderDAO.removeFromCart(user.getId(), sku, del))
-				jsonObject.append("result", true);
-			else
-				jsonObject.append("result", false);
-			
-		} catch (SQLException e) {
-			LOGGER.log(Level.WARNING, "remove from cart error", e);
-		}
-		catch (NumberFormatException e) {
-			LOGGER.log(Level.WARNING, "remove from cart error not valid SKU is not a number", e);
-		} catch (JSONException e) {
-			LOGGER.log(Level.WARNING, "remove from cart error, cant create json", e);
+			try {
+				int sku = Integer.parseInt(skuStr);
+				if (orderDAO.removeFromCart(user.getId(), sku, del))
+					jsonObject.append("result", true);
+				else
+					jsonObject.append("result", false);
+				
+			} catch (SQLException e) {
+				LOGGER.log(Level.WARNING, "remove from cart error", e);
+			}
+			catch (NumberFormatException e) {
+				LOGGER.log(Level.WARNING, "remove from cart error not valid SKU is not a number", e);
+			} catch (JSONException e) {
+				LOGGER.log(Level.WARNING, "remove from cart error, cant create json", e);
+			}
 		}
 		
 		response.getWriter().print(jsonObject);

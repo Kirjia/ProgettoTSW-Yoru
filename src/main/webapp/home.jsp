@@ -63,8 +63,8 @@
 							<div class="card">
 								<a href="Item?sku=${prodotto.SKU}"> <img
 									class="card-img-top img-fluid"
-									src="files/images/${prodotto.SKU}.jpg"
-									alt="${prodotto.nome}" onerror="this.src='fiels/images/err.jpeg'">
+									src="files/images/${prodotto.SKU}.png"
+									alt="${prodotto.nome}" onerror="this.src='fiels/images/err.png'">
 								</a>
 								<div class="card-body text-center">
 									<a href="Item?sku=${prodotto.SKU}">

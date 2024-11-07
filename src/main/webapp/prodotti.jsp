@@ -41,9 +41,9 @@ if (items == null) {
             <div class="part-1">
                 <!-- Link intorno all'immagine del prodotto -->
                 <a href="Item?sku=${prodotto.SKU}">
-                    <img  alt="${prodotto.nome}" onerror="this.src='files/images/err.jpeg'" 
+                    <img  alt="${prodotto.nome}" onerror="this.src='files/images/err.png'" 
                     
-                    src="files/images/${prodotto.SKU}.jpg" class="product-image <c:out value='${prodotto.quantità <= 0 ? "out-of-stock" : ""}'/>">
+                    src="files/images/${prodotto.SKU}.png" class="product-image <c:out value='${prodotto.quantità <= 0 ? "out-of-stock" : ""}'/>">
         
         <!-- Overlay per OUT OF STOCK se quantità <= 0 -->
         <c:if test="${prodotto.quantità <= 0}">
