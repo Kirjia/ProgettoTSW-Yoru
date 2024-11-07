@@ -1,77 +1,90 @@
-
 body {
   font-family: 'Poppins', sans-serif;
+  font-size: 1rem; /* Base font size */
 }
 
-/* La sezione principale (contenitore di contenuti) deve espandersi */
 .container {
-  flex: 1;
+  max-width: 1400px; /* Limita la larghezza del contenuto */
 }
 
-/* Sezione del carrello */
-.carrello-section {
-  padding: 50px;
-}
-
-.carrello-header {
-  color: #444;
-  font-size: 2rem;
-  text-align: center;
-}
-
-.carrello-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.carrello-table th, .carrello-table td {
-  padding: 15px;
-  text-align: left;
-  border-bottom: 1px solid #ddd;
-}
-
-.carrello-table th {
-  background-color: #ff7000;
-  color: white;
-}
-
-.carrello-table td {
+.profile-card, .order-history, .order-card {
   background-color: #fff;
+  padding: 1.25rem;
+  border-radius: 8px;
+  /*box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);*/
+}
+
+.profile-card h4, .order-history h4 {
+  font-weight: lighter;
   color: #333;
 }
 
-.btn-checkout {
-  background-color: #ff7000;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+.order-card ul {
+  padding-left: 20px;
 }
 
-.btn-checkout:hover {
-  background-color: #e06600;
+/* Elementi centrati per mobile */
+.text-left {
+  text-align: left !important;
+}
+.text-right {
+  text-align: right !important;
 }
 
-.empty-carrello {
-  text-align: center;
-  font-size: 1.5rem;
-  color: #808080;
-  margin-top: 20px;
+/* Stile responsivo per schermi 4K */
+@media (min-width: 2560px) {
+  body {
+    font-size: 1.25rem; /* Aumenta il font per 4K */
+  }
+  .profile-card, .order-history {
+    padding: 2rem;
+  }
+  .order-card p, .profile-card p {
+    font-size: 1.15rem;
+  }
 }
 
-/* Footer sempre in fondo */
-footer {
-  background-color: #343a40;
-  color: #fff;
-  text-align: center;
-  padding: 10px;
-  position: relative;
-  bottom: 0;
-  width: 100%;
+/* Responsività per desktop medio-grandi */
+@media (min-width: 1200px) and (max-width: 2560px) {
+  body {
+    font-size: 1rem;
+  }
 }
 
-#tasto-indirizzo{
-	background-color: #ff7000 !important;
-	border-color: #ff7000 !important; 
+/* Schermi medi (tablet, piccoli desktop) */
+@media (min-width: 768px) and (max-width: 1199px) {
+  .profile-card, .order-history {
+    padding: 1.5rem;
+  }
+  .order-card p, .profile-card p {
+    font-size: 1rem;
+  }
+  .text-md-right {
+    text-align: right;
+  }
+}
+
+/* Schermi piccoli (smartphone) */
+@media (max-width: 767px) {
+  .container {
+    max-width: 100%;
+    padding: 0 1rem;
+  }
+  
+  .profile-card, .order-history, .order-card {
+    padding: 1rem;
+  }
+
+  .profile-card h4, .order-history h4 {
+    font-size: 1.25rem;
+  }
+
+  .order-card p, .profile-card p {
+    font-size: 0.95rem;
+  }
+
+  /* Allineamento testi */
+  .text-md-right {
+    text-align: left;
+  }
 }

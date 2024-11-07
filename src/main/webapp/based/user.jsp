@@ -6,13 +6,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Profilo Utente</title>
+
 
 <!-- Bootstrap CSS -->
 <link
@@ -23,12 +23,14 @@
     rel="stylesheet">
 <link href="${pageContext.request.contextPath}/css/User.css"
     rel="stylesheet">
+
 <!-- Bootstrap JS, Popper.js, and jQuery -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script
-        src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script
-        src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script
+    src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script
+    src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
 
 <%
 Collection<?> ordini = (Collection<?>) request.getAttribute("historyOrders");
@@ -44,7 +46,7 @@ if (ordini == null) {
 
     <div class="container mt-5">
         <div class="row justify-content-center">
-            <div class="col-md-9 col-md-10 col-sm-12">
+            <div class="col-lg-8 col-md-10 col-sm-12">
                 <!-- User Info Card -->
                 <div class="profile-card p-3 mb-4 border rounded">
                     <h4><b>Profilo Utente</b></h4>
@@ -71,23 +73,22 @@ if (ordini == null) {
                     <h4 class="mt-4"><b>La tua Cronologia Ordini</b></h4>
                     <hr>
                     <c:forEach items="${historyOrders}" var="ordine">
-                        <div class="order-card p-3 mb-3 ">
+                        <div class="order-card p-3 mb-3">
                             <div class="row">
                                 <div class="col-md-6">
                                     <p><b>ID Ordine:</b> ${ordine.id}</p>
                                     <p><b>Data:</b> ${ordine.dataPagamento}</p>
                                 </div>
-                                <div class="col-md-6 text-right">
+                                <div class="col-md-6 text-md-right text-left">
                                     <p><b>Totale Pagato:</b> €<fmt:formatNumber value="${ordine.costoTotOrdine}" minFractionDigits="2" maxFractionDigits="2" /></p>
-                                    
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-12">
                                     <p><b>Prodotti:</b></p>
                                     <ul>
                                         <c:forEach var="item" items="${ordine.orderItemList}">
-                                            <li>${item.nome}- Quantità: ${item.quantity}</li>
+                                            <li>${item.nome} - Quantità: ${item.quantity}</li>
                                         </c:forEach>
                                     </ul>
                                 </div>
@@ -141,4 +142,10 @@ if (ordini == null) {
     <%@ include file="/html/footer.html"%>
 
 </body>
+<style>
+	.mt-4, .my-4{
+		margin-top:0px !important;
+	}
+</style>
+
 </html>
