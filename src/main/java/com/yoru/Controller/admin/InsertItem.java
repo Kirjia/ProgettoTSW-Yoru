@@ -144,6 +144,7 @@ public class InsertItem extends HttpServlet {
 	        	gadgets.setMateriali(materiali);
 	        	
 				int id = itemDAO.insert(gadgets);
+				
 				if(id > 0) {
 					if(coverPart.getSize() > 0) {
 	                    String filename = "items/" + id + ".jpg";
@@ -168,7 +169,7 @@ public class InsertItem extends HttpServlet {
 			
 			
 		}catch (SQLException e) {
-			LOGGER.log(Level.WARNING, "insert item error");
+			LOGGER.log(Level.WARNING, "insert item error",e);
 		}catch (JSONException e) {
 			LOGGER.log(Level.WARNING, "insert item json error", e);
 		}catch (NumberFormatException e) {

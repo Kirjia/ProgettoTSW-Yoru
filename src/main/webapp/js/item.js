@@ -1,3 +1,4 @@
+
 $(document).ready(function(){
 	
 	$("#addToCart").on("click", function(event){
@@ -8,7 +9,8 @@ $(document).ready(function(){
 			var skuValue = $("#sku").val();
 			var quantityValue = $("#quantity").val();
 
-			
+			console.log(skuValue);
+			console.log(quantityValue);
 			$.ajax({
 				url: "AddToCart",
 				method: "POST",

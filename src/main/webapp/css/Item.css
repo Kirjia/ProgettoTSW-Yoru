@@ -1,3 +1,24 @@
+
+/* Oscura l'immagine */
+.out-of-stock {
+    opacity: 0.5;
+    filter: grayscale(100%);
+}
+
+/* Sovrapposizione per il testo "Out of Stock" */
+.out-of-stock-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5em;
+    font-weight: bold;
+    color: red;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+}
+
 .dettagli-prodotto {
 	margin-top: 40px;
 }
@@ -40,9 +61,17 @@
 
 .btn-primary {
 	background-color: #ff7000 !important;
-	border-color: #ff7000 !important;
 	width:70px!important;
 	margin-left: 20px !important;
 
+}
+.aggiungi-al-carrello{
+	background-color: #ff7000 !important;
+	width:70px!important;
+	margin-left: 20px !important;
+}
+.btn-primary:disabled {
+    background-color: gray !important ;
+    border-color: gray !important;
 }
 

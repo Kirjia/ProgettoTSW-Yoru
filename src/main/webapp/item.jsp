@@ -39,9 +39,17 @@ if (prodotto == null) {
         <%if(prodotto.getItemType()==Prodotto.ItemType.GADGET){%>
         <%Gadgets gadgets = (Gadgets) prodotto;
         List<String> materiali = gadgets.getMateriali();
+        boolean isOutOfStock = gadgets.getQuantità() <= 0;
         %>
-        <div class="col-md-5 text-center"> <!-- Riduciamo la larghezza della colonna e centriamo -->
-            <img src="files/images/<%=gadgets.getSKU() %>.jpg" class="product-img img-fluid" alt="${prodotto.nome}" onerror="this.src='files/images/err.jpeg'">
+        <div class="col-md-5 text-center position-relative">
+            <img src="files/images/<%= gadgets.getSKU() %>.jpg" 
+                 class="product-img img-fluid <% if (isOutOfStock) { %> out-of-stock <% } %>" 
+                 alt="${prodotto.nome}" 
+                 onerror="this.src='files/images/err.jpeg'">
+                 
+            <% if (isOutOfStock) { %>
+                <div class="out-of-stock-overlay">Out of Stock</div>
+            <% } %>
         </div>
 
         <!-- Sezione informazioni prodotto -->
@@ -62,15 +70,20 @@ if (prodotto == null) {
 			<%    for (String materiale : materiali) { %>
 			 <%=materiale%> 
 			<%} %></p>
-            <form action="CartServlet" method="POST">
-                <input type="hidden" name="productId" value="<%= prodotto.getSKU() %>">
+            <form id="addToCart">
+                <input type="hidden" id="sku" name="productId" value="<%= gadgets.getSKU() %>">
+                
                 
                 
 				<p><b>Quantità:</b></p>
                <div class="d-flex align-items-center">
    				 
    				 <input type="number" id="quantity" name="quantity" class="form-control quantity-box me-2" min="1" value="1"> 
-   				 <button type="submit" class="btn btn-primary"><i class="bi bi-cart-plus"></i></button>
+   				    				  <% if (isOutOfStock) { %>
+                <button type="submit" class="btn btn-primary aggiungi-al-carrello" disabled><i class="bi bi-cart-plus"></i></button>
+            <% }else{ %>
+   				<button type="submit" class="btn btn-primary aggiungi-al-carrello"><i class="bi bi-cart-plus"></i></button>
+   				<%} %>
 				</div>
 
 
@@ -87,9 +100,17 @@ if (prodotto == null) {
         <%}else {%>
         <%Libro libro = (Libro) prodotto; 
         List<Autore> autori = libro.getAutori();
+        boolean isOutOfStock = libro.getQuantità() <= 0;
         %>
-          <div class="col-md-5 text-center"> <!-- Riduciamo la larghezza della colonna e centriamo -->
-            <img src="files/images/<%=libro.getSKU() %>.jpg" class="product-img img-fluid" alt="${prodotto.nome}" onerror="this.src='files/images/err.jpeg'">
+        <div class="col-md-5 text-center position-relative">
+            <img src="files/images/<%= libro.getSKU() %>.jpg" 
+                 class="product-img img-fluid <% if (isOutOfStock) { %> out-of-stock <% } %>" 
+                 alt="${prodotto.nome}" 
+                 onerror="this.src='files/images/err.jpeg'">
+                 
+            <% if (isOutOfStock) { %>
+                <div class="out-of-stock-overlay">Out of Stock</div>
+            <% } %>
         </div>
 
         <!-- Sezione informazioni prodotto -->
@@ -116,7 +137,11 @@ if (prodotto == null) {
                <div class="d-flex align-items-center">
    				 
    				 <input type="number" id="quantity" name="quantity" class="form-control quantity-box me-2" min="1" value="1"> 
-   				 <button type="submit" class="btn btn-primary aggiungi-al-carrello"><i class="bi bi-cart-plus"></i></button>
+   				  <% if (isOutOfStock) { %>
+                <button type="submit" class="btn btn-primary aggiungi-al-carrello" disabled><i class="bi bi-cart-plus"></i></button>
+            <% }else{ %>
+   				<button type="submit" class="btn btn-primary aggiungi-al-carrello"><i class="bi bi-cart-plus"></i></button>
+   				<%} %>
 				</div>
 
 
@@ -137,7 +162,7 @@ if (prodotto == null) {
     <%@ include file="/html/footer.html" %>
 
     <!-- Bootstrap JS, Popper.js, and jQuery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="${pageContext.request.contextPath}/js/item.js"></script>

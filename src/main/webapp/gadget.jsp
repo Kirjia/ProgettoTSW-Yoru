@@ -34,11 +34,18 @@ if (items == null) {
         <c:out value="${ordine}" />
    		 <div class="col-md-6 col-lg-4 col-xl-3 mb-4">
       	  <div class="single-product card">
-            <!-- Product Image -->
+           <!-- Product Image -->
             <div class="part-1">
                 <!-- Link intorno all'immagine del prodotto -->
                 <a href="Item?sku=${prodotto.SKU}">
-                    <img src="files/images/${prodotto.SKU}.jpg" alt="${prodotto.nome}" onerror="this.src='files/images/err.jpeg'">
+                    <img  alt="${prodotto.nome}" onerror="this.src='files/images/err.jpeg'" 
+                    
+                    src="files/images/${prodotto.SKU}.jpg" class="product-image <c:out value='${prodotto.quantità <= 0 ? "out-of-stock" : ""}'/>">
+        
+        <!-- Overlay per OUT OF STOCK se quantità <= 0 -->
+        <c:if test="${prodotto.quantità <= 0}">
+            <div class="out-of-stock-overlay">OUT OF STOCK</div>
+        </c:if>
                 </a>
             </div>
             <!-- Product Details -->
@@ -52,9 +59,18 @@ if (items == null) {
 
                 <span>€<fmt:formatNumber value="${prodotto.prezzo}" minFractionDigits="2" maxFractionDigits="2" /></span>
 
-
-							<!-- Add to Cart Button -->
-                <button class="aggiungi-al-carrello" id="${prodotto.SKU}" >Aggiungi al carrello</button>
+ <!-- Add to Cart Button con disabilitazione -->
+                <button 
+                    class="aggiungi-al-carrello" 
+                    id="${prodotto.SKU}"
+                    <c:choose>
+                        <c:when test="${prodotto.quantità <= 0}">
+                            disabled
+                        </c:when>
+                    </c:choose>
+                >
+                    Aggiungi al carrello
+                </button>   
             </div>
         </div>
     </div>

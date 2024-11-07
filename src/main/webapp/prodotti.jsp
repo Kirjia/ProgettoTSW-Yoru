@@ -47,8 +47,8 @@ if (items == null) {
         
         <!-- Overlay per OUT OF STOCK se quantità <= 0 -->
         <c:if test="${prodotto.quantità <= 0}">
-            <div class="overlay">OUT OF STOCK</div>
-        </c:if>>
+            <div class="out-of-stock-overlay">OUT OF STOCK</div>
+        </c:if>
                 </a>
             </div>
             <!-- Product Details -->
