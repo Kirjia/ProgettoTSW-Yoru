@@ -28,7 +28,7 @@ $(document).ready(function(){
 									<button id="${item.SKU}" class="btn btn-remove remove-item">Rimuovi dal carrello</button>
 								  </div>
 		                        
-									<p class="text-right subtotale-item">subtotale: €${subtotale.toFixed(2)}</p>
+									<p id="sub-${item.SKU}" class="text-right subtotale-item">Subtotale: €${subtotale.toFixed(2)}</p>
 										
 								</div>
 		                    </div>
@@ -80,7 +80,8 @@ $(document).ready(function(){
 
 $(document).on('click', '.remove-item', function() {
 	var sku = $(this).attr("id");
-	var tot = $("#cart_tot").val();
+	var totStr = $("#cart_tot").text();
+	var tot = parseFloat(totStr.replace("€", ""));
 	var div = $("#item-"+sku);
 	$.post(
 			"https://localhost/Yoru/RemoveFromCart",{
@@ -89,12 +90,22 @@ $(document).on('click', '.remove-item', function() {
 			var jsonData = data.response[0];
 				if(jsonData){
 					div.fadeOut(400, function() {
-					        div.remove(); // Rimuovi l'elemento solo dopo che è scomparso
-							// Aggiorna il totale sottraendo il subtotale rimosso
-						    var subtotaleRimosso = parseFloat($(this).closest('.cart-items').find('.subtotale-item').text().replace('Subtotale: €', ''));
-						    tot -= subtotaleRimosso;
-						    $('#cart_tot').html(`€${tot.toFixed(2)}`); // Aggiorna il totale
-					    }); // Rimuove l'elemento dall'HTML
+						var str = $('#sub-'+sku).text().replace('Subtotale: €', '');
+						
+						var subtotaleRimosso = parseFloat(str);
+					    tot -= subtotaleRimosso;
+				        div.remove(); // Rimuovi l'elemento solo dopo che è scomparso
+						
+					    
+					    $('#cart_tot').html(`€${tot.toFixed(2)}`); // Aggiorna il totale
+						if(tot <= 0){
+							$('#cart-slot').append(
+								`
+								<p class="empty-carrello">Il carrello è vuoto!</p>
+								`
+							);
+						}
+				    }); // Rimuove l'elemento dall'HTML
 				    
 					
 					
