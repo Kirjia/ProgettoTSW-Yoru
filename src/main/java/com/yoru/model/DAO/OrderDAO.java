@@ -40,6 +40,38 @@ public class OrderDAO implements GenericDBOp<Order>{
 	    public Collection<Order> getAll() throws SQLException{
 	        return null;
 	    }
+	  
+	  public Collection<Order> getAllOrders(String orderBy, String typeOfOrder) throws SQLException{
+		  String sql = "SELECT o.*, u.email FROM order_details o INNER JOIN user u ON u.id = o.userID order by ? ?;";
+		  ResultSet rs = null;
+		  List<Order> orders = new ArrayList<Order>();
+		  
+		  try(Connection connection = ds.getConnection();
+				  PreparedStatement ps = connection.prepareStatement(sql);){
+			  
+			  ps.setString(1, orderBy);
+			  ps.setString(2, typeOfOrder);
+			  
+			  
+			  rs = ps.executeQuery();
+			  
+			  while(rs.next()) {
+				  Order order = new Order();
+				  order.setId(Integer.parseInt(rs.getString(1)));
+				  order.setDataPagamento(rs.getDate(2));
+				  order.setImportoPagamento(rs.getFloat(6));
+				  order.setId_pagamento(rs.getString(5));
+				  order.setEmail(rs.getString("email"));
+				  orders.add(order);
+			  }
+			  
+		  }finally{
+			  if(rs!= null)
+				  rs.close();
+		  }
+		  
+		  return orders;
+	  }
 
 	    public Collection<Order> getAllByUser(int userId) throws SQLException{
 	        Connection connection = null;
@@ -135,6 +167,38 @@ public class OrderDAO implements GenericDBOp<Order>{
 	        return ordine;
 	    }
 	    
+	    public List<OrderItem> orderItems(int id_order) throws SQLException{
+	    	
+	    	String sql = "SELECT o.*, p.nome FROM order_items o INNER JOIN prodotto p ON p.SKU = o.SKU WHERE ID_ordine = ?";
+	    	List<OrderItem> items = new ArrayList<OrderItem>();
+	    	ResultSet rs = null;
+	    	
+	    	try(Connection connection = ds.getConnection();
+	    			PreparedStatement ps = connection.prepareStatement(sql);){
+	    		
+	    		ps.setInt(1, id_order);
+	    		
+	    		rs = ps.executeQuery();
+	    		
+	    		while(rs.next()) {
+	    			OrderItem item = new OrderItem();
+	    			item.setNome(rs.getString(5));
+	    			item.setSKU(rs.getInt(2));
+	    			item.setQuantity(rs.getInt(3));
+	    			item.setPrezzo(rs.getFloat(4));
+	    			
+	    			items.add(item);
+	    		}
+	    		
+	    	}finally {
+	    		if(rs!=null)
+	    			rs.close();
+	    	}
+	    	
+	    	return items;
+	    	
+	    }
+	    
 	    public synchronized Cart getCart(int userId) throws SQLException {
 	    	Cart cart = new Cart(userId);
 	    	Connection connection = null;
@@ -207,7 +271,7 @@ public class OrderDAO implements GenericDBOp<Order>{
 	    	String item = "SELECT quantità FROM prodotto WHERE SKU = ?";
 	    	String order = "INSERT INTO order_details (userId, importo_pagamento, ID_pagamento, data_pagamento, createdAt, modifiedAt) VALUE (?, ?, ?, now(), now(), now())";
 	    	String updateItemStr = "UPDATE " + Prodotto.TABLE_NAME + " SET quantità = ? WHERE SKU = ?";
-	    	String insertOrderItemsStr = "INSERT INTO Order_items (ID_ordine, SKU, quantità) VALUE(?, ?, ?)";
+	    	String insertOrderItemsStr = "INSERT INTO Order_items (ID_ordine, SKU, quantity, sold_at) VALUE(?, ?, ?; ?)";
 	    	String cleanCart = "DELETE FROM cart_items WHERE cart_items.user_id = ?";
 	    	
 	    	String errString = "invalidCheckOut";
@@ -261,10 +325,11 @@ public class OrderDAO implements GenericDBOp<Order>{
 		    			if(itemRs.next()){
 		    				int stockQuantity = itemRs.getInt("quantità");
 		    				if(stockQuantity >= quantity) {
-		    					//"INSERT INTO Order_items (ID_ordine, SKU, quantity) VALUE(?, ?, ?)";
+		    					//"INSERT INTO Order_items (ID_ordine, SKU, quantity, sold_at) VALUE(?, ?, ?; ?)";
 		    					insertOrderItemsPs.setInt(1, orderId);
 		    					insertOrderItemsPs.setInt(2, SKU);
 		    					insertOrderItemsPs.setInt(3, quantity);
+		    					insertOrderItemsPs.setFloat(4, cartItem.getPrezzo());
 		    					insertOrderItemsPs.addBatch();
 		    					
 		    					//"UPDATE " + Prodotto.TABLE_NAME + " SET quantità = ? WHERE SKU = ?"

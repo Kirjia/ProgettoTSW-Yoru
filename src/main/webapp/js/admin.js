@@ -249,3 +249,20 @@ $(document).ready(function() {
 
 	           
 });
+
+var orderBy = "data"
+
+$.ajax({
+    url: '/admin/AllOrders', // Servlet per eliminare un prodotto
+    method: 'POST',
+    data: { orderBy: orderBy },
+    success: function(data) {
+        if(data == null)
+			return;
+		
+		
+    },
+    error: function(error) {
+        console.error('Errore durante l\'eliminazione del prodotto', error);
+    }
+});

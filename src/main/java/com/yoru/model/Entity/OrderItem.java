@@ -8,6 +8,15 @@ public class OrderItem {
 	private int SKU;
 	private int quantity;
 	private String nome;
+	private float prezzo;
+	
+	public float getPrezzo() {
+		return prezzo;
+	}
+	
+	public void setPrezzo(float prezzo) {
+		this.prezzo = prezzo;
+	}
 
     public String getNome() {
 		return nome;
