@@ -42,18 +42,36 @@ public class OrderDAO implements GenericDBOp<Order>{
 	    }
 	  
 	  public Collection<Order> getAllOrders(String orderBy, String typeOfOrder) throws SQLException{
-		  String sql = "SELECT o.*, u.email FROM order_details o INNER JOIN user u ON u.id = o.userID order by ? ?;";
+		  
+		  String column = Order.column(orderBy);
+		  
+		  if (column == null)
+			  throw new SQLException("column not valid: " + orderBy);
+		  
+		  String ASC = "ASC";
+		  String DESC = "DESC";
+		  
+		  String ordString = "";
+		  
+		  if (ASC.equals(typeOfOrder.toUpperCase())) {
+			ordString = ASC;
+		  }else {
+			ordString = DESC;
+		  }
+		
+		  
+		  String sql = "SELECT o.*, u.email FROM order_details o INNER JOIN user u ON u.id = o.userID order by " + column + " " + ordString;
 		  ResultSet rs = null;
 		  List<Order> orders = new ArrayList<Order>();
+		  
+		  
 		  
 		  try(Connection connection = ds.getConnection();
 				  PreparedStatement ps = connection.prepareStatement(sql);){
 			  
-			  ps.setString(1, orderBy);
-			  ps.setString(2, typeOfOrder);
-			  
 			  
 			  rs = ps.executeQuery();
+			  
 			  
 			  while(rs.next()) {
 				  Order order = new Order();

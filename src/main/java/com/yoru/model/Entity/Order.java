@@ -14,6 +14,8 @@ public class Order {
     public static final String COLUMNLABEL4 = "ID_pagamento";
     public static final String COLUMNLABEL5 = "importo_pagamento";
     public static final String COLUMNLABEL6 = "email";
+    
+    private static final String[] COLUM_STRINGS = {COLUMNLABEL1, COLUMNLABEL2, COLUMNLABEL3, COLUMNLABEL4, COLUMNLABEL5, COLUMNLABEL6};
 
     private int id;
     private UUID id_pagamento;
@@ -85,6 +87,16 @@ public class Order {
 
     public void setorderItemList(List<OrderItem> orderItemList) {
         this.orderItemList = orderItemList;
+    }
+    
+    public static String column(String column) {
+    	
+    	for(int i = 0; i < COLUM_STRINGS.length; i++) {
+    		if (COLUM_STRINGS[i].equals(column)) {
+				return COLUM_STRINGS[i];
+			}
+    	}
+    	return null;
     }
 
 

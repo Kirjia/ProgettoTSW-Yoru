@@ -92,7 +92,7 @@ if (admin == null) {
 					<h4>
 						<b>Gestione Ordini</b>
 					</h4>
-					<a href="${pageContext.request.contextPath}/Ordini.jsp">
+					<a href="${pageContext.request.contextPath}/admin/ordini.jsp">
 					<button class="btn btn-success mb-3" id="management-order-btn">Gestione
 						Ordini</button></a>
 					

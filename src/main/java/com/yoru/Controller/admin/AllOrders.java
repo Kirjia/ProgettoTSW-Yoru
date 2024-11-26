@@ -69,7 +69,7 @@ public class AllOrders extends HttpServlet {
 
         // Validazione e normalizzazione dei parametri
         if (sortField == null || sortField.isEmpty()) {
-            sortField = "id"; // Campo predefinito
+            sortField = "ID_ordine"; // Campo predefinito
         }
 
         if (sortOrder == null || sortOrder.isEmpty() || 

@@ -1,17 +1,17 @@
 $(document).ready(function () {
     let sortOrder = 'asc'; // Ordine predefinito
-    let lastSortField = 'id'; // Ultimo campo ordinato
+    let lastSortField = 'ID_ordine'; // Ultimo campo ordinato
 
     // Funzione per caricare la lista degli ordini tramite AJAX
-    function loadOrders(sortField = 'id', sortOrder = 'asc') {
+    function loadOrders(sortField, sortOrder) {
         $.ajax({
-            url: 'admin/AllOrders', // Percorso della servlet AllOrders
+            url: 'AllOrders', // Percorso della servlet AllOrders
             method: 'GET',
             data: { sortField: sortField, sortOrder: sortOrder }, // Passa il campo e l'ordine di ordinamento
             dataType: 'json',
             success: function (data) {
                 var tbody = $('#ordersTable tbody');
-                tbody.empty(); // Svuota la tabella prima di riempirla
+                $('#ordersTable tbody').empty(); // Svuota la tabella prima di riempirla
 
                 // Itera sui dati JSON e aggiungi una riga per ogni ordine
                 data.forEach(function (order) {
@@ -44,7 +44,7 @@ $(document).ready(function () {
         // Mappa dell'indice della colonna al nome del campo nella servlet
         switch (columnIndex) {
             case 0:
-                sortField = 'id';
+                sortField = 'ID_ordine';
                 break;
             case 1:
                 sortField = 'data_pagamento';
@@ -56,10 +56,10 @@ $(document).ready(function () {
                 sortField = 'email';
                 break;
             case 4:
-                sortField = 'id_pagamento';
+                sortField = 'ID_pagamento';
                 break;
             default:
-                sortField = 'id'; // Campo predefinito
+                sortField = 'ID_ordine'; // Campo predefinito
         }
 
         // Cambia direzione di ordinamento se si clicca sulla stessa colonna
@@ -116,5 +116,5 @@ $(document).ready(function () {
     });
 
     // Carica la lista degli ordini all'avvio della pagina
-    loadOrders();
+    loadOrders(lastSortField, sortOrder);
 });
