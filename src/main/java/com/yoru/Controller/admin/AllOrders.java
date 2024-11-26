@@ -63,11 +63,23 @@ public class AllOrders extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("application/json");
 		JSONArray jsonResponse = new JSONArray();
-		
-		
-		
+        // Lettura dei parametri per l'ordinamento
+        String sortField = request.getParameter("sortField");
+        String sortOrder = request.getParameter("sortOrder");
+
+        // Validazione e normalizzazione dei parametri
+        if (sortField == null || sortField.isEmpty()) {
+            sortField = "id"; // Campo predefinito
+        }
+
+        if (sortOrder == null || sortOrder.isEmpty() || 
+           (!sortOrder.equalsIgnoreCase("asc") && !sortOrder.equalsIgnoreCase("desc"))) {
+            sortOrder = "asc"; // Ordine predefinito
+        }
+
+
 		try {
-			Collection<Order> orders = orderDAO.getAllOrders("", "");
+			Collection<Order> orders = orderDAO.getAllOrders(sortField,sortOrder);
 			Iterator<Order> iter = orders.iterator();
 			while(iter.hasNext()) {
 				Order order = iter.next();

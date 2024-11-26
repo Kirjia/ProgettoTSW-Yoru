@@ -42,10 +42,10 @@ if (prodotto == null) {
         boolean isOutOfStock = gadgets.getQuantità() <= 0;
         %>
         <div class="col-md-5 text-center position-relative">
-            <img src="files/images/<%= gadgets.getSKU() %>.jpg" 
+            <img src="files/images/<%= gadgets.getSKU() %>.png" 
                  class="product-img img-fluid <% if (isOutOfStock) { %> out-of-stock <% } %>" 
                  alt="${prodotto.nome}" 
-                 onerror="this.src='files/images/err.jpeg'">
+                 onerror="this.src='files/images/err.png'">
                  
             <% if (isOutOfStock) { %>
                 <div class="out-of-stock-overlay">Out of Stock</div>

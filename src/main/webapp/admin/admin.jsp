@@ -80,8 +80,10 @@ if (admin == null) {
 
 					<button class="btn btn-success mb-3" id="add-product-btn">Aggiungi
 						Nuovo Prodotto</button>
-					<a href="../jsp/GestioneProdotti.jsp" class="btn btn-success mb-3">Visualizza
-						Prodotti</a>
+					<a href="${pageContext.request.contextPath}/GestioneProdotti.jsp">
+					<button class="btn btn-success mb-3" id="add-product-btn">
+					Visualizza
+						Prodotti </button></a>
 				</div>
 
 				<!-- Gestione ordini -->
@@ -90,9 +92,10 @@ if (admin == null) {
 					<h4>
 						<b>Gestione Ordini</b>
 					</h4>
-
+					<a href="${pageContext.request.contextPath}/Ordini.jsp">
 					<button class="btn btn-success mb-3" id="management-order-btn">Gestione
-						Ordini</button>
+						Ordini</button></a>
+					
 				</div>
 			</div>
 		</div>

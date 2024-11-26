@@ -34,7 +34,7 @@
 	Collection<?> items = (Collection<?>) request.getAttribute("items");
 
 	if (items == null) {
-		response.sendRedirect("../GetAllItem");
+		response.sendRedirect("./GetAllItem");
 		return;
 	}
 	%>

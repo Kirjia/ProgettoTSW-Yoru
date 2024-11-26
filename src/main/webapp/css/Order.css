@@ -1,0 +1,115 @@
+/* Contenitore centrato per la tabella */
+.center-table { 
+    display: flex; 
+    justify-content: center; 
+    margin-top: 20px; 
+    margin-bottom: 20px;
+}
+
+/* Stile per la tabella */
+table {
+    width: 80%; /* Più stretto per evidenziare la centratura */
+    border-collapse: collapse;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Aggiunta di ombra */
+    border-radius: 8px; /* Angoli arrotondati */
+    overflow: hidden; /* Per gestire i bordi arrotondati */
+}
+
+/* Stile per intestazione della tabella */
+th {
+    background-color: #ff7000;
+    color: white;
+    padding: 12px;
+    text-align: left;
+    font-weight: bold;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+/* Celle della tabella */
+td {
+    padding: 10px;
+    text-align: left;
+    background-color: #f9f9f9;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Righe alternate */
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Hover su righe */
+tr:hover {
+    background-color: #ffe6cc; /* Leggero arancione chiaro per l'effetto hover */
+}
+
+/* Riga dei dettagli, nascosta inizialmente */
+.details-row {
+    display: none;
+    background-color: #fff4e6; /* Colore di sfondo più chiaro per evidenziare i dettagli */
+}
+
+/* Stile per la cella dei dettagli */
+.details-cell {
+    padding: 15px;
+    font-style: italic;
+    color: #666;
+}
+.sortable {
+    cursor: pointer;
+    position: relative;
+}
+
+.sortable:hover {
+    background-color: #ffe6cc; /* Colore di hover */
+}
+
+.sortable::after {
+    content: ' ⬍'; /* Indicazione di ordinabilità */
+    font-size: 12px;
+    color: #666;
+    position: absolute;
+    right: 5px;
+}
+
+
+
+#ordersTable tr:hover {
+    background-color: #f1f1f1;
+    cursor: pointer;
+}
+
+/* Righe principali degli ordini */
+.order-row {
+    background-color: #ffffff;
+    transition: background-color 0.3s ease;
+}
+
+.order-row.active {
+    background-color: #e8f5e9; /* Verde chiaro per evidenziare la riga attiva */
+}
+
+/* Righe dei dettagli */
+.details-row {
+    display: none; /* Nascosta di default */
+    background-color: #f9f9f9; /* Grigio chiaro per distinguere i dettagli */
+}
+
+.details-row .details-cell {
+    padding: 15px;
+    font-size: 14px;
+    color: #555;
+    border-left: 4px solid #4caf50; /* Barra laterale colorata */
+}
+
+.details-row ul {
+    margin: 0;
+    padding: 0 20px;
+    list-style-type: none;
+}
+
+.details-row li {
+    margin: 5px 0;
+    font-size: 14px;
+}

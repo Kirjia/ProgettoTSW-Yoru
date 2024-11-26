@@ -52,30 +52,38 @@ public class OrderDetails extends HttpServlet {
 	}
 
 	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("application/json");
-		JSONObject json = new JSONObject();
-		
-		
-		try {
-			List<OrderItem> items = orderDAO.orderItems(10);
-			Iterator<OrderItem> iter = items.iterator();
-			while(iter.hasNext()) {
-				OrderItem item = iter.next();
-				json.put("SKU", item.getSKU());
-				json.put("nome", item.getNome());
-				json.put("quantity", item.getQuantity());
-				json.put("prezzo", item.getPrezzo());
-				
-			}
-		} catch (SQLException e) {
-			LOGGER.log(Level.WARNING, "Db error", e);
-		} catch (JSONException e) {
-			LOGGER.log(Level.WARNING, "json error", e);
-		}
-		
-		response.getWriter().println(json);
-	}
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("application/json");
+        JSONArray jsonResponse = new JSONArray();
+
+        try {
+            // Recupera l'ID dell'ordine dalla richiesta
+            String orderIdStr = request.getParameter("orderId");
+            int orderId = Integer.parseInt(orderIdStr);
+
+            // Ottieni gli articoli dell'ordine dal database usando l'ID dell'ordine
+            List<OrderItem> items = orderDAO.orderItems(orderId);
+
+            // Crea un array JSON con gli articoli
+            for (OrderItem item : items) {
+                JSONObject jsonItem = new JSONObject();
+                jsonItem.put("SKU", item.getSKU());
+                jsonItem.put("nome", item.getNome());
+                jsonItem.put("quantity", item.getQuantity());
+                jsonItem.put("prezzo", item.getPrezzo());
+
+                jsonResponse.put(jsonItem);
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.WARNING, "Db error", e);
+        } catch (JSONException e) {
+            LOGGER.log(Level.WARNING, "json error", e);
+        } catch (NumberFormatException e) {
+            LOGGER.log(Level.WARNING, "Invalid order ID format", e);
+        }
+
+        response.getWriter().println(jsonResponse);
+    }
 
 
 }
