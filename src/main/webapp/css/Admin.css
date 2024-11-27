@@ -1,104 +1,127 @@
-.list-group-item.active:active, .list-group-item.active:hover,
-	.list-group-item.active:visited {
-	z-index: 2;
-	color: #495057 !important;
-}
-
-.list-group-item.active:active, .list-group-item.active:visited,
-	.list-group-item.active {
-	z-index: 2;
-	background-color: white;
-	border-color: rgba(0, 0, 0, 0.125) !important;
-}
-
-.list-group-item.active:hover {
-	background-color: rgba(0, 0, 0, 0.125) !important;
-	border-color: rgba(0, 0, 0, 0.125) !important;
-}
-
-.btn-success {
-	background-color: #ff7000 !important;
-	border-color: #ff7000 !important;
-}
-
-/* Dropdown styling for "Seleziona la casa editrice" */
-.form-group select {
-    width: 100%;
-    font-size: 16px;
+body {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
     color: #333;
-    background-color: #f9f9f9;
-    border: 1px solid #ff7000;
-    border-radius: 4px;
-    margin-bottom: 20px;
-    transition: border-color 0.3s ease, background-color 0.3s ease;
-}
-.form-group-editor select  {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    color: #333;
-    background-color: #f9f9f9;
-    border: 1px solid #ff7000;
-    border-radius: 4px;
-    margin-bottom: 20px;
-    transition: border-color 0.3s ease, background-color 0.3s ease;
+    background-color: #f7f7f7;
 }
 
-/* Hover and focus effect for the select dropdown */
-.form-group select:hover, .form-group select:focus, .form-group-editor select:hover, .form-group-editor select:focus {
-    border-color: #e06600;
-    background-color: #fff5e6;
-    outline: none;
+.container {
+    max-width: 1200px;
+    margin-top: 2rem;
 }
 
-/* Dropdown arrow styling for consistency */
-.form-group select {
-    -webkit-appearance: none; /* For WebKit-based browsers */
-    -moz-appearance: none; /* For Firefox */
-    appearance: none; /* Standard */
-    background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"><path fill="%23ff7000" d="M7 10l5 5 5-5z"/></svg>');
-    background-repeat: no-repeat;
-    background-position: right 10px center;
-    background-size: 12px;
+.profile-card, .product-management, .order-management {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
 }
 
-
-.btn-success:hover {
-	background-color: #e06600 !important;
-	border-color: #e06600 !important;
-	transition: all .2s ease-in;
+.profile-card h4,
+.product-management h4,
+.order-management h4 {
+    font-size: 1.5rem;
+    color: #ff7000;
+    margin-bottom: 1rem;
+    font-weight: 600;
 }
 
+.profile-card p {
+    font-size: 1rem;
+    margin: 0.5rem 0;
+}
+
+.btn-success,
 .btn-primary {
-	background-color: #ff7000 !important;
-	border-color: #ff7000 !important;
+    background-color: #ff7000 !important;
+    border-color: #ff7000 !important;
+    transition: all 0.3s ease-in-out;
 }
 
+.btn-success:hover,
 .btn-primary:hover {
-	background-color: #e06600 !important;
-	border-color: #e06600 !important;
-	transition: all .2s ease-in;
+    background-color: #e06600 !important;
+    border-color: #e06600 !important;
 }
 
-.mb-4 button, .mb-4 a {
-	margin-top: 10px;
+.modal-content {
+    border-radius: 8px;
+    padding: 1.5rem;
 }
 
-.profile-card h4 {
-	margin-bottom: 30px;
+.modal-header {
+    border-bottom: none;
 }
 
-.mt-5, .my-5 {
-	margin-top: 1rem !important;
-}
-/* Toglie gli spinner ai form per i numeri*/
-/* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
-	-webkit-appearance: none;
-	margin: 0;
+.modal-title {
+    color: #ff7000;
+    font-size: 1.25rem;
 }
 
-/* Firefox */
-input[type=number] {
-	-moz-appearance: textfield;
+.form-control {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: all 0.3s ease-in-out;
+}
+
+.form-control:focus {
+    border-color: #ff7000;
+    box-shadow: 0 0 5px rgba(255, 112, 0, 0.2);
+}
+
+.form-label {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+select {
+    appearance: none;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 0.5rem;
+    transition: border-color 0.3s ease-in-out;
+}
+
+select:focus {
+    border-color: #ff7000;
+    box-shadow: 0 0 5px rgba(255, 112, 0, 0.2);
+}
+
+button[type="submit"] {
+    background-color: #ff7000;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #e06600;
+}
+
+.product-management .d-flex {
+    gap: 10px; /* Spazio uniforme tra i pulsanti */
+}
+
+@media (max-width: 768px) {
+    .product-management .d-flex {
+        flex-direction: column; /* Imposta i pulsanti in colonna per schermi piccoli */
+        gap: 15px; /* Maggiore spazio tra i pulsanti */
+    }
+}
+
+@media (max-width: 768px) {
+    .profile-card, .product-management, .order-management {
+        padding: 1rem;
+    }
+    .modal-content {
+        padding: 1rem;
+    }
+    h4 {
+        font-size: 1.25rem;
+    }
 }

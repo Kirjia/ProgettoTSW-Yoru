@@ -1,140 +1,206 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
-
-/* Sezione prodotti */
-.section-products {
-    padding: 50px 0 54px;
+/* Sfondo per la pagina prodotti */
+body {
+    background-image: url("../files/images/Sfondo.png")!important;
+    background-size: contain;
+    background-repeat: repeat-y;
+    background-color: #ffffff; 
+   opacity:inherit !important;
+    font-family: 'Roboto', sans-serif !important; /* Applica il font Roboto alla pagina */
 }
+h1 {
+	padding:15px;
+  font-size: calc(20px + 18vh);
+  line-height: calc(20px + 20vh);
+/*   text-shadow: 0 0 5px #f562ff, 0 0 15px #f562ff, 0 0 25px #f562ff,
+    0 0 20px #f562ff, 0 0 30px #890092, 0 0 80px #890092, 0 0 80px #890092;
+  color: #fccaff; */
+  text-shadow: 0 0 5px #ffa500, 0 0 15px #ffa500, 0 0 20px #ffa500, 0 0 40px #ffa500, 0 0 60px #ff0000, 0 0 10px #ff8d00, 0 0 98px #ff0000;
+    color: #fff6a9;
+  font-family: "Sacramento", cursive;
+  text-align: center;
+  animation: blink 12s infinite;
+  -webkit-animation: blink 12s infinite;
+}
+
+
 
 /* Stili per i link */
 .section-products a {
-    color: inherit; /* Mantiene il colore del genitore */
-    text-decoration: none; /* Rimuove la sottolineatura */
+    color: inherit !important; /* Mantiene il colore del genitore */
+    text-decoration: none !important; /* Rimuove la sottolineatura */
 }
 .section-products a:hover {
-    color: inherit;
-    text-decoration: none;
+    color: inherit !important;
+    text-decoration: none !important;
 }
 
 /* Card prodotto */
+/* Card prodotto */
 .single-product {
-    position: relative;
-    padding-bottom: 50px; /* Spazio per il pulsante in basso */
-    overflow: hidden;
+    position: relative !important;
+    padding-bottom: 50px !important;
+    overflow: hidden !important;
+    background: radial-gradient(circle, rgba(52, 58, 64, 0.8), rgba(74, 74, 74, 0.8)) !important; /* Gradiente radiale trasparente */
+    border-radius: 8px !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important; /* Ombra sottile */
+    transition: transform 0.2s ease-in-out !important;
+}
+.single-product:hover {
+
+    border: 2px solid #ff7000 !important; /* Bordo con il colore neon #7000ff (tonalità di rosso/neon) */
+    box-shadow: 0 0 10px #ff7000, 0 0 20px #ff7000, 0 0 30px #ff7000 !important; /* Effetto neon */
+    transition: transform 0.2s ease-in-out !important;
+}
+	
+.single-product:hover .part-1 img {
+    transform: scale(1.1) !important; /* Zoom leggero sull'immagine al passaggio del mouse */
 }
 
 /* Immagine del prodotto */
 .product-image-wrapper {
-    position: relative;
-    display: inline-block;
+	
+    position: relative !important;
+    display: inline-block !important;
 }
 .product-image {
-    width: 100%;
-    height: auto;
+	padding: 15px !important;
+    width: 100% !important;
+    height: auto !important;
 }
 .out-of-stock {
-    opacity: 0.5;
-    filter: grayscale(100%);
-    }
+    opacity: 0.5 !important;
+    filter: grayscale(100%) !important;
+}
 .out-of-stock-overlay {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 1.5em;
-    font-weight: bold;
-    color: red;
-    padding: 10px;
-    border-radius: 5px;
-    text-align: center;
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    font-size: 1.2em !important;
+    font-weight: bold !important;
+    color: white !important;
+    background-color: rgba(0, 0, 0, 0.7) !important; /* Sfondo scuro trasparente */
+    padding: 10px 20px !important;
+    border-radius: 5px !important;
+    text-align: center !important;
 }
 
 /* Posizionamento immagine */
 .section-products .single-product .part-1 {
-    position: relative;
-    height: 200px;
-    overflow: hidden;
-    width: 100%;
-    margin-bottom: 20px;
+    position: relative !important;
+    height: 200px !important;
+    overflow: hidden !important;
+    width: 100% !important;
+    margin-bottom: 20px !important;
 }
 .section-products .single-product .part-1 img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
+    width: 100% !important;
+    height: auto !important;
+    object-fit: contain !important;
+    max-height: 220px !important; /* Mantieni un limite per l'altezza */
+    transition: transform 0.3s !important;
+}
+
+.section-products .row > div {
+    margin-bottom: 30px !important;
 }
 
 /* Titolo prodotto */
 .product-title-wrapper {
-    width: 100%;
-    overflow: hidden;
-    white-space: nowrap;
-    margin-left: 10px;
+    width: 100% !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+    margin-left: 10px !important;
 }
 .product-title {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: inline-block;
-    font-size: 1rem;
+	text-align:center;
+    font-size: 1.1rem !important;
+    font-weight: 500 !important;
+    color: white !important;
+    border:black !important;
+    margin-bottom: 5px !important;
+   white-space: normal !important; /* Permetti al testo di andare a capo */
+    word-wrap: break-word !important; /* Gestione delle parole lunghe */
+    overflow-wrap: break-word !important;
 }
 .product-title-wrapper:hover .product-title {
-    animation: scrollHover 7s linear infinite;
-    text-overflow: unset;
+    animation: scrollHover 7s linear infinite !important;
+    text-overflow: unset !important;
 }
 @keyframes scrollHover {
     0% {
-        transform: translateX(0);
+        transform: translateX(0) !important;
     }
     100% {
-        transform: translateX(-50%);
+        transform: translateX(-50%) !important;
     }
 }
 
-/* Prezzo prodotto */
-.part-2 span {
-    display: block;
-    font-size: 1.2rem;
-    color: #808080;
-    margin-left: 10px;
+
+
+/* Prezzo prodotto: Spostato sopra il pulsante e centrato */
+.part-2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centro i contenuti all'interno */
 }
 
-/* Pulsante aggiungi al carrello */
-.aggiungi-al-carrello {
-    background-color: #ff7000;
-    color: white;
-    padding: 5px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    position: absolute;
-    right: 10px;
-    bottom: 10px;
+.part-2 span {
+    font-size: 1rem !important;
+    font-weight: bold !important;
+    color: #ff7000 !important;
+    margin-top: 5px !important;
+    margin-bottom: 10px !important; /* Spazio tra prezzo e pulsante */
 }
+
+/* Pulsante aggiungi al carrello: Centrato in fondo alla carta prodotto */
+.aggiungi-al-carrello {
+    background-color: #ff7000 !important;
+    color: white !important;
+    padding: 10px 20px !important;
+    border: none !important;
+    border-radius: 5px !important;
+    cursor: pointer !important;
+    font-size: 1rem !important;
+    font-weight: bold !important;
+    transition: background-color 0.3s ease !important;
+    text-align: center; /* Centra il pulsante */
+}
+
+
+
 .aggiungi-al-carrello:hover {
-    background-color: #343a40;
-    transition: all .1s ease-in;
+    background-color: #e65c00 !important;
 }
 
 .aggiungi-al-carrello:disabled {
-    background-color: gray;
+    background-color: #b3b3b3 !important;
+    cursor: not-allowed !important;
 }
 
 /* Paginazione */
 .pagination .page-item .page-link {
-    background-color: #ff7000;
-    margin-left:10px;
-    border-color: #ff7000;
-    color: white;
+    background-color: #343a40 !important;
+    color: white !important;
+    border-radius: 50% !important;
+    margin: 0 5px !important;
+    width: 40px !important;
+    height: 40px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: background-color 0.3s !important;
 }
+
 .pagination .page-item.active .page-link {
-    background-color: #343a40;
-    border-color: #343a40;
-    color: white;
+    background-color: #343a40 !important;
 }
+
 .pagination .page-item .page-link:hover {
-    background-color: #23272b;
-    border-color: #23272b;
+    background-color: #e65c00 !important;
 }
+
 .page-link {
     color: white !important;
 }

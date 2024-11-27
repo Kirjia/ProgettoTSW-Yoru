@@ -1,128 +1,148 @@
-body {
-            font-family: Arial, sans-serif;
-        }
-        .container {
-            display: flex;
-			margin-bottom: 50px;
-			margin-top: 50px;
-        }
-        .order-details, .cart-summary {
-            width: 48%;
-            padding: 20px;
-            border: 1px solid #ccc;
-            background-color: #f9f9f9;
-        }
-        .order-details{
-        	border-bottom-left-radius: 10px;
-            border-top-left-radius: 10px;
-            }
-        .cart-summary {
-            width: 48%;
-            background-color: #ff7000;
-            color: white;
-            border-left-style: solid;
-            border-left-color: #343a40;
-            border-left-width: 5px;
-            border-bottom-right-radius: 10px;
-            border-top-right-radius: 10px; 
-            
-        }
-        h2 {
-            color: #333;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        .form-group input {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        
-        .cart-items {
-            margin-top: 20px;
-        }
-        .cart-item {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-        .total-section {
-            font-size: 18px;
-            font-weight: bold;
-        }
-        .form-group select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 16px;
-            color: #333;
-            background-color: #f9f9f9;
-            margin-bottom: 20px;
-            transition: border-color 0.3s ease;
-        }
-        .confirm-button {
-            width: 100%;
-            padding: 10px;
-            background-color: #343a40;
-            color: white;
-            font-size: 16px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .confirm-button:hover {
-            background-color: #218838;
-        }
-        /* Responsive Design */
-@media (max-width: 768px) {
-    .container {
-        flex-direction: column;
-        align-items: center;
-        padding: 10px;
-    }
-
-    .order-details, .cart-summary {
-        width: 100%;
-        margin-bottom: 20px;
-    }
-
-    .cart-summary {
-        border-left: none;
-        border-top: 5px solid #343a40;
-        border-bottom-right-radius: 10px;
-        border-bottom-left-radius: 10px;
-    }
+/* Stili generali */
+.card {
+    margin: 20px auto;
+    max-width: 950px;
+    width: 90%;
+    border-radius: 15px;
+    border: none;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
 }
-/* Design specifico per dispositivi mobili con schermi più piccoli di 480px */
-@media (max-width: 480px) {
-    .container {
-        margin-top: 20px;
-        margin-bottom: 20px;
-        padding: 5px;
-    }
 
-    .form-group input, .form-group select {
-        padding: 8px;
-        font-size: 14px;
-    }
+.cart {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+}
 
-    .confirm-button {
-        font-size: 14px;
-        padding: 8px;
-    }
+.summary {
+    background-color: #343a40;
+    color: white;
+    padding: 20px;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
 
-    h2 {
-        font-size: 18px;
-    }
+.summary h5 {
+    font-size: 1.3rem;
+    color: #ffc107;
+}
 
-    .order-details, .cart-summary {
-        padding: 15px;
-    }
+.summary .row {
+    font-size: 1.1rem;
+    margin: 15px 0;
+}
+
+#total-amount {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+/* Stile generale per il select */
+.select-custom {
+    appearance: none; /* Rimuove lo stile di default del browser */
+    -webkit-appearance: none; /* Per Safari */
+    -moz-appearance: none; /* Per Firefox */
+    background-color: #ffffff; /* Sfondo bianco */
+    border: 1px solid #ced4da; /* Bordi grigi */
+    border-radius: 8px; /* Bordi arrotondati */
+    padding: 10px 15px; /* Spaziatura interna */
+    font-size: 1rem; /* Dimensione del testo */
+    color: #495057; /* Colore del testo */
+    outline: none; /* Rimuove i contorni al focus */
+    width: 100%; /* Adatta alla larghezza del contenitore */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ombra leggera */
+    transition: all 0.3s ease-in-out; /* Transizione per hover e focus */
+    cursor: pointer; /* Indica che è cliccabile */
+}
+
+/* Icona della freccia */
+.select-custom::after {
+    content: '▼'; /* Freccia giù */
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #495057;
+}
+
+/* Effetto hover */
+.select-custom:hover {
+    border-color: #80bdff; /* Cambia colore del bordo */
+    box-shadow: 0 4px 6px rgba(0, 123, 255, 0.2); /* Intensifica l'ombra */
+}
+
+/* Effetto focus */
+.select-custom:focus {
+    border-color: #007bff; /* Cambia colore del bordo */
+    box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.25); /* Anello di focus */
+}
+/* Stili specifici per la sezione utente e indirizzi */
+.user-details,
+.user-addresses,
+.payment-method {
+    margin-bottom: 20px;
+}
+
+.user-details h5,
+.user-addresses h5,
+.payment-method h5 {
+    font-size: 1.2rem;
+    color: #495057;
+    font-weight: bold;
+}
+
+.user-details p,
+.user-addresses .list-group-item {
+    font-size: 1rem;
+    color: #6c757d;
+}
+
+.user-addresses .list-group-item {
+    background-color: #ffffff;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    padding: 10px;
+}
+
+/* Metodo di pagamento */
+.payment-method .form-check {
+    margin-bottom: 10px;
+}
+
+.payment-method .form-check-input {
+    margin-right: 10px;
+}
+
+.payment-method .form-check-label {
+    font-size: 1rem;
+    color: #495057;
+}
+
+/* Riepilogo ordine */
+.order-items .row {
+    display: flex;
+    align-items: center;
+}
+
+.order-items .row p {
+    font-size: 1rem;
+    margin: 0;
+    color: #ffffff;
+}
+
+/* Pulsante di conferma */
+#confirm-payment {
+    background-color: #28a745;
+    color: white;
+    font-size: 1.1rem;
+    border-radius: 25px;
+    padding: 10px 15px;
+    transition: all 0.3s;
+}
+
+#confirm-payment:hover {
+    background-color: #218838;
+    color: #ffffff;
 }

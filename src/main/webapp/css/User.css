@@ -1,90 +1,61 @@
 body {
   font-family: 'Poppins', sans-serif;
-  font-size: 1rem; /* Base font size */
+  font-size: 1rem;
+  background-color: #f8f9fa;
+  color: #333;
 }
 
 .container {
-  max-width: 1400px; /* Limita la larghezza del contenuto */
+  max-width: 1200px;
 }
 
 .profile-card, .order-history, .order-card {
   background-color: #fff;
-  padding: 1.25rem;
-  border-radius: 8px;
-  /*box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);*/
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.profile-card:hover, .order-history:hover, .order-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
 }
 
 .profile-card h4, .order-history h4 {
-  font-weight: lighter;
-  color: #333;
+  font-weight: 600;
+  color: #ff7000;
 }
 
 .order-card ul {
-  padding-left: 20px;
+  list-style: none;
+  padding-left: 0;
 }
 
-/* Elementi centrati per mobile */
+.order-card ul li {
+  margin-bottom: 0.5rem;
+  color: #555;
+}
+
 .text-left {
   text-align: left !important;
 }
 .text-right {
   text-align: right !important;
 }
-
-/* Stile responsivo per schermi 4K */
-@media (min-width: 2560px) {
-  body {
-    font-size: 1.25rem; /* Aumenta il font per 4K */
-  }
-  .profile-card, .order-history {
-    padding: 2rem;
-  }
-  .order-card p, .profile-card p {
-    font-size: 1.15rem;
-  }
+.edit-icon {
+  color: #ff7000 !important; 
+  cursor: pointer;
+  transition: color 0.3s ease;
 }
 
-/* Responsività per desktop medio-grandi */
-@media (min-width: 1200px) and (max-width: 2560px) {
-  body {
-    font-size: 1rem;
-  }
+.edit-icon:hover {
+  color: #cc5800 !important; /* Un colore leggermente più scuro per l'effetto hover */
 }
 
-/* Schermi medi (tablet, piccoli desktop) */
-@media (min-width: 768px) and (max-width: 1199px) {
-  .profile-card, .order-history {
-    padding: 1.5rem;
-  }
-  .order-card p, .profile-card p {
-    font-size: 1rem;
-  }
-  .text-md-right {
-    text-align: right;
-  }
-}
-
-/* Schermi piccoli (smartphone) */
+/* Responsività */
 @media (max-width: 767px) {
-  .container {
-    max-width: 100%;
-    padding: 0 1rem;
-  }
-  
   .profile-card, .order-history, .order-card {
     padding: 1rem;
-  }
-
-  .profile-card h4, .order-history h4 {
-    font-size: 1.25rem;
-  }
-
-  .order-card p, .profile-card p {
-    font-size: 0.95rem;
-  }
-
-  /* Allineamento testi */
-  .text-md-right {
-    text-align: left;
   }
 }

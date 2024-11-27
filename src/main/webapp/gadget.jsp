@@ -26,7 +26,7 @@ if (items == null) {
 	return;
 } %>
 <!-- Product Section -->
-<section class="section-products container mt-5">
+<section class="section-products container mt-5" style="margin-top: 0px!important; padding-top: 0px !important;">
     <h1 class="text-center mb-4">I nostri gadget</h1>
     <div class="row">
         <!-- Itera sui prodotti passati dal servlet -->

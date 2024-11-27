@@ -60,11 +60,6 @@ tr:hover {
     cursor: pointer;
     position: relative;
 }
-
-.sortable:hover {
-    background-color: #ffe6cc; /* Colore di hover */
-}
-
 .sortable::after {
     content: ' ⬍'; /* Indicazione di ordinabilità */
     font-size: 12px;

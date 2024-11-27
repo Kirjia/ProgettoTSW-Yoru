@@ -89,7 +89,7 @@ $(document).ready(function () {
 
             // Effettua la richiesta AJAX alla servlet OrderDetails per ottenere i dettagli dell'ordine
             $.ajax({
-                url: 'admin/OrderDetails', // Percorso della servlet OrderDetails
+                url: 'OrderDetails', // Percorso della servlet OrderDetails
                 method: 'POST',
                 data: { orderId: orderId },
                 dataType: 'json',
@@ -109,6 +109,8 @@ $(document).ready(function () {
                 },
                 error: function (xhr, status, error) {
                     console.error("Errore durante il recupero dei dettagli dell'ordine:", error);
+                    console.log("Risposta:", xhr.responseText); // Log della risposta per ulteriore debug
+
                     detailsRow.find('.details-cell').html("Errore nel caricamento dei dettagli.");
                 }
             });

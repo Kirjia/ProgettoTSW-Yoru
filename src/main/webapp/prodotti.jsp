@@ -27,10 +27,12 @@ if (items == null) {
     return;
 } 
 %>
-
+ <div class="title">
+    <h1 class="text-center mb-4">I nostri libri</h1>
+    </div>
 <!-- Product Section -->
-<section class="section-products container mt-5" style=" margin-top: 1rem !important;"><!-- override -->
-    <h1 class="text-center mb-4" style="margin-bottom:50px !important;">I nostri libri</h1>
+<section class="section-products container mt-5" style="margin-top: 0px!important; padding-top: 0px !important;"><!-- override -->
+   
     <div class="row">
         <!-- Itera sui prodotti passati dal servlet -->
         <c:forEach items="${items}" var="prodotto">

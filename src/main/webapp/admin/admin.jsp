@@ -34,72 +34,36 @@ if (admin == null) {
 <body>
 
 	<%@ include file="/header.jsp"%>
-	<div class="container mt-5" style="margin-top: 1rem !important;">
-
-		<div class="row justify-content-center">
-			<!-- Sidebar menu
-            <div class="col-md-3 mb-4">
-                <div class="list-group text-center">
-                    <a href="#" class="list-group-item list-group-item-action">Gestione Utenti</a>
-                    <a href="#" class="list-group-item list-group-item-action active">Gestione Prodotti</a>
-                    <a href="#" class="list-group-item list-group-item-action">Gestione Ordini</a>
-                    <a href="${pageContext.request.contextPath}/Logout" class="list-group-item list-group-item-action">Logout</a>
-                </div>
-            </div> -->
-
-			<div class="col-md-9 text-center">
-				<!-- Admin Info Card -->
-				<div class="profile-card mb-4 mx-auto">
-
-					<h4>
-						<b>Pannello Admin</b>
-					</h4>
-
-					<p>
-						<b>Nome Admin:</b>
-						<%=admin.getNome()%></p>
-					<p>
-						<b>Email:</b>
-						<%=admin.getEmail()%></p>
-				</div>
-
-				<!-- Gestione utenti 
-                <div class="user-management mb-4">
-                <hr>
-                    <h4><b>Gestione Utenti</b></h4>
-                    
-                    <button class="btn btn-success mb-3" id="management-user-btn">Gestione utenti</button>
-                </div>-->
-
-				<!-- Product Management Section -->
-				<div class="product-management mb-4">
-					<hr>
-					<h4>
-						<b>Gestione Prodotti</b>
-					</h4>
-
-					<button class="btn btn-success mb-3" id="add-product-btn">Aggiungi
-						Nuovo Prodotto</button>
-					<a href="${pageContext.request.contextPath}/GestioneProdotti.jsp">
-					<button class="btn btn-success mb-3" id="add-product-btn">
-					Visualizza
-						Prodotti </button></a>
-				</div>
-
-				<!-- Gestione ordini -->
-				<div class="order-management mb-4">
-					<hr>
-					<h4>
-						<b>Gestione Ordini</b>
-					</h4>
-					<a href="${pageContext.request.contextPath}/admin/ordini.jsp">
-					<button class="btn btn-success mb-3" id="management-order-btn">Gestione
-						Ordini</button></a>
-					
-				</div>
+	<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-9 mx-auto">
+            <!-- Admin Info -->
+            <div class="profile-card text-center">
+                <h4><b>Pannello Admin</b></h4>
+                <p><b>Nome Admin:</b> <%= admin.getNome() %></p>
+                <p><b>Email:</b> <%= admin.getEmail() %></p>
+            </div>
+			
+			<!-- Product Management -->
+			<div class="product-management text-center">
+   				<h4><b>Gestione Prodotti</b></h4>
+   					 <div class="d-flex justify-content-center gap-2 flex-wrap">
+       					 <button class="btn btn-success" id="add-product-btn">Aggiungi Nuovo Prodotto</button>
+        				 <a href="${pageContext.request.contextPath}/GestioneProdotti.jsp" class="btn btn-primary">Visualizza Prodotti</a>
+    				</div>
 			</div>
-		</div>
-	</div>
+			
+      
+
+            <!-- Order Management -->
+            <div class="order-management text-center">
+                <h4><b>Gestione Ordini</b></h4>
+                <a href="${pageContext.request.contextPath}/admin/ordini.jsp" class="btn btn-success">Gestione Ordini</a>
+            </div>
+        </div>
+    </div>
+</div>
+	
 
 	<!-- Modale per Aggiungere un Nuovo Prodotto -->
 	<div class="modal fade" id="addProductModal" tabindex="-1"

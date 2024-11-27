@@ -41,6 +41,7 @@
 	margin-left: auto;
 	margin-right: auto;
 	display: block; /* Centra l'immagine nel contenitore */
+	
 }
 
 .quantity-box {
@@ -73,5 +74,6 @@
 .btn-primary:disabled {
     background-color: gray !important ;
     border-color: gray !important;
+    cursor: default !important;
 }
 

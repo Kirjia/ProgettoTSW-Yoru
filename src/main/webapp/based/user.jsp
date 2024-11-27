@@ -13,24 +13,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Profilo Utente</title>
 
-
 <!-- Bootstrap CSS -->
-<link
-    href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-    rel="stylesheet">
-<link
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-    rel="stylesheet">
-<link href="${pageContext.request.contextPath}/css/User.css"
-    rel="stylesheet">
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/css/User.css" rel="stylesheet">
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <!-- Bootstrap JS, Popper.js, and jQuery -->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script
-    src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script
-    src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <%
 Collection<?> ordini = (Collection<?>) request.getAttribute("historyOrders");
@@ -48,32 +42,26 @@ if (ordini == null) {
         <div class="row justify-content-center">
             <div class="col-lg-8 col-md-10 col-sm-12">
                 <!-- User Info Card -->
-                <div class="profile-card p-3 mb-4 border rounded">
+                <div class="profile-card p-3 mb-4 border rounded shadow-sm">
                     <h4><b>Profilo Utente</b></h4>
                     <hr>
-                    <p>
-                        <b>Nome:</b> <%=user.getNome()%>
-                    </p>
-                    <p>
-                        <b>Cognome:</b> <%=user.getCognome()%>
-                    </p>
-                    <p>
-                        <b>Email:</b> <%=user.getEmail()%>
-                    </p>
+                    <p><b>Nome:</b> <%=user.getNome()%></p>
+                    <p><b>Cognome:</b> <%=user.getCognome()%></p>
+                    <p><b>Email:</b> <%=user.getEmail()%></p>
                     <p>
                         <b>Telefono:</b> 
                         <span id="telefono-value"><%=user.getTelefono()%></span>
-                        <i class="fas fa-edit" style="cursor: pointer;" id="edit-telefono"></i>
+                        <i class="fas fa-edit text-primary"  id="edit-telefono"></i>
                     </p>
                     <div id="indirizzi-container"></div>
                 </div>
 
                 <!-- Order History Section -->
-                <div class="order-history p-3 mb-4 border rounded">
+                <div class="order-history p-3 mb-4 border rounded shadow-sm">
                     <h4 class="mt-4"><b>La tua Cronologia Ordini</b></h4>
                     <hr>
                     <c:forEach items="${historyOrders}" var="ordine">
-                        <div class="order-card p-3 mb-3">
+                        <div class="order-card p-3 mb-3 border rounded shadow-sm">
                             <div class="row">
                                 <div class="col-md-6">
                                     <p><b>ID Ordine:</b> ${ordine.id}</p>
@@ -142,10 +130,4 @@ if (ordini == null) {
     <%@ include file="/html/footer.html"%>
 
 </body>
-<style>
-	.mt-4, .my-4{
-		margin-top:0px !important;
-	}
-</style>
-
 </html>
