@@ -276,7 +276,7 @@ public class OrderDAO implements GenericDBOp<Order>{
 	    }
 	    
 	    
-	    public synchronized boolean checkOut(Cart cart, String paymentId) throws SQLException{
+	    public synchronized boolean checkOut(Cart cart, String paymentId, int addressId) throws SQLException{
 	    	Connection connection = null;
 	    	PreparedStatement ps = null;
 	    	PreparedStatement itemPreparedStatement = null;
@@ -287,9 +287,9 @@ public class OrderDAO implements GenericDBOp<Order>{
 	    	ResultSet itemRs = null;
 	    	Savepoint savepoint = null;
 	    	String item = "SELECT quantità FROM prodotto WHERE SKU = ?";
-	    	String order = "INSERT INTO order_details (userId, importo_pagamento, ID_pagamento, data_pagamento, createdAt, modifiedAt) VALUE (?, ?, ?, now(), now(), now())";
+	    	String order = "INSERT INTO order_details (userId, importo_pagamento, ID_pagamento, data_pagamento, createdAt, modifiedAt, address_id) VALUE (?, ?, ?, now(), now(), now(), ?)";
 	    	String updateItemStr = "UPDATE " + Prodotto.TABLE_NAME + " SET quantità = ? WHERE SKU = ?";
-	    	String insertOrderItemsStr = "INSERT INTO Order_items (ID_ordine, SKU, quantity, sold_at) VALUE(?, ?, ?; ?)";
+	    	String insertOrderItemsStr = "INSERT INTO Order_items (ID_ordine, SKU, quantità, sold_at) VALUE(?, ?, ?, ?)";
 	    	String cleanCart = "DELETE FROM cart_items WHERE cart_items.user_id = ?";
 	    	
 	    	String errString = "invalidCheckOut";
@@ -313,6 +313,7 @@ public class OrderDAO implements GenericDBOp<Order>{
 	    		ps.setInt(1, cart.getUserId());
 	    		ps.setFloat(2, cart.getTotal());
 	    		ps.setString(3, paymentId);
+	    		ps.setInt(4, addressId);
 	    		
 	    		
 	    		if(ps.executeUpdate() < 1) 
@@ -611,9 +612,9 @@ public class OrderDAO implements GenericDBOp<Order>{
 	    	
 	    	try {
 				connection = ds.getConnection();
-				connection.setAutoCommit(false);
-				String cartSQL = "DELETE FROM cart_items WHERE user_id = ? AND SKU = ? ";
-				String noDelSQL = "UPDATE cart_items SET quantity = quantity -? user_id = ? AND WHERE SKU = ?";
+				
+				String cartSQL = "DELETE FROM cart_items WHERE user_id = ? AND SKU = ?";
+				String noDelSQL = "UPDATE cart_items SET quantity = quantity -? WHERE user_id = ? AND SKU = ?";
 				
 				if(del < 1) {
 					pStatement = connection.prepareStatement(cartSQL);
@@ -623,7 +624,7 @@ public class OrderDAO implements GenericDBOp<Order>{
 					
 					
 					
-					if (pStatement.executeUpdate(cartSQL) > 0)
+					if (pStatement.executeUpdate() > 0)
 						result = true;
 				}else {
 					pStatement = connection.prepareStatement(noDelSQL);
@@ -634,7 +635,7 @@ public class OrderDAO implements GenericDBOp<Order>{
 					
 					
 					
-					if (pStatement.executeUpdate(cartSQL) > 0)
+					if (pStatement.executeUpdate() > 0)
 						result = true;
 				}
 				

@@ -3,6 +3,7 @@ package com.yoru.model.Entity;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 public class Cart {
@@ -32,7 +33,14 @@ public class Cart {
 
 
 	public float getTotal() {
-		return total;
+		float tot = 0;
+		
+		for (Iterator<CartItem> iterator = items.iterator(); iterator.hasNext();) {
+			CartItem cartItem = (CartItem) iterator.next();
+			tot += cartItem.getPrezzo() * cartItem.getQuantity();
+			
+		}
+		return tot;
 	}
 	
 	

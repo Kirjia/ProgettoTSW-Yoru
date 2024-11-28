@@ -1,4 +1,4 @@
-package com.yoru.Controller;
+package com.yoru.Controller.based;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -20,7 +20,7 @@ import com.yoru.model.DAO.UserDAO;
 import com.yoru.model.Entity.User;
 
 
-@WebServlet("/UpdateProfile")
+@WebServlet("/based/UpdateProfile")
 public class UpdateProfile extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOGGER = Logger.getLogger(UpdateProfile.class.getName());

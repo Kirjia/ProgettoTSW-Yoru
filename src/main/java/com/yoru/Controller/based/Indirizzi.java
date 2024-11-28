@@ -1,4 +1,4 @@
-package com.yoru.Controller;
+package com.yoru.Controller.based;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -25,7 +25,7 @@ import com.yoru.model.Entity.User;
 /**
  * Servlet implementation class Indirizzi
  */
-@WebServlet("/Indirizzi")
+@WebServlet("/based/Indirizzi")
 public class Indirizzi extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOGGER = Logger.getLogger(Indirizzi.class.getName());
@@ -55,11 +55,12 @@ public class Indirizzi extends HttpServlet {
 
 		response.setContentType("application/json");
 		JSONObject jsonObject = new JSONObject();
-		String email = request.getParameter("email");
+		HttpSession session = request.getSession(false);
+		User user = (User) session.getAttribute("user");
 		
 		
 		try {
-			Collection<Indirizzo> indirizziCollection = addressDAO.getIndirizziByEmail(email);
+			Collection<Indirizzo> indirizziCollection = addressDAO.getIndirizziByEmail(user.getEmail());
 			Iterator<Indirizzo> iter = indirizziCollection.iterator();
 			JSONArray array = new JSONArray();
 			while(iter.hasNext()) {

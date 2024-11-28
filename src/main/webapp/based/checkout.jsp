@@ -8,7 +8,8 @@
     <title>YORU - Checkout</title>
 
     <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/css/Cart.css" rel="stylesheet">
 </head>
@@ -22,7 +23,7 @@
             <div class="row">
                 <% 
                     User utente = (User) session.getAttribute("user");
-                    if (utente != null) { 
+                   
                 %>
                 <!-- Sezione Dati Utente e Pagamento -->
                 <div class="col-md-8 cart">
@@ -45,9 +46,7 @@
                         </select>
                     </div>
                 </div>
-                <% } else { %>
-                    <p>Utente non autenticato.</p>
-                <% } %>
+                
 
                 <!-- Sezione Riepilogo Ordine -->
                 <div class="col-md-4 summary">
@@ -66,96 +65,34 @@
             </div>
         </div>
     </div>
+    
+    <!-- Bootstrap Modal -->
+<div class="modal fade" id="redirectModal" tabindex="-1" aria-labelledby="redirectModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="redirectModalLabel">Informazione</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="modalMessage">Grazie per aver completato il modulo!</p>
+                <p id="modalCountdown">Verrai reindirizzato tra <span id="countdownTimer"></span> secondi...</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+            </div>
+        </div>
+    </div>
+</div>
+    
 
     <%@ include file="/html/footer.html" %>
 
     <!-- Bootstrap JS, Popper.js, and jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="${pageContext.request.contextPath}/js/checkout.js" type="text/javascript"></script>
 
-    <script>
-    $(document).ready(function() {
-        // Funzione per caricare i dati del carrello tramite AJAX
-        function loadCart() {
-            $.ajax({
-                url: '${pageContext.request.contextPath}/Carrello', // URL della servlet che restituisce il carrello
-                type: 'POST', // Metodo POST
-                dataType: 'json', // Tipo di dato che ci aspettiamo dalla servlet (JSON)
-                success: function(response) {
-                    if (response.cart && response.cart.length > 0) {
-                        let cartHtml = '';  // Variabile per l'HTML del carrello
-                        let totalAmount = 0; // Variabile per il calcolo del totale
-
-                        // Itera sugli articoli del carrello
-                        $.each(response.cart, function(index, item) {
-                            // Costruisci l'HTML per ciascun articolo
-                            cartHtml += `
-                                <div class="order-item mb-3">
-                                    <div class="row">
-                                        <div class="col"><strong>Nome:</strong> ${item.nome}</div>
-                                        <div class="col"><strong>Quantità:</strong> ${item.quantity}</div>
-                                        <div class="col"><strong>Prezzo:</strong> ${item.prezzo}€</div>
-                                    </div>
-                                </div>
-                            `;
-                            totalAmount += item.prezzo * item.quantity; // Calcolo del totale
-                        });
-
-                        // Inserisci gli articoli nel riepilogo ordine
-                        $('#order-summary').html(cartHtml);
-
-                        // Mostra il totale
-                        $('#total-amount').text(totalAmount.toFixed(2) + '€');
-                    } else {
-                        // Se il carrello è vuoto
-                        $('#order-summary').html('<p>Il carrello è vuoto.</p>');
-                        $('#total-amount').text('0.00€');
-                    }
-                },
-                error: function(error) {
-                    console.log('Errore nel recupero del carrello:', error.responseText);
-                }
-            });
-        }
-
-        // Carica il carrello al caricamento della pagina
-        loadCart();
-
-        // Funzione per caricare gli indirizzi
-        function loadAddresses(email) {
-            $.ajax({
-                url: '${pageContext.request.contextPath}/Indirizzi', // URL della servlet per gli indirizzi
-                type: 'POST', // Metodo POST
-                data: { email: email }, // Passa l'email dell'utente
-                dataType: 'json', // Tipo di dato che ci aspettiamo
-                success: function(response) {
-                    var addresses = response.indirizzi;
-                    var select = $('#addressDropdown');
-                    select.empty();  // Pulisci il dropdown
-
-                    // Aggiungi le opzioni nel dropdown degli indirizzi
-                    addresses.forEach(function(address) {
-                        var option = $('<option>', {
-                            value: address.id,
-                            text: address.via + ', ' + address.city + ', ' + address.provincia + ' ' + address.CAP
-                        });
-                        select.append(option);
-                    });
-                },
-                error: function(error) {
-                    console.log('Errore nel recupero degli indirizzi:', error.responseText);
-                }
-            });
-        }
-
-        var userEmail = '<%= utente != null ? utente.getEmail() : "" %>'; // Ottieni l'email dell'utente dal backend
-        if (userEmail) {
-            loadAddresses(userEmail); // Carica gli indirizzi se l'utente è autenticato
-        } else {
-            console.log('Email utente non disponibile');
-        }
-    });
-    </script>
+    
 </body>
 </html>

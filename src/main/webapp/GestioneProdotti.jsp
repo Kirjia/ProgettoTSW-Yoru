@@ -16,14 +16,8 @@
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <!-- Bootstrap CSS -->
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!-- Bootstrap JS -->
-<script
-	src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
 
 </head>
 <body>
@@ -125,49 +119,13 @@
 
 
 	<%@include file="/html/footer.html"%>
-	<!-- Bootstrap JS, Popper.js, and jQuery -->
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<script
-		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-	<script
-		src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
-	<script>
-		$('.orange-button')
-				.click(
-						function() {
-							const skuProdotto = $(this).data('sku');
-
-							// Esegui una chiamata AJAX per ottenere i dettagli del prodotto e riempi i campi del modale
-							$
-									.ajax({
-										url : 'GetProductDetails', // Cambia questo URL con quello corretto per recuperare i dettagli del prodotto
-										method : 'GET',
-										data : {
-											sku : skuProdotto
-										},
-										success : function(data) {
-											// Pre-compila i campi del modale con i dati del prodotto
-											$('#new-product-name').val(
-													data.nome);
-											$('#new-product-price').val(
-													data.prezzo);
-											$('#new-product-quantity').val(
-													data.quantita);
-
-											// Apri il modale
-											$('#addNewProductModal').modal(
-													'show');
-										},
-										error : function(error) {
-											console
-													.error(
-															'Errore durante il recupero dei dettagli del prodotto',
-															error);
-										}
-									});
-						});
-	</script>
+    <script src="${pageContext.request.contextPath}/js/gestioneProdotti.js" type="text/javascript"></script>
 
 
 </body>

@@ -87,7 +87,7 @@ $(document).on('click', '.remove-item', function() {
 			"https://localhost/Yoru/RemoveFromCart",{
 				sku: sku
 			}, (function(data) {
-			var jsonData = data.response[0];
+			var jsonData = data.result[0];
 				if(jsonData){
 					div.fadeOut(400, function() {
 						var str = $('#sub-'+sku).text().replace('Subtotale: €', '');

@@ -1,4 +1,4 @@
-package com.yoru.Controller;
+package com.yoru.Controller.based;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -24,7 +24,7 @@ import com.yoru.model.Entity.User;
 /**
  * Servlet implementation class StoricoOrdini
  */
-@WebServlet("/StoricoOrdini")
+@WebServlet("/based/StoricoOrdini")
 public class StoricoOrdini extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOGGER = Logger.getLogger(StoricoOrdini.class.getName());
@@ -65,7 +65,7 @@ public class StoricoOrdini extends HttpServlet {
 			Collection<Order> orders =  orderDAO.getAllByUser(user.getId());
 			System.out.println(orders);
 			request.setAttribute("historyOrders", orders);
-			request.getRequestDispatcher("based/user.jsp").forward(request, response);
+			request.getRequestDispatcher("./user.jsp").forward(request, response);
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

@@ -14,22 +14,18 @@
 <title>Profilo Utente</title>
 
 <!-- Bootstrap CSS -->
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/css/User.css" rel="stylesheet">
 
 <!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
-<!-- Bootstrap JS, Popper.js, and jQuery -->
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <%
 Collection<?> ordini = (Collection<?>) request.getAttribute("historyOrders");
 if (ordini == null) {
-    response.sendRedirect("../StoricoOrdini");
+    response.sendRedirect("../based/StoricoOrdini");
     return;
 }
 %>
@@ -88,46 +84,14 @@ if (ordini == null) {
         </div>
     </div>
 
-<script>
-    $(document).ready(function() {
-        var emailUtente = '<%=user.getEmail()%>';
+ <%@ include file="/html/footer.html"%>
 
-        $.ajax({
-            url: '${pageContext.request.contextPath}/Indirizzi',
-            method: 'POST',
-            data: { email: emailUtente },
-            dataType: 'json',
-            success: function(response) {
-                console.log(response);
-                let indirizziHTML = '<h5>Indirizzi:</h5> <ul>';
-                if (response.indirizzi && response.indirizzi.length > 0) {
-                    $.each(response.indirizzi, function(index, indirizzo) {
-                        indirizziHTML += '<li>' + indirizzo.via + ', ' + indirizzo.city + ' - ' + indirizzo.CAP + '</li>';
-                    });
-                } else {
-                    indirizziHTML += '<li>Nessun indirizzo disponibile.</li>';
-                }
-                indirizziHTML += '</ul>';
-                $('#indirizzi-container').html(indirizziHTML);
-            },
-            error: function() {
-                $('#indirizzi-container').html('<p>Errore nel caricamento degli indirizzi.</p>');
-            }
-        });
 
-        // Gestione modifica numero di telefono
-        $('#edit-telefono').click(function() {
-            var currentPhone = $('#telefono-value').text();
-            var newPhone = prompt("Inserisci il nuovo numero di telefono:", currentPhone);
-            if (newPhone !== null && newPhone !== "") {
-                $('#telefono-value').text(newPhone);
-                // Qui potresti aggiungere una chiamata AJAX per salvare il nuovo numero
-            }
-        });
-    });
-</script>
-
-    <%@ include file="/html/footer.html"%>
+<!-- Bootstrap JS, Popper.js, and jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="${pageContext.request.contextPath}/js/user.js" type="text/javascript"></script>
+   
 
 </body>
 </html>
