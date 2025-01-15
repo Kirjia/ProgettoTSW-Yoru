@@ -1,5 +1,49 @@
 
 
+@media only screen and (max-width: 700px){
+	
+	.carousel-img{
+		width: 90% !important;
+		justify-content: center;
+		margin: 0 auto !important;
+		height: 450px !important;
+	}
+	
+	.owl-item img{
+		display: flex !important;
+	}
+	
+	.product-title{
+		text-align: center !important;
+		font-size: 16px !important;
+		overflow: hidden !important;
+		white-space: nowrap !important;
+		width: 300px !important;
+		text-overflow: ellipsis !important;
+	}
+	
+	.item-footer {
+    width: 100% !important;
+    margin-top: 10px;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+    
+	}
+	
+	.item-doby{
+		width: 100% !important;
+		height: auto !important;
+		align-content: center !important;
+		justify-content: center !important;
+	}
+	
+	.owl-item active{
+		justify-content: center !important; /* Centra orizzontalmente */
+		align-items: center !important; 
+		margin: 0 auto !important;
+	}
+	
+}
 
 .owl-prev {
   background: url('https://res.cloudinary.com/milairagny/image/upload/v1487938188/left-arrow_rlxamy.png') left center no-repeat;
@@ -55,23 +99,22 @@
 }
 
 
-.carousel-img{
-	width: 250px !important;
-	height: 400px !important;
-}
-
-
-
-.item-footer {
+@media only screen and (min-width: 768px) {
+	.carousel-img{
+		/* width: 250px !important; */
+		height: 400px !important;
+	}
+	
+	.item-footer {
     width: 250px !important;
     margin-top: 10px;
     overflow: hidden;
     white-space: nowrap;
     
     
-}
-
-.product-title {
+	}
+	
+	.product-title {
 	display: inline-block; /* Rende l'elemento un blocco inline per abilitare il movimento */
  	white-space: nowrap; /* Impedisce che il testo vada su più righe */
     overflow: hidden; /* Nasconde il testo che supera la larghezza del contenitore */
@@ -79,6 +122,12 @@
     position: relative;
     text-overflow: ellipsis;
 }
+	
+}
+
+
+
+
 
 
 .item {

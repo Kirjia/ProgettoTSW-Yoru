@@ -12,7 +12,7 @@ $(document).ready(function(){
 					  loop: true,
 					  margin: 50,
 					  responsiveClass: true,
-					  nav: true,
+					  nav: false,
 					  responsive: {
 					    0: {
 					      items: 1
@@ -21,7 +21,7 @@ $(document).ready(function(){
 					      items: 2
 					    },
 					    600: {
-					      items: 3
+					      items: 2
 					    },
 					    1000: {
 					      items: 3
