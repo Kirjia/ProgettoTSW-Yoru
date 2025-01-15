@@ -120,7 +120,7 @@ h1 {
     color: white !important;
     border:black !important;
     margin-bottom: 5px !important;
-   white-space: normal !important; /* Permetti al testo di andare a capo */
+    white-space: normal !important; /* Permetti al testo di andare a capo */
     word-wrap: break-word !important; /* Gestione delle parole lunghe */
     overflow-wrap: break-word !important;
 }

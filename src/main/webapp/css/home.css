@@ -1,78 +1,116 @@
-.active{
-	display: flex !important;
-    justify-content: space-around !important;
+
+
+
+.owl-prev {
+  background: url('https://res.cloudinary.com/milairagny/image/upload/v1487938188/left-arrow_rlxamy.png') left center no-repeat;
+  height: 54px;
+  position: absolute;
+  top: 50%;
+  width: 27px;
+  z-index: 1000;
+  left: 2%;
+  cursor: pointer;
+  color: transparent;
+  margin-top: -27px;
 }
 
-/* Cambia il colore del pulsante */
-button.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
-    background-color: #ff7000 !important;
-    border-color: #ff7000 !important;
-    color: white !important;
+.owl-next {
+  background: url('https://res.cloudinary.com/milairagny/image/upload/v1487938220/right-arrow_zwe9sf.png') right center no-repeat;
+  height: 54px;
+  position: absolute;
+  top: 50%;
+  width: 27px;
+  z-index: 1000;
+  right: 2%;
+  cursor: pointer;
+  color: transparent;
+  margin-top: -27px;
 }
 
-/* Frecce del carosello */
-.carousel-control-prev, 
-.carousel-control-next {
-    width: 5%;
-    background-color: rgba(0, 0, 0, 0.3);
-    border-radius: 50%;
-    height: 50px;
-    width: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
+.owl-prev:hover,
+.owl-next:hover {
+  opacity: 0.5;
 }
 
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
-    filter: invert(1);
+
+
+.white-popup-block {
+  background: #FFF;
+  padding: 20px 30px;
+  text-align: left;
+  max-width: 650px;
+  margin: 40px auto;
+  position: relative;
 }
 
-#carouselProdotti{
-	padding: 0 15%;
+.popuptext {
+  display: table;
+}
+.popuptext p {
+  margin-bottom: 10px;
+}
+.popuptext span {
+  font-weight: bold;
+  float: right;
 }
 
-/* Responsive: Mostra solo un'immagine per volta su schermi piccoli */
-@media (max-width: 767px) {
-    .carousel-inner {
-        display: block; /* Passa da flex a blocco per schermi piccoli */
-    }
 
-    .carousel-item {
-        width: 100%;
-        height: 400px;/*aggiunto*/
-    }
-
-    .carousel-inner .carousel-item > div {
-        display: block;
-        width: 100%; /* Larghezza completa su dispositivi mobili */
-    }
-
-    .card {
-        width: 100%;
-    }
+.carousel-img{
+	width: 250px !important;
+	height: 400px !important;
 }
 
-.carousel-control-prev{
-	
-	top:50% !important;
-	margin:50px;
-}
-.carousel-control-next{
-	
-	top:50% !important;
-	margin:50px;
-}
 
-.card-title{
-	color:black !important;
-	
 
+.item-footer {
+    width: 250px !important;
+    margin-top: 10px;
+    overflow: hidden;
+    white-space: nowrap;
+    
+    
 }
 
-a:hover{
-	text-decoration:none !important;
+.product-title {
+	display: inline-block; /* Rende l'elemento un blocco inline per abilitare il movimento */
+ 	white-space: nowrap; /* Impedisce che il testo vada su più righe */
+    overflow: hidden; /* Nasconde il testo che supera la larghezza del contenitore */
+    width: 250px; /* Imposta una larghezza per l'elemento (puoi modificarla come vuoi) */
+    position: relative;
+    text-overflow: ellipsis;
+}
+
+
+.item {
+  position: relative;
+  width: fit-content;
+}
+.item i {
+  display: none;
+  font-size: 4rem;
+  color: #FFF;
+  opacity: 1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+}
+.item a {
+  display: block;
+  width: fit-content;
+}
+.item a:hover:before {
+  content: "";
+  background: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  height: 100%;
+  width: fit-content;
+  z-index: 1;
+}
+.item a:hover i {
+  display: block;
+  z-index: 2;
 }
 
 

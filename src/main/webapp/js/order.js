@@ -6,7 +6,7 @@ $(document).ready(function () {
     function loadOrders(sortField, sortOrder) {
         $.ajax({
             url: 'AllOrders', // Percorso della servlet AllOrders
-            method: 'GET',
+            method: 'POST',
             data: { sortField: sortField, sortOrder: sortOrder }, // Passa il campo e l'ordine di ordinamento
             dataType: 'json',
             success: function (data) {
