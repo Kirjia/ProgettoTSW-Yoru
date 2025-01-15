@@ -29,10 +29,13 @@
     	  
 		</div>
 		
+		
+		<h1 class="text-center mb-4">Nuovi Libri</h2>
 		<div id="new-books-carousel" class="owl-carousel">
     	  
 		</div>
 		
+		<h1 class="text-center mb-4">Ultimi Gadgets</h2>
 		<div id="new-gadget-carousel" class="owl-carousel">
     	  
 		</div>

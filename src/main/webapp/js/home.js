@@ -1,5 +1,36 @@
 $(document).ready(function(){
 	
+	var calls = 3;
+	
+	function loadSlider(){
+		calls--;
+		if(calls == 0){
+			$('.owl-carousel').owlCarousel({
+					  autoplay: true,
+					  autoplayTimeout: 3000,
+					  autoplayHoverPause: true,
+					  loop: true,
+					  margin: 50,
+					  responsiveClass: true,
+					  nav: true,
+					  responsive: {
+					    0: {
+					      items: 1
+					    },
+					    568: {
+					      items: 2
+					    },
+					    600: {
+					      items: 3
+					    },
+					    1000: {
+					      items: 3
+					    }
+					  }
+				})
+		}
+	}
+	
 	$.ajax({
 		url: "Bestseller",
 		method:"POST",
@@ -23,8 +54,9 @@ $(document).ready(function(){
 				
 			}
 			
-			
-			
+		},
+		complete: function(xhr, status){
+			loadSlider();
 		}
 	})
 	
@@ -51,13 +83,14 @@ $(document).ready(function(){
 				
 			}
 			
-			
-			
+		},
+		complete: function(xhr, status){
+			loadSlider();
 		}
 	})
 		
 	$.ajax({
-		url: "NewGadget",
+		url: "NewGadgets",
 		method:"POST",
 		dataType: "json",
 		success: function(response){
@@ -79,36 +112,13 @@ $(document).ready(function(){
 				
 			}
 			
-			
-			
+		},
+		complete: function(xhr, status){
+			loadSlider();
 		}
+		
 	})
 	
-	
-	
-	$('.owl-carousel').owlCarousel({
-			    	  autoplay: true,
-			    	  autoplayTimeout: 3000,
-			    	  autoplayHoverPause: true,
-			    	  loop: true,
-			    	  margin: 50,
-			    	  responsiveClass: true,
-			    	  nav: true,
-			    	  responsive: {
-			    	    0: {
-			    	      items: 1
-			    	    },
-			    	    568: {
-			    	      items: 2
-			    	    },
-			    	    600: {
-			    	      items: 3
-			    	    },
-			    	    1000: {
-			    	      items: 3
-			    	    }
-			    	  }
-			    	})
 	
 	
 	

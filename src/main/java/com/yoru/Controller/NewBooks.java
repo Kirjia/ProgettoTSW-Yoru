@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.logging.Logger;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,32 +16,35 @@ import javax.sql.DataSource;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.mysql.cj.xdevapi.JsonArray;
 import com.yoru.model.DAO.ItemDAO;
 import com.yoru.model.Entity.Prodotto;
 
 /**
- * Servlet implementation class BestSellers
+ * Servlet implementation class NewBooks
  */
-@WebServlet("/Bestseller")
-public class BestSellers extends HttpServlet {
+@WebServlet("/NewBooks")
+public class NewBooks extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final Logger LOGGER = Logger.getLogger(BestSellers.class.getName());
-    
+	private static final Logger LOGGER = Logger.getLogger(NewBooks.class.getName());
+	
 	private ItemDAO itemDAO;
-    
-    public BestSellers() {
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public NewBooks() {
         super();
         // TODO Auto-generated constructor stub
     }
-    
-    @Override
-    public void init() throws ServletException {
-    	// TODO Auto-generated method stub
-    	super.init();
-    	DataSource ds = (DataSource) super.getServletContext().getAttribute("DataSource");
+
+	/**
+	 * @see Servlet#init(ServletConfig)
+	 */
+	public void init() throws ServletException {
+		super.init();
+		DataSource ds = (DataSource) super.getServletContext().getAttribute("DataSource");
     	itemDAO = new ItemDAO(ds);
-    }
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -53,12 +57,11 @@ public class BestSellers extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
 		response.setContentType("application/json");
 		JSONObject jsonObject = new JSONObject();
 		
 		try {
-			Collection<Prodotto> collection = itemDAO.getBestSellerBook(7);
+			Collection<Prodotto> collection = itemDAO.getNewBooks(7);
 			JSONArray aJsonArray = new JSONArray();
 			for (Iterator<Prodotto> iterator = collection.iterator(); iterator.hasNext();) {
 				Prodotto prodotto = (Prodotto) iterator.next();
@@ -75,7 +78,6 @@ public class BestSellers extends HttpServlet {
 			
 		}
 		response.getWriter().print(jsonObject);
-		
 	}
 
 }

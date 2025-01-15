@@ -119,6 +119,62 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
         return items;
     }
     
+    public Collection<Prodotto> getNewBooks(int limit) throws SQLException{
+    	
+    	List<Prodotto> booksList = new ArrayList<>();
+    	ResultSet resultSet = null;
+    	
+    	String sql = "SELECT SKU, nome FROM shiru.libriview order by SKU desc limit ?";
+    
+    	try(Connection connection = dSource.getConnection();
+    			PreparedStatement pStatement = connection.prepareStatement(sql)){
+    		
+    		pStatement.setInt(1, limit);
+    		
+    		resultSet = pStatement.executeQuery();
+    		
+    		
+    		while(resultSet.next()) {
+    			Prodotto prodotto = new Prodotto();
+    			prodotto.setSKU(resultSet.getInt(1));
+    			prodotto.setNome(resultSet.getString(2));
+    			
+    			booksList.add(prodotto);
+    		}
+    		
+    	}
+    	
+    	return booksList;
+    }
+    
+ public Collection<Prodotto> getNewGadgets(int limit) throws SQLException{
+    	
+    	List<Prodotto> gadgetList = new ArrayList<>();
+    	ResultSet resultSet = null;
+    	
+    	String sql = "SELECT SKU, nome FROM shiru.gadgetview order by SKU desc limit ?";
+    
+    	try(Connection connection = dSource.getConnection();
+    			PreparedStatement pStatement = connection.prepareStatement(sql)){
+    		
+    		pStatement.setInt(1, limit);
+    		
+    		resultSet = pStatement.executeQuery();
+    		
+    		
+    		while(resultSet.next()) {
+    			Prodotto prodotto = new Prodotto();
+    			prodotto.setSKU(resultSet.getInt(1));
+    			prodotto.setNome(resultSet.getString(2));
+    			
+    			gadgetList.add(prodotto);
+    		}
+    		
+    	}
+    	
+    	return gadgetList;
+    }
+    
     
     public Collection<Prodotto> getBestSellerBook(int limit) throws SQLException{
     	PreparedStatement  ps = null;
@@ -166,7 +222,7 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
     }
     
     
-    
+    /*
     public Collection<Prodotto> getNewBooks(int limit) throws SQLException{
     	PreparedStatement  ps = null;
     	Connection connection = null;
@@ -207,7 +263,7 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
     	
     	
     	return books;
-    }
+    }*/
     
     public Collection<Prodotto> getAllBooks(int page, int limit)throws SQLException{
     	PreparedStatement ps = null;

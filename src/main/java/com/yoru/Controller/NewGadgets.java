@@ -15,28 +15,28 @@ import javax.sql.DataSource;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.mysql.cj.xdevapi.JsonArray;
 import com.yoru.model.DAO.ItemDAO;
 import com.yoru.model.Entity.Prodotto;
 
 /**
- * Servlet implementation class BestSellers
+ * Servlet implementation class NewGadgets
  */
-@WebServlet("/Bestseller")
-public class BestSellers extends HttpServlet {
+@WebServlet("/NewGadgets")
+public class NewGadgets extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final Logger LOGGER = Logger.getLogger(BestSellers.class.getName());
-    
+	private static final Logger LOGGER = Logger.getLogger(NewGadgets.class.getName());
+       
 	private ItemDAO itemDAO;
-    
-    public BestSellers() {
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public NewGadgets() {
         super();
         // TODO Auto-generated constructor stub
     }
     
     @Override
     public void init() throws ServletException {
-    	// TODO Auto-generated method stub
     	super.init();
     	DataSource ds = (DataSource) super.getServletContext().getAttribute("DataSource");
     	itemDAO = new ItemDAO(ds);
@@ -53,12 +53,12 @@ public class BestSellers extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		
 		response.setContentType("application/json");
 		JSONObject jsonObject = new JSONObject();
 		
 		try {
-			Collection<Prodotto> collection = itemDAO.getBestSellerBook(7);
+			Collection<Prodotto> collection = itemDAO.getNewGadgets(4);
 			JSONArray aJsonArray = new JSONArray();
 			for (Iterator<Prodotto> iterator = collection.iterator(); iterator.hasNext();) {
 				Prodotto prodotto = (Prodotto) iterator.next();
