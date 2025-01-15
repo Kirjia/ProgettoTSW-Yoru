@@ -25,11 +25,14 @@
                     <a href="#" class="icon" rel="noopener"><i class="fa-brands fa-linkedin-in"></i></a>
                 </div>
                 <span>o usa la tua e-mail per la registrazione</span>
-                <input type="text" placeholder="Nome">
+                <input type="text" name="nome" placeholder="Nome">
+				<input type="text" name="cognome" placeholder="Cognome">
+				<input type="tel" name="telefono" placeholder="Telefono">
+
                 <input type="email" placeholder="Email">
                 <input type="password" placeholder="Password">
                 <div >
-        			<input class="submit" type="button" value="Registrati" onclick="signUP()">
+        			<input class="submit" type="button" value="Registrati" onclick="signUp()">
       			</div>
             </form>
         </div>

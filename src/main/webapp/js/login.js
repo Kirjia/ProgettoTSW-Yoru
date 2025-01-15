@@ -49,26 +49,30 @@ function login() {
 
 }
 
-function signUp(){
+function signUp() {
+    let name = document.querySelector('.sign-up input[placeholder="Nome"]').value;
+    let surname = document.querySelector('.sign-up input[placeholder="Cognome"]').value;
+    let email = document.querySelector('.sign-up input[placeholder="Email"]').value;
+    let password = document.querySelector('.sign-up input[placeholder="Password"]').value;
+    let phone = document.querySelector('.sign-up input[placeholder="Telefono"]').value; 
+
+	if (!name || !surname || !email || !password || !phone) {
+	    alert("Tutti i campi sono obbligatori!");
+	    return;
+	}
 	
-	
-	var jqxhr = $.post("../SignUp", {email: email, password: password, name:name, surname:surname, phone:number}, function(data){
-		
-		
-		
-		
-	});
-	
-	
-	jqxhr.fail(function(_jqxhr, textStatus, errorThrow){
-		if(textStatus == "timeout"){
-			alert("Problemi nell'esecuzione della richiesta: nella risposta nel tempo limite");
-		}else{
-			alert("Problemi nell'esecuzione della richiesta: " + textStatus + "error: " + errorThrow);
-		}
-	});
-	
+    $.post("./SignUp", { email: email, password: password, name: name, surname: surname, phone: phone }, function(data) {
+        if (data.result) {
+            alert("Registrazione completata con successo!");
+            window.location.href = "./home.jsp";
+        } else {
+            alert("Registrazione fallita!");
+        }
+    }).fail(function(jqxhr, textStatus, errorThrown) {
+        alert("Errore nella registrazione: " + textStatus + " " + errorThrown);
+    });
 }
+
 
 
 function logout() {

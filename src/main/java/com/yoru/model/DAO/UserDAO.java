@@ -129,14 +129,13 @@ public class UserDAO implements GenericDBOp<User> {
             connection.setAutoCommit(false);
 
             String sql = "INSERT INTO "  + UserDAO.TABLE_NAME + " (email, password, nome, cognome, telefono)" +
-                    "VALUE (?,SHA2(?, ?),?,?,?)";
+                    "VALUE (?,?,?,?,?)";
             ps = connection.prepareStatement(sql);
             ps.setString(1, user.getEmail());
-            ps.setString(2, user.getPassword());
-            ps.setInt(3, passCode);
-            ps.setString(4, user.getNome());
-            ps.setString(5, user.getCognome());
-            ps.setString(6, user.getTelefono());
+            ps.setString(2, Argon2Hashing.hashPassword(user.getPassword()));
+            ps.setString(3, user.getNome());
+            ps.setString(4, user.getCognome());
+            ps.setString(5, user.getTelefono());
 
 
 
