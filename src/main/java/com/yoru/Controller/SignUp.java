@@ -89,7 +89,7 @@ public class SignUp extends HttpServlet {
 		
 		if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
 		    try {
-				jsonObject.append("result", false).append("error", "Email non valida.");
+				jsonObject.put("result", false).put("error", "Email non valida.");
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -100,7 +100,7 @@ public class SignUp extends HttpServlet {
 
 		if (!telefono.matches("^[0-9]{10}$")) {
 		    try {
-				jsonObject.append("result", false).append("error", "Numero di telefono non valido.");
+				jsonObject.put("result", false).put("error", "Numero di telefono non valido.");
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -118,7 +118,7 @@ public class SignUp extends HttpServlet {
 			    cognome == null || cognome.isEmpty() || 
 			    telefono == null || telefono.isEmpty()) {
 			    try {
-					jsonObject.append("result", false);
+					jsonObject.put("result", false);
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -143,10 +143,10 @@ public class SignUp extends HttpServlet {
 			try {
 				int result = userDAO.insert(user);
 			    if (result > 0) {
-			        jsonObject.append("result", true);
+			        jsonObject.put("result", true);
 			    } else {
 			        LOGGER.log(Level.WARNING, "Inserimento utente fallito per email: " + email);
-			        jsonObject.append("result", false);
+			        jsonObject.put("result", false);
 			    }
 			} catch (SQLException | JSONException e) {
 

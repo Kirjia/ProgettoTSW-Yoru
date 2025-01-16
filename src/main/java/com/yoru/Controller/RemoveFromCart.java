@@ -83,7 +83,7 @@ public class RemoveFromCart extends HttpServlet {
 				
 				session.setAttribute("cart", cart);
 				try {
-					jsonObject.append("response", true);
+					jsonObject.append("result", true);
 				} catch (JSONException e) {
 					LOGGER.log(Level.WARNING, "JSON error", e);
 				}

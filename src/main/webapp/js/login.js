@@ -11,6 +11,34 @@ loginBtn.addEventListener('click', () => {
 });
 
 
+function showLoading(){
+    $("#boot-loading").css("display", "flex");
+}
+
+function hideLoading(){
+    $("#boot-loading").css("display", "none");
+}
+
+function showLoadingSignup(){
+    $("#signup-loading").css("display", "flex");
+}
+
+function hideLoadingSignup(){
+    $("#signup-loading").css("display", "none");
+}
+
+function showModal(message) {
+    const modal = document.getElementById("custom-modal");
+    const messageElement = document.getElementById("modal-message");
+    messageElement.innerText = message;
+    modal.style.display = "flex";
+}
+
+function closeModal() {
+    const modal = document.getElementById("custom-modal");
+    modal.style.display = "none";
+}
+
 function login() {
 
 
@@ -26,20 +54,23 @@ function login() {
 	else
 		rememberMe = "false";
 
+		showLoading();
     var jqxhr = $.post("./Login", {email: email, password: password, rememberMe: rememberMe}, function(data){
-        console.log("risposta" + data.outcome[0]);
+       
         const home =  "https://localhost/Yoru/home.jsp";
         let outcome = data.outcome[0];
         if(outcome){
 			window.location.href = home;
 		}
       	else {
+			hideLoading();
             let error = document.getElementById("error-message");
             error.innerHTML = "Email or password entered are incorrect!";
         }
     });
     
     jqxhr.fail(function(_jqxhr, textStatus, errorThrow){
+		
 		if(textStatus == "timeout"){
 			alert("Problemi nell'esecuzione della richiesta: nella risposta nel tempo limite");
 		}else{
@@ -61,15 +92,17 @@ function signUp() {
 	    return;
 	}
 	
+	showLoadingSignup();
     $.post("./SignUp", { email: email, password: password, name: name, surname: surname, phone: phone }, function(data) {
-        if (data.result) {
-            alert("Registrazione completata con successo!");
-            window.location.href = "./home.jsp";
+        hideLoadingSignup();
+		if (data.result) {
+            showModal("Registrazione effettuata con successo");
         } else {
-            alert("Registrazione fallita!");
+            showModal(data.error);
         }
     }).fail(function(jqxhr, textStatus, errorThrown) {
-        alert("Errore nella registrazione: " + textStatus + " " + errorThrown);
+		hideLoadingSignup();
+        showModal("Errore nella registrazione: " + textStatus + " " + errorThrown);
     });
 }
 

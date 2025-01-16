@@ -115,14 +115,14 @@ h1 {
 }
 .product-title {
 	text-align:center;
-    font-size: 1.1rem !important;
-    font-weight: 500 !important;
-    color: white !important;
-    border:black !important;
-    margin-bottom: 5px !important;
-    white-space: normal !important; /* Permetti al testo di andare a capo */
-    word-wrap: break-word !important; /* Gestione delle parole lunghe */
-    overflow-wrap: break-word !important;
+	font-size: 1.1rem !important;
+	font-weight: 500 !important;
+	color: white !important;
+	border:black !important;
+	margin-bottom: 5px !important;
+	white-space: nowrap !important; /* Permetti al testo di andare a capo */
+	overflow: hidden !important; /* Gestione delle parole lunghe */
+	text-overflow: ellipsis !important;
 }
 .product-title-wrapper:hover .product-title {
     animation: scrollHover 7s linear infinite !important;
