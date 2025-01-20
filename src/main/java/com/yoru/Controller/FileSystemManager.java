@@ -54,9 +54,9 @@ public class FileSystemManager extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Boolean upload = request.getAttribute("Upload") != null;
+		//Boolean upload = request.getAttribute("Upload") != null;
 		
-		
+		/*
         
         if(!upload) {
 
@@ -85,32 +85,32 @@ public class FileSystemManager extends HttpServlet {
             input.close();
 
         } else {
+        	*/
+    	String path = (String) request.getAttribute("Path");
+        // Definisci il percorso del file di destinazione
+        String relativePath = UPLOAD_DIR + path;
+        
+        Path uploadPath = Paths.get(getServletContext().getRealPath(""), relativePath);
+		
+		 // Crea la directory se non esiste
+        Path dir = uploadPath.getParent();
+        Files.createDirectories(dir);
+
+        InputStream in = (InputStream) request.getAttribute("InputStream");
+       
+        
+        // Salva il file nel percorso specificato
+        try {
         	
-        	 String path = (String) request.getAttribute("Path");
-            // Definisci il percorso del file di destinazione
-            String relativePath = UPLOAD_DIR + path;
-            
-            Path uploadPath = Paths.get(getServletContext().getRealPath(""), relativePath);
-    		
-    		 // Crea la directory se non esiste
-            Path dir = uploadPath.getParent();
-            Files.createDirectories(dir);
-
-            InputStream in = (InputStream) request.getAttribute("InputStream");
-           
-            
-            // Salva il file nel percorso specificato
-            try {
-            	
-                Files.copy(in, uploadPath, StandardCopyOption.REPLACE_EXISTING);
-            } catch (IOException e) {
-            	 LOGGER.log(Level.WARNING, "Uploader error", e);
-                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Errore nel salvataggio del file.");
-            }
-            
-            
-
+            Files.copy(in, uploadPath, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+        	 LOGGER.log(Level.WARNING, "Uploader error: " + e.getMessage());
+             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Errore nel salvataggio del file.");
         }
+            
+            
+
+        //}
 
 
     }

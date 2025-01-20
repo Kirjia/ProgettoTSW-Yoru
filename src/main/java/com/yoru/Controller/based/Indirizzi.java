@@ -77,7 +77,7 @@ public class Indirizzi extends HttpServlet {
 			jsonObject.put("indirizzi", array);
 			
 		}catch (Exception e) {
-			LOGGER.log(Level.WARNING, "indirizzi error", e);
+			LOGGER.log(Level.WARNING, "indirizzi error: " + e.getMessage());
 		}
 		response.getWriter().print(jsonObject);
 	}

@@ -80,7 +80,7 @@ public class GetItem extends HttpServlet {
 			request.setAttribute("item", item);
 			request.getRequestDispatcher("item.jsp").forward(request, response);;
 		}catch (SQLException e) {
-			LOGGER.log(Level.WARNING, "Retrive item error", e);
+			LOGGER.log(Level.WARNING, "Retrive item error: " + e.getMessage());
 		} 
 
 		

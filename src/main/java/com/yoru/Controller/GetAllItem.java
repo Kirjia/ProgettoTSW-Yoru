@@ -100,7 +100,7 @@ public class GetAllItem extends HttpServlet {
 		} //catch (SQLException | JSONException e) {
 		catch (Exception e) {
 			
-			LOGGER.log(Level.WARNING, "books error", e);
+			LOGGER.log(Level.WARNING, "books error: " + e.getMessage());
 		}
 		
 		

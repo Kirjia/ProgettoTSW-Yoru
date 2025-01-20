@@ -169,11 +169,11 @@ public class InsertItem extends HttpServlet {
 			
 			
 		}catch (SQLException e) {
-			LOGGER.log(Level.WARNING, "insert item error",e);
+			LOGGER.log(Level.WARNING, "insert item error: " + e.getMessage());
 		}catch (JSONException e) {
-			LOGGER.log(Level.WARNING, "insert item json error", e);
+			LOGGER.log(Level.WARNING, "insert item json error: " + e.getMessage());
 		}catch (NumberFormatException e) {
-			LOGGER.log(Level.WARNING, "insert item data format error", e);
+			LOGGER.log(Level.WARNING, "insert item data format error: " + e.getMessage());
 		}
 		
 		

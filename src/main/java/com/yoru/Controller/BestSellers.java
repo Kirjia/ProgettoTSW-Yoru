@@ -3,6 +3,7 @@ package com.yoru.Controller;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
@@ -72,7 +73,7 @@ public class BestSellers extends HttpServlet {
 			
 			
 		} catch (Exception e) {
-			
+			LOGGER.log(Level.WARNING, e.getMessage());
 		}
 		response.getWriter().print(jsonObject);
 		

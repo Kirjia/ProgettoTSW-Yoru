@@ -80,10 +80,10 @@ public class UpdateProfile extends HttpServlet {
 						session.setAttribute("Profile", updateUser);
 					}
 				} catch (SQLException e) {
-					LOGGER.log(Level.WARNING, "update profilo fallito", e);
+					LOGGER.log(Level.WARNING, "update profilo fallito: " + e.getMessage());
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
-					LOGGER.log(Level.WARNING, "json fallito", e);
+					LOGGER.log(Level.WARNING, "json fallito: " + e.getMessage());
 				}
 			}
 			

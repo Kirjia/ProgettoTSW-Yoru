@@ -92,7 +92,7 @@ private static final Logger LOGGER = Logger.getLogger(GetAllGadget.class.getName
 		} //catch (SQLException | JSONException e) {
 		catch (Exception e) {
 			
-			LOGGER.log(Level.WARNING, "gadget error", e);
+			LOGGER.log(Level.WARNING, "gadget error: " + e.getMessage());
 		}
 		
 		

@@ -101,7 +101,7 @@ public class Login extends HttpServlet {
 			try {
 				jsonObject.append("outcome", false);
 			} catch (JSONException e) {
-				LOGGER.log(Level.SEVERE, "Login error", e);
+				LOGGER.log(Level.SEVERE, "Login error: " + e.getMessage());
 			}
 		}
 		else {
@@ -109,7 +109,7 @@ public class Login extends HttpServlet {
 			try {
 				user = userDAO.login(email, password);
 			} catch (SQLException e) {
-				LOGGER.log(Level.SEVERE, "Login error", e);
+				LOGGER.log(Level.SEVERE, "Login error: " + e.getMessage());
 			}
 			
 			 try {
@@ -147,7 +147,7 @@ public class Login extends HttpServlet {
 					jsonObject.append("outcome", false);
 				}
 	        } catch (Exception e) {
-	        	LOGGER.log(Level.SEVERE, "Login error", e);
+	        	LOGGER.log(Level.SEVERE, "Login error: " + e.getMessage());
 	        }
 
 	        response.getWriter().print(jsonObject);
@@ -168,7 +168,7 @@ public class Login extends HttpServlet {
 			try {
 				cartDAO.mergeCart(user_id, items);
 			} catch (SQLException e) {
-				LOGGER.log(Level.WARNING, "errore nel merge del carrello", e);
+				LOGGER.log(Level.WARNING, "errore nel merge del carrello: " + e.getMessage());
 			}
 		}
 		session.removeAttribute("cart");

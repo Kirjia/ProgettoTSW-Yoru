@@ -85,7 +85,7 @@ public class AddToCart extends HttpServlet {
 			try {
 				jsonObject.append("response", true);
 			} catch (JSONException e) {
-				LOGGER.log(Level.WARNING, "JSON error", e);
+				LOGGER.log(Level.WARNING, "JSON error: " + e.getMessage());
 			}
 			
 			
@@ -98,10 +98,10 @@ public class AddToCart extends HttpServlet {
 				
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
-				LOGGER.log(Level.WARNING, "JSON error", e);
+				LOGGER.log(Level.WARNING, "JSON error: " + e.getMessage());
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				LOGGER.log(Level.WARNING, "add cart error", e);
+				LOGGER.log(Level.WARNING, "add cart error: " + e.getMessage());
 			}
 		}
 		

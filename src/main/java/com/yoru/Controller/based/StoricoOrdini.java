@@ -69,7 +69,7 @@ public class StoricoOrdini extends HttpServlet {
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			LOGGER.log(Level.SEVERE, "orders error", e);
+			LOGGER.log(Level.SEVERE, "orders error: " + e.getMessage());
 		}
 		
 		

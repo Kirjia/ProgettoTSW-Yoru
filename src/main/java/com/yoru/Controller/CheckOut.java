@@ -70,9 +70,9 @@ public class CheckOut extends HttpServlet {
 				jsonObject.put("result", false);
 			}
 		} catch (SQLException e) {
-			LOGGER.log(Level.WARNING, "CheckOut error", e);
+			LOGGER.log(Level.WARNING, "CheckOut error: " + e.getMessage());
 		} catch (JSONException e) {
-			LOGGER.log(Level.WARNING, "CheckOut done but an error has accured on json data", e);
+			LOGGER.log(Level.WARNING, "CheckOut done but an error has accured on json data: " + e.getMessage());
 		}
 		
 		

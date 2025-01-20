@@ -75,11 +75,11 @@ public class OrderDetails extends HttpServlet {
                 jsonResponse.put(jsonItem);
             }
         } catch (SQLException e) {
-            LOGGER.log(Level.WARNING, "Db error", e);
+            LOGGER.log(Level.WARNING, "Db error: " + e.getMessage());
         } catch (JSONException e) {
-            LOGGER.log(Level.WARNING, "json error", e);
+            LOGGER.log(Level.WARNING, "json error: " + e.getMessage());
         } catch (NumberFormatException e) {
-            LOGGER.log(Level.WARNING, "Invalid order ID format", e);
+            LOGGER.log(Level.WARNING, "Invalid order ID format: " + e.getMessage());
         }
 
         response.getWriter().println(jsonResponse);

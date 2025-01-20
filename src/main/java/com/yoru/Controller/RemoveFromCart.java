@@ -100,12 +100,12 @@ public class RemoveFromCart extends HttpServlet {
 					jsonObject.append("result", false);
 				
 			} catch (SQLException e) {
-				LOGGER.log(Level.WARNING, "remove from cart error", e);
+				LOGGER.log(Level.WARNING, "remove from cart error: " + e.getMessage());
 			}
 			catch (NumberFormatException e) {
-				LOGGER.log(Level.WARNING, "remove from cart error not valid SKU is not a number", e);
+				LOGGER.log(Level.WARNING, "remove from cart error not valid SKU is not a number: " + e.getMessage());
 			} catch (JSONException e) {
-				LOGGER.log(Level.WARNING, "remove from cart error, cant create json", e);
+				LOGGER.log(Level.WARNING, "remove from cart error, cant create json: " + e.getMessage());
 			}
 		}
 		

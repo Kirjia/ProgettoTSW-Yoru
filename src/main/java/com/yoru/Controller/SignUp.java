@@ -61,8 +61,8 @@ public class SignUp extends HttpServlet {
             userDAO = new UserDAO(ds);
 
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Errore nell'inizializzazione della servlet", e);
-            throw new ServletException("Errore nell'inizializzazione della servlet", e);
+            LOGGER.log(Level.SEVERE, "Errore nell'inizializzazione della servlet: " + e.getMessage());
+            
         }
     }
 
@@ -91,8 +91,7 @@ public class SignUp extends HttpServlet {
 		    try {
 				jsonObject.put("result", false).put("error", "Email non valida.");
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				LOGGER.log(Level.WARNING, e.getMessage());
 			}
 		    response.getWriter().print(jsonObject);
 		    return;
@@ -102,8 +101,7 @@ public class SignUp extends HttpServlet {
 		    try {
 				jsonObject.put("result", false).put("error", "Numero di telefono non valido.");
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				LOGGER.log(Level.WARNING, e.getMessage());
 			}
 		    response.getWriter().print(jsonObject);
 		    return;
@@ -120,8 +118,7 @@ public class SignUp extends HttpServlet {
 			    try {
 					jsonObject.put("result", false);
 				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					LOGGER.log(Level.WARNING, e.getMessage());
 				}
 			    response.getWriter().print(jsonObject);
 			    return;
@@ -150,7 +147,7 @@ public class SignUp extends HttpServlet {
 			    }
 			} catch (SQLException | JSONException e) {
 
-				LOGGER.log(Level.WARNING, "SignUp error", e);
+				LOGGER.log(Level.WARNING, "SignUp error: " + e.getMessage());
 			}
 			
 			

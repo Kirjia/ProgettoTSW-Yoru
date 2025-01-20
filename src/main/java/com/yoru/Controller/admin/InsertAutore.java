@@ -64,9 +64,9 @@ public class InsertAutore extends HttpServlet {
 				json.put("result", true);
 			}
 		} catch (SQLException e) {
-			LOGGER.log(Level.WARNING, "insert producer error", e);
+			LOGGER.log(Level.WARNING, "insert producer error: " + e.getMessage());
 		} catch (JSONException e) {
-			LOGGER.log(Level.WARNING, "insert producer json error", e);
+			LOGGER.log(Level.WARNING, "insert producer json error: " + e.getMessage());
 		}
 		
 		response.getWriter().print(json);

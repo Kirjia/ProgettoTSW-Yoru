@@ -76,7 +76,7 @@ public class GetBookInfo extends HttpServlet {
 				}
 			} catch (SQLException | JSONException e) {
 				// TODO Auto-generated catch block
-				LOGGER.log(Level.WARNING, "Retrieve book details failed", e);
+				LOGGER.log(Level.WARNING, "Retrieve book details failed: " + e.getMessage());
 			}
 			
 		}

@@ -92,13 +92,13 @@ public class Carrello extends HttpServlet {
 				//request.setAttribute("tot", cart.getTotal());
 				
 			} catch (NumberFormatException e) {
-				LOGGER.log(Level.INFO, "format error", e);
+				LOGGER.log(Level.INFO, "format error: " + e.getMessage());
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				LOGGER.log(Level.SEVERE, "sql error", e);
+				LOGGER.log(Level.SEVERE, "sql error: " + e.getMessage());
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
-				LOGGER.log(Level.SEVERE, "json error", e);
+				LOGGER.log(Level.SEVERE, "json error: " + e.getMessage());
 			}
 		}else {
 			
@@ -128,7 +128,7 @@ public class Carrello extends HttpServlet {
 						
 						
 					} catch (SQLException e) {
-						LOGGER.log(Level.WARNING, "retrieve guest cart error", e);
+						LOGGER.log(Level.WARNING, "retrieve guest cart error: " + e.getMessage());
 					}
 					
 				}
@@ -137,7 +137,7 @@ public class Carrello extends HttpServlet {
 					JSONArray array = cartJson(cart);
 					cartJson.put("cart", array);
 				} catch (JSONException e) {
-					LOGGER.log(Level.WARNING, "retrieve guest cart, json error", e);
+					LOGGER.log(Level.WARNING, "retrieve guest cart, json error: " + e.getMessage());
 				}
 				
 			}

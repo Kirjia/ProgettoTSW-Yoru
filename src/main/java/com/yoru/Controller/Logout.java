@@ -78,7 +78,7 @@ public class Logout extends HttpServlet {
 						token = authDAO.findBySelector(selector);
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
-						LOGGER.log(Level.SEVERE, "Logout error", e);
+						LOGGER.log(Level.SEVERE, "Logout error: " + e.getMessage());
 					}
 		             
 		            if (token != null) {
@@ -86,7 +86,7 @@ public class Logout extends HttpServlet {
 							if(!authDAO.remove(token))
 								LOGGER.log(Level.ALL, "logout error");
 						} catch (SQLException e) {
-							LOGGER.log(Level.SEVERE, "Logout error", e);
+							LOGGER.log(Level.SEVERE, "Logout error: " + e.getMessage());
 						}
 		                 
 		                Cookie cookieSelector = new Cookie("selector", "");
