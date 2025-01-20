@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 import org.json.JSONException;
@@ -18,6 +19,8 @@ import org.json.JSONObject;
 import com.yoru.Controller.GetAllBook;
 import com.yoru.model.DAO.ItemDAO;
 import com.yoru.model.Entity.Prodotto;
+import com.yoru.model.Entity.Role;
+import com.yoru.model.Entity.User;
 
 /**
  * Servlet implementation class UpdateItem
@@ -29,9 +32,7 @@ public class UpdateItem extends HttpServlet {
 	
 	private ItemDAO itemDAO;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+    
     public UpdateItem() {
         super();
         // TODO Auto-generated constructor stub
@@ -62,6 +63,7 @@ public class UpdateItem extends HttpServlet {
 		
 		JSONObject json_response = new JSONObject();
 		
+		
 		if(sku.isBlank() || sku == null || priceStr.isBlank() || priceStr == null || quantity.isBlank() || quantity == null) {
 			try {
 				json_response.put("error", "i valori non sono stati inseriti");
@@ -77,6 +79,18 @@ public class UpdateItem extends HttpServlet {
 		int qnt = Integer.parseInt(quantity);
 		float price = Float.parseFloat(priceStr);
 		
+		if(qnt < 0 || price < 0) {
+			try {
+				json_response.put("error", "i valori negativi non sono consentiti");
+			} catch (JSONException e) {
+				LOGGER.log(Level.WARNING, "errore valori negativi non consentiti: " + e.getMessage());
+			}
+			
+			response.getWriter().print(json_response);
+			return;
+		}
+			
+		
 		Prodotto prodotto = new Prodotto();
 		prodotto.setSKU(id);
 		prodotto.setPrezzo(price);
@@ -84,7 +98,10 @@ public class UpdateItem extends HttpServlet {
 		
 		try {
 			
-			json_response.put("result", itemDAO.update(prodotto));
+			if(itemDAO.update(prodotto))
+				json_response.put("result", true);
+			else
+				json_response.put("result", false);
 			
 		} catch (SQLException | JSONException e) {
 			LOGGER.log(Level.WARNING, "errore nella servlet UpdateItem, update fallito: " + e.getMessage());

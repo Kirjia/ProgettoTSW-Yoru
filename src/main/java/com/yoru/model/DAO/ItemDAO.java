@@ -708,7 +708,7 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
         try {
             con = dSource.getConnection();
 
-            String sql = "UPDATE" + TABLE_NAME +" SET  prezzo = ?, quantità = ?  WHERE prodotto.SKU = ?";
+            String sql = "UPDATE " + TABLE_NAME +" SET  prezzo = ?, quantità = ?  WHERE prodotto.SKU = ?";
             ps = con.prepareStatement(sql);
             System.out.println("QUERY: " + sql);
 
@@ -725,7 +725,6 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
             } else {
                 System.out.println("Impossibile effettuare l'update");
             }
-            con.commit();
         }finally {
 
             if (ps != null)
