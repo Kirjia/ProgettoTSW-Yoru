@@ -204,3 +204,21 @@ h1 {
 .page-link {
     color: white !important;
 }
+
+
+.modal-content {
+    background: #343a40;
+    color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+.modal-header {
+    border-bottom: 1px solid #ff7000;
+}
+.modal-footer .btn-primary {
+    background-color: #ff7000;
+    border: none;
+}
+.modal-footer .btn-primary:hover {
+    background-color: #e65c00;
+}

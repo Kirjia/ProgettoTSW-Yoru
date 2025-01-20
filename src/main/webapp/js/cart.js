@@ -54,70 +54,87 @@ $(document).ready(function(){
 	})
 	
 	
-	$(".aggiungi-al-carrello").on("click", function(event){
-		event.preventDefault(); 
 
-		
-		        
+    $(".aggiungi-al-carrello").on("click", function(event){
+        event.preventDefault(); 
+        
         var item = $(document.activeElement).attr("id");
-		$.post(
-       			"https://localhost/Yoru/AddToCart",{
-					sku: item
-				}, (function(data) {
-				var jsonData = data.response[0];
-					if(jsonData){
-						alert("Prodotto aggiunto al carrello!");
-					}else{
-					alert("Si è verificato un errore durante l'aggiunta al carrello.");
-					}
-                }))
-				.fail(function(error) {
-		                alert("Si è verificato un errore durante l'aggiunta al carrello " + error);
-
+        var productType = $(this).data("type"); // Ottieni il tipo di prodotto (libro o gadget)
+        
+        $.post(
+            "https://localhost/Yoru/AddToCart", {
+                sku: item
+            }, (function(data) {
+                var jsonData = data.response[0];
+                if (jsonData) {
+                    // A seconda del tipo di prodotto, mostra un messaggio diverso
+                    var message = (productType === "libro") 
+                        ? "Il prodotto è stato aggiunto al carrello con successo!" 
+                        : "Il gadget è stato aggiunto al carrello con successo!";
+                    showModal(message);
+                } else {
+                    showModal("Si è verificato un errore durante l'aggiunta al carrello.");
+                }
+            }))
+            .fail(function(error) {
+                showModal("Si è verificato un errore durante l'aggiunta al carrello.");
             });
-	})
+    });
+
+    // Funzione per mostrare il modal con il messaggio dinamico
+    function showModal(message) {
+    $('#cartModal .modal-body').text(message);
+    $('#cartModal').modal('show'); // Usa 'show' per mostrare il modal
+}
+
+
 })
 
-$(document).on('click', '.remove-item', function() {
-	var sku = $(this).attr("id");
-	var totStr = $("#cart_tot").text();
-	var tot = parseFloat(totStr.replace("€", ""));
-	var div = $("#item-"+sku);
-	$.post(
-			"https://localhost/Yoru/RemoveFromCart",{
-				sku: sku
-			}, (function(data) {
-			var jsonData = data.result[0];
-				if(jsonData){
-					div.fadeOut(400, function() {
-						var str = $('#sub-'+sku).text().replace('Subtotale: €', '');
-						
-						var subtotaleRimosso = parseFloat(str);
-					    tot -= subtotaleRimosso;
-				        div.remove(); // Rimuovi l'elemento solo dopo che è scomparso
-						
-					    
-					    $('#cart_tot').html(`€${tot.toFixed(2)}`); // Aggiorna il totale
-						if(tot <= 0){
-							$('#cart-slot').append(
-								`
-								<p class="empty-carrello">Il carrello è vuoto!</p>
-								`
-							);
-						}
-				    }); // Rimuove l'elemento dall'HTML
-				    
-					
-					
-				}else{
-				alert("Si è verificato un errore durante la rimozione dal carrello.");
-				}
-	        }))
-			.fail(function(error) {
-	                alert("Si è verificato un errore durante l'aggiunta al carrello." + error);
+$(document).on("click", ".remove-item", function () {
+  var sku = $(this).attr("id");
+  var totStr = $("#cart_tot").text();
+  var tot = parseFloat(totStr.replace("€", ""));
+  var div = $("#item-" + sku);
 
-	    });
-    
+  $.post(
+    "https://localhost/Yoru/RemoveFromCart",
+    {
+      sku: sku,
+    },
+    function (data) {
+      var jsonData = data.result[0];
+      var modalBody = $("#cartModal .modal-body");
+
+      if (jsonData) {
+        div.fadeOut(400, function () {
+          var str = $("#sub-" + sku)
+            .text()
+            .replace("Subtotale: €", "");
+          var subtotaleRimosso = parseFloat(str);
+          tot -= subtotaleRimosso;
+          div.remove();
+
+          $("#cart_tot").html(`€${tot.toFixed(2)}`); // Aggiorna il totale
+          if (tot <= 0) {
+            $("#cart-slot").append(`<p class="empty-carrello">Il carrello è vuoto!</p>`);
+          }
+        });
+
+        modalBody.html("Prodotto rimosso dal carrello!");
+      } else {
+        modalBody.html("Si è verificato un errore durante la rimozione dal carrello.");
+      }
+
+      // Mostra il modal
+      $("#cartModal").modal("show");
+    }
+  ).fail(function (error) {
+    var modalBody = $("#cartModal .modal-body");
+    modalBody.html("Si è verificato un errore durante la rimozione dal carrello: " + error);
+
+    // Mostra il modal
+    $("#cartModal").modal("show");
+  });
 });
 
 

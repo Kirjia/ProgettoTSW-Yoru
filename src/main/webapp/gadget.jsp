@@ -60,17 +60,19 @@ if (items == null) {
                 <span>€<fmt:formatNumber value="${prodotto.prezzo}" minFractionDigits="2" maxFractionDigits="2" /></span>
 
  <!-- Add to Cart Button con disabilitazione -->
-                <button 
-                    class="aggiungi-al-carrello" 
-                    id="${prodotto.SKU}"
-                    <c:choose>
-                        <c:when test="${prodotto.quantità <= 0}">
-                            disabled
-                        </c:when>
-                    </c:choose>
-                >
-                    Aggiungi al carrello
-                </button>   
+               <button 
+    class="aggiungi-al-carrello" 
+    id="${prodotto.SKU}"
+    data-type="gadget"
+    <c:choose>
+        <c:when test="${prodotto.quantità <= 0}">
+            disabled
+        </c:when>
+    </c:choose>
+>
+    Aggiungi al carrello
+</button>
+  
             </div>
         </div>
     </div>
@@ -101,6 +103,28 @@ if (items == null) {
     </ul>
 </nav>
 
+
+
+<!-- Modal per messaggio aggiunto al carrello -->
+<div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cartModalLabel">Notifica</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Chiudi"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Il messaggio dinamico verrà inserito qui -->
+            </div>
+            <div class="modal-footer">
+            					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">Continua lo shopping</button>
+					<a href="${pageContext.request.contextPath}/carrello.jsp"
+						class="btn btn-primary">Vai al carrello</a>
+						 </div>
+        </div>
+    </div>
+</div>
 
 
 

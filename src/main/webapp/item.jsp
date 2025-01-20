@@ -70,7 +70,7 @@ if (prodotto == null) {
 			<%    for (String materiale : materiali) { %>
 			 <%=materiale%> 
 			<%} %></p>
-            <form id="addToCart">
+            <form class="addToCart">
                 <input type="hidden" id="sku" name="productId" value="<%= gadgets.getSKU() %>">
                 
                 
@@ -129,7 +129,7 @@ if (prodotto == null) {
 			<%} %>
 			</p>
 			<p><b>ISBN:</b><%=libro.getISBN()%></p>
-            <form id="addToCart">
+            <form class="addToCart">
                 <input type="hidden" id="sku" name="productId" value="<%= libro.getSKU() %>">
                 
                 
@@ -158,6 +158,26 @@ if (prodotto == null) {
         <%} %>
     </div>
 </div>
+
+<!-- Modal per il messaggio -->
+<div class="modal fade" id="modalFeedback" tabindex="-1" aria-labelledby="modalFeedbackLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalFeedbackLabel">Notifica</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Questo contenuto verrà modificato dinamicamente -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 
     <%@ include file="/html/footer.html" %>
 
