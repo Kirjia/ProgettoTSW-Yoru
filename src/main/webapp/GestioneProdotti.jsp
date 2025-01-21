@@ -15,118 +15,83 @@
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-<!-- Bootstrap CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
-
 </head>
 <body>
-
 	<%@include file="/header.jsp"%>
 	<%@page import="java.util.Collection"%>
 	<%
 	Collection<?> items = (Collection<?>) request.getAttribute("items");
-
 	if (items == null) {
 		response.sendRedirect("./GetAllItem");
 		return;
 	}
 	%>
-	<h1>Prodotti in magazzino</h1>
-	<div class="center-table">
-		<table>
-			<thead>
-				<tr>
-					<th>SKU</th>
-					<th>Type</th>
-					<th>Nome</th>
-					<th>Quantità</th>
-					<th>Prezzo</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach var="prodotto" items="${items}">
+	<div class="container">
+		<h1 class="text-center my-4">Prodotti in Magazzino</h1>
+		<div class="center-table">
+			<table class="table table-hover table-bordered">
+				<thead class="table-dark">
 					<tr>
-						<td><h3>
-								<c:out value="${prodotto.SKU}" />
-							</h3></td>
-						<td><h3>
-								<c:out value="${prodotto.itemType }" />
-							</h3></td>
-						<td><h3>
-								<c:out value="${prodotto.nome}" />
-							</h3></td>
-						<td><h3>
-								<c:out value="${prodotto.quantità}" />
-							</h3></td>
-						<td><h3>
-								€
-								<fmt:formatNumber value="${prodotto.prezzo}"
-									minFractionDigits="2" maxFractionDigits="2" />
-							</h3></td>
-						<td>
-							<button class="orange-button" data-sku="${prodotto.SKU}"
-								data-toggle="modal" data-target="#addNewProductModal">
-								<i class="bi bi-pencil-square"></i>
-							</button>
-						</td>
+						<th>SKU</th>
+						<th>Type</th>
+						<th>Nome</th>
+						<th>Quantità</th>
+						<th>Prezzo</th>
+						<th>Azioni</th>
 					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
+				</thead>
+				<tbody>
+			<c:forEach var="prodotto" items="${items}">
+	<tr>
+		<td><c:out value="${prodotto.SKU}" /></td>
+		<td><c:out value="${prodotto.itemType}" /></td>
+		<td><c:out value="${prodotto.nome}" /></td>
+		<td><c:out value="${prodotto.quantità}" /></td>
+		<td>€ <fmt:formatNumber value="${prodotto.prezzo}" minFractionDigits="2" maxFractionDigits="2" /></td>
+		<td>
+			<button class="btn btn-warning orange-button" 
+				data-sku="${prodotto.SKU}" 
+				data-nome="${prodotto.nome}" 
+				data-prezzo="${prodotto.prezzo}" 
+				data-quantita="${prodotto.quantità}">
+				<i class="bi bi-pencil-square"></i>
+			</button>
+		</td>
+	</tr>
+</c:forEach>
+				</tbody>
+			</table>
+		</div>
 	</div>
-	<!-- Nuovo Modale per Nome Prodotto, Prezzo e Quantità -->
-	<div class="modal fade" id="addNewProductModal" tabindex="-1"
-		role="dialog" aria-labelledby="addNewProductModalLabel"
-		aria-hidden="true">
+	<!-- Modal per modificare il libro -->
+	<div class="modal fade" id="editBookModal" tabindex="-1" role="dialog" aria-labelledby="editBookModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="addNewProductModalLabel">Aggiungi
-						Nuovo Prodotto</h5>
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
+					<h5 class="modal-title" id="editBookModalLabel">Modifica Libro</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<form id="add-new-product-form">
-						<div class="form-group">
-							<label for="new-product-name">Nome Prodotto</label> <input
-								type="text" class="form-control" id="new-product-name"
-								placeholder="Inserisci il nome del prodotto" required>
+					<p id="editBookMessage" class="mb-4 text-center fw-bold"></p>
+					<form id="edit-book-form">
+						<div class="form-group mb-3">
+							<label for="book-price" class="form-label">Prezzo</label>
+							<input type="number" class="form-control" id="book-price" step="0.01" placeholder="Inserisci il nuovo prezzo" min="0" required>
 						</div>
-						<div class="form-group">
-							<label for="new-product-price">Prezzo</label> <input
-								type="number" class="form-control" id="new-product-price"
-								step="0.01" placeholder="Inserisci il prezzo" required>
+						<div class="form-group mb-3">
+							<label for="book-quantity" class="form-label">Quantità</label>
+							<input type="number" class="form-control" id="book-quantity" placeholder="Inserisci la nuova quantità" min="0" required>
 						</div>
-						<div class="form-group">
-							<label for="new-product-quantity">Quantità</label> <input
-								type="number" class="form-control" id="new-product-quantity"
-								placeholder="Inserisci la quantità" required>
-						</div>
-						<button type="submit" class="btn btn-primary" id="add">Aggiungi
-							modifiche</button>
+						<button type="submit" class="btn btn-primary w-100">Salva Modifiche</button>
 					</form>
 				</div>
 			</div>
 		</div>
 	</div>
-
-
-
-
-
 	<%@include file="/html/footer.html"%>
-	
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
+	<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="${pageContext.request.contextPath}/js/gestioneProdotti.js" type="text/javascript"></script>
-
-
 </body>
 </html>

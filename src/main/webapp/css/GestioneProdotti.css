@@ -1,27 +1,72 @@
-        .center-table { 
-            display: flex; 
-            justify-content: center; 
-            margin-top: 20px; 
-            margin-bottom: 20px;
-        }
-        .orange-button {
-            background-color: #ff7000; 
-            color: white; 
-            border: none; 
-            width: 30px; 
-            height: 30px; 
-            border-radius: 3px;
-        }
-        
-        table, th, td {
-            border: 1px solid black;
-        }
-        th, td {
-            padding: 8px;
-            text-align: left;
-        }
-         /* Modale*/
-#add{
-	background-color: #ff7000 !important;
-	border: none !important;
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f8f9fa;
+    color: #343a40;
+}
+
+h1 {
+    font-weight: 700;
+    color: #ff7000;
+}
+
+.center-table {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+table {
+    width: 80%;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+table th, table td {
+    padding: 15px;
+    text-align: center;
+}
+
+table th {
+    background-color: #343a40;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.orange-button {
+    background-color: #ff7000 !important;
+    color: white;
+    border: none !important;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+}
+
+.orange-button:hover {
+    background-color: #e05e00;
+    cursor: pointer;
+}
+
+.modal-header {
+    background-color: #ff7000;
+    color: #ffffff;
+    border-bottom: none;
+}
+
+.modal-footer {
+    border-top: none;
+}
+
+.btn-primary {
+    background-color: #ff7000;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #e05e00;
 }

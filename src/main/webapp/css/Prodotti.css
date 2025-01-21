@@ -35,15 +35,24 @@ h1 {
     text-decoration: none !important;
 }
 
-/* Card prodotto */
+/* Stile per il prezzo sopra al pulsante */
+.product-price {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #ff7000; /* Colore arancione del prezzo */
+    text-align: center; /* Centrare il prezzo */
+    margin-bottom: 10px; /* Spazio tra il prezzo e il pulsante */
+}
 /* Card prodotto */
 .single-product {
     position: relative !important;
     padding-bottom: 50px !important;
     overflow: hidden !important;
-    background: radial-gradient(circle, rgba(52, 58, 64, 0.8), rgba(74, 74, 74, 0.8)) !important; /* Gradiente radiale trasparente */
-    border-radius: 8px !important;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important; /* Ombra sottile */
+    background-color: white !important;
+  /*  background: radial-gradient(circle, rgba(52, 58, 64, 0.8), rgba(74, 74, 74, 0.8)) !important; /* Gradiente radiale trasparente */ 
+    border-radius: 15px !important;
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.1) !important;
+    box-sizing: 5px !important; /* Ombra sottile */
     transition: transform 0.2s ease-in-out !important;
 }
 .single-product:hover {
@@ -64,6 +73,7 @@ h1 {
     display: inline-block !important;
 }
 .product-image {
+	background-color: white !important;
 	padding: 15px !important;
     width: 100% !important;
     height: auto !important;
@@ -107,36 +117,36 @@ h1 {
 }
 
 /* Titolo prodotto */
+.product-title {
+text-align:center;
+    font-size: 1.1rem !important;
+    font-weight: 500 !important;
+    color: black !important;
+    border:black !important;
+    margin-bottom: 5px !important;
+    white-space: nowrap !important; /* Permetti al testo di andare a capo */
+    overflow: hidden !important; /* Gestione delle parole lunghe */
+    text-overflow: ellipsis !important;
+}
+
 .product-title-wrapper {
-    width: 100% !important;
+    width: 95% !important;
     overflow: hidden !important;
     white-space: nowrap !important;
     margin-left: 10px !important;
 }
+
 .product-title {
 	text-align:center;
 	font-size: 1.1rem !important;
 	font-weight: 500 !important;
-	color: white !important;
+	color: black !important;
 	border:black !important;
 	margin-bottom: 5px !important;
 	white-space: nowrap !important; /* Permetti al testo di andare a capo */
 	overflow: hidden !important; /* Gestione delle parole lunghe */
 	text-overflow: ellipsis !important;
 }
-.product-title-wrapper:hover .product-title {
-    animation: scrollHover 7s linear infinite !important;
-    text-overflow: unset !important;
-}
-@keyframes scrollHover {
-    0% {
-        transform: translateX(0) !important;
-    }
-    100% {
-        transform: translateX(-50%) !important;
-    }
-}
-
 
 
 /* Prezzo prodotto: Spostato sopra il pulsante e centrato */

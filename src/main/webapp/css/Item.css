@@ -70,6 +70,7 @@
 	background-color: #ff7000 !important;
 	width:70px!important;
 	margin-left: 20px !important;
+	border-color: #ff7000 !important;
 }
 .btn-primary:disabled {
     background-color: gray !important ;

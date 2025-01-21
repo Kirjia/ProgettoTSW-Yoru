@@ -1,34 +1,55 @@
+$(document).ready(function() {
+    $('.orange-button').click(function() {
+        // Recupera i dati dal pulsante
+        const skuProdotto = $(this).data('sku');
+        const nomeProdotto = $(this).data('nome');
+        const prezzoProdotto = $(this).data('prezzo');
+        const quantitaProdotto = $(this).data('quantita');
 
-$('.orange-button')
-	.click(
-		function() {
-			const skuProdotto = $(this).data('sku');
-	
-			// Esegui una chiamata AJAX per ottenere i dettagli del prodotto e riempi i campi del modale
-			$.ajax({
-				url : 'GetProductDetails', // Cambia questo URL con quello corretto per recuperare i dettagli del prodotto
-				method : 'GET',
-				data : {
-					sku : skuProdotto
-				},
-				success : function(data) {
-					// Pre-compila i campi del modale con i dati del prodotto
-					$('#new-product-name').val(
-							data.nome);
-					$('#new-product-price').val(
-							data.prezzo);
-					$('#new-product-quantity').val(
-							data.quantita);
-			
-					// Apri il modale
-					$('#addNewProductModal').modal(
-							'show');
-				},
-				error : function(error) {
-					console
-							.error(
-									'Errore durante il recupero dei dettagli del prodotto',
-									error);
-					}
-	});
+        // Aggiorna il messaggio nel modale
+        $('#editBookMessage').text(`Stai modificando il libro "${nomeProdotto}" con questo ID "${skuProdotto}"`);
+
+        // Pre-compila i campi del modale con i valori attuali
+        $('#book-price').val(prezzoProdotto);
+        $('#book-quantity').val(quantitaProdotto);
+
+        // Apri il modale
+        $('#editBookModal').modal('show');
+    });
+
+    // Gestione del form di modifica
+    $('#edit-book-form').submit(function(event) {
+        event.preventDefault();
+
+        // Recupera i valori dai campi del form
+        const nuovoPrezzo = $('#book-price').val();
+        const nuovaQuantita = $('#book-quantity').val();
+	    const id=$('#editBookMessage').text().match(/ID "(\w+)"/)[1]; // Estrai lo SKU dal messaggio
+	    
+	    
+        // Esegui la chiamata AJAX per aggiornare il libro
+        $.ajax({
+            url: 'UpdateItem', // Cambia questo URL con quello corretto
+            method: 'POST',
+            data: {
+                sku:id,
+                price: nuovoPrezzo,
+                quantity: nuovaQuantita
+            },
+            success: function(response) {
+                // Mostra un messaggio di successo o aggiorna la tabella
+                if(response.result){
+                $('#editBookModal').modal('hide');
+                location.reload(); // Ricarica la pagina per riflettere i cambiamenti
+           } else if(response.error){
+			  console.error('Errore durante l\'aggiornamento del libro', error);
+                alert('Si è verificato un errore. '+response.error);
+		   }
+           
+           },
+            error: function(error) {
+                alert('Si è verificato un errore.'+error);
+            }
+        });
+    });
 });

@@ -54,7 +54,7 @@ if (ordini == null) {
 
                 <!-- Order History Section -->
                 <div class="order-history p-3 mb-4 border rounded shadow-sm">
-                    <h4 class="mt-4"><b>La tua Cronologia Ordini</b></h4>
+                    <h4 class="mt-4" ><b><a name="cronologia">La tua Cronologia Ordini<a></a></b></h4>
                     <hr>
                     <c:forEach items="${historyOrders}" var="ordine">
                         <div class="order-card p-3 mb-3 border rounded shadow-sm">

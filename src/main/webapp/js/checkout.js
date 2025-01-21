@@ -21,7 +21,7 @@ $(document).ready(function() {
                                     <div class="row">
                                         <div class="col"><strong>Nome:</strong> ${item.nome}</div>
                                         <div class="col"><strong>Quantità:</strong> ${item.quantity}</div>
-                                        <div class="col"><strong>Prezzo:</strong> ${item.prezzo}€</div>
+                                        <div class="col"><strong>Prezzo:</strong> ${item.prezzo.toFixed(2)}€</div>
                                     </div>
                                 </div>
                             `;

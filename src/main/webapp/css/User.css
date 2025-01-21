@@ -9,14 +9,20 @@ body {
   max-width: 1200px;
 }
 
-.profile-card, .order-history, .order-card {
-  background-color: #fff;
+.profile-card, .order-history  {
+  background-color: #f8f9fa;
   padding: 1.5rem;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-
+.order-card{
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease
+}
 .profile-card:hover, .order-history:hover, .order-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
