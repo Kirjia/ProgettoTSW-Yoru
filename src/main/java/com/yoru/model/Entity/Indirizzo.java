@@ -19,6 +19,10 @@ public class Indirizzo {
 		this.CAP = CAP;
 	}
 
+	public Indirizzo() {
+		
+	}
+
 	public int getId() {
 		return id;
 	}

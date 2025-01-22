@@ -67,8 +67,24 @@ public class AddressDAO implements GenericDBOp<Indirizzo>{
 
 	@Override
 	public int insert(Indirizzo entity) throws SQLException {
-		// TODO Auto-generated method stub
-		return -1;
+		
+		String sql = "INSERT INTO user_address(email, via, provincia, città, CAP) value (?, ?, ?, ?, ?)";
+		int res = -1;
+		
+		try(Connection conn = ds.getConnection();
+				PreparedStatement ps = conn.prepareStatement(sql);){
+			
+			ps.setString(1, entity.getEmail());
+			ps.setString(2, entity.getVia());
+			ps.setString(3, entity.getProvincia());
+			ps.setString(4, entity.getCity());
+			ps.setString(5, entity.getCAP());
+			
+			res = ps.executeUpdate();
+		}
+		
+		return res;
+		
 	}
 
 	@Override
@@ -79,7 +95,22 @@ public class AddressDAO implements GenericDBOp<Indirizzo>{
 
 	@Override
 	public boolean remove(Indirizzo entity) throws SQLException {
-		// TODO Auto-generated method stub
+		
+		
+		String sql = "DELETE FROM user_address where id = ? AND email = ?";
+		
+		try(Connection conn = ds.getConnection();
+				PreparedStatement ps = conn.prepareStatement(sql);){
+			
+			ps.setInt(1, entity.getId());
+			ps.setString(2, entity.getEmail());
+			
+			
+			if (ps.executeUpdate() > 0)
+				return true;
+		}
+		
+		
 		return false;
 	}
 
