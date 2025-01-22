@@ -19,18 +19,18 @@
 	<header>
 		 <a href="${pageContext.request.contextPath}/home.jsp" class="logo"><img alt="YORU" src="${pageContext.request.contextPath}/images/LOGO.png" width="100px" height="50px"></a>
 		 <ul class="slider-menu">
-			<li class="icon"><a href="${pageContext.request.contextPath}/home.jsp"><i class="bi bi-house-fill"></i></a></li>
+			<li class="icon"><a href="${pageContext.request.contextPath}/home.jsp" rel="noopener noreferrer"><i class="bi bi-house-fill"></i></a></li>
 			
 			
 			<%if(user==null){ %>
-						<li class="drop"><a href="${pageContext.request.contextPath}/login.jsp"><i class="bi bi-person-fill"></i></a>
+						<li class="drop"><a href="${pageContext.request.contextPath}/login.jsp" rel="noopener noreferrer"><i class="bi bi-person-fill"></i></a>
 					
 			<%}else if(user.getRole()==Role.USER){ %>
-			<li class="drop"><a href="${pageContext.request.contextPath}/based/user.jsp"><i class="bi bi-person-fill"></i></a>
+			<li class="drop"><a href="${pageContext.request.contextPath}/based/user.jsp" rel="noopener noreferrer"><i class="bi bi-person-fill"></i></a>
 				
 				
 				<%}else if(user.getRole()==Role.ADMIN){ %>
-					<li class="drop"><a href="${pageContext.request.contextPath}/admin/admin.jsp"><i class="bi bi-person-fill"></i></a>
+					<li class="drop"><a href="${pageContext.request.contextPath}/admin/admin.jsp" rel="noopener noreferrer"><i class="bi bi-person-fill"></i></a>
 					
 					
 					
@@ -39,33 +39,33 @@
 					
 					<%}if(user!=null && user.getRole()==Role.USER){ %>
 				<ul>
-					<li class="dropdown"><a href="${pageContext.request.contextPath}/based/user.jsp">Profilo</a></li>
-					<li class="dropdown"><a href="${pageContext.request.contextPath}/based/user.jsp#cronologia">Cronologia ordini</a></li>
-					<li class="dropdown"><a href="${pageContext.request.contextPath}/Logout">Logout</a></li>
+					<li class="dropdown"><a href="${pageContext.request.contextPath}/based/user.jsp" rel="noopener noreferrer">Profilo</a></li>
+					<li class="dropdown"><a href="${pageContext.request.contextPath}/Logout" rel="noopener noreferrer">Logout</a></li>
 				</ul></li>
 				
 				
 				<%}else if(user!=null && user.getRole()==Role.ADMIN){ %>
 				
 				<ul>
-					<li class="dropdown"><a href="${pageContext.request.contextPath}/admin/admin.jsp">Profilo</a></li>
-					<li class="dropdown"><a href="${pageContext.request.contextPath}/Logout">Logout</a></li>
+					<li class="dropdown"><a href="${pageContext.request.contextPath}/based/user.jsp" rel="noopener noreferrer">Profilo</a></li>
+					<li class="dropdown"><a href="${pageContext.request.contextPath}/admin/admin.jsp" rel="noopener noreferrer">Pagina Admin</a></li>
+					<li class="dropdown"><a href="${pageContext.request.contextPath}/Logout" rel="noopener noreferrer">Logout</a></li>
 				</ul></li>
 				
 				
 				
 					<%}else{%>
 						<ul>
-						<li class="dropdown"><a href="${pageContext.request.contextPath}/login.jsp">Login</a></li>
+						<li class="dropdown"><a href="${pageContext.request.contextPath}/login.jsp" rel="noopener noreferrer">Login</a></li>
 					</ul></li>
 					<%} %>
 							
 				
 				
 				
-   			<li class="icon"><a href="${pageContext.request.contextPath}/prodotti.jsp"><i class="bi bi-book"></i></a></li>
-            <li class="icon"><a href="${pageContext.request.contextPath}/gadget.jsp"><i class="bi bi-controller"></i></a></li>
-			<li class="icon"><a href="${pageContext.request.contextPath}/carrello.jsp"><i class="bi bi-cart-fill"></i></a></li
+   			<li class="icon"><a href="${pageContext.request.contextPath}/prodotti.jsp" rel="noopener noreferrer"><i class="bi bi-book"></i></a></li>
+            <li class="icon"><a href="${pageContext.request.contextPath}/gadget.jsp" rel="noopener noreferrer"><i class="bi bi-controller"></i></a></li>
+			<li class="icon"><a href="${pageContext.request.contextPath}/carrello.jsp" rel="noopener noreferrer"><i class="bi bi-cart-fill"></i></a></li
 			>	
 		</ul>
 	</header>

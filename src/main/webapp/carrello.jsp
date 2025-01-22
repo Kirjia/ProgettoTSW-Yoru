@@ -39,10 +39,10 @@
                         <div class="col">Totale:</div>
                         <div id="cart_tot" class="col text-right">€0.00</div>
                     </div>
-                     <a href="${pageContext.request.contextPath}/based/checkout.jsp">
+                     <a href="${pageContext.request.contextPath}/based/checkout.jsp" rel="noopener noreferrer">
                     <button class="btn btn-dark btn-block mt-4" id="proceed-to-checkout">Procedi all'acquisto</button>
                     </a>
-                    <a href="${pageContext.request.contextPath}/prodotti.jsp" class="btn btn-light btn-block mt-2">Torna allo shopping</a>
+                    <a href="${pageContext.request.contextPath}/prodotti.jsp" rel="noopener noreferrer" class="btn btn-light btn-block mt-2">Torna allo shopping</a>
                 </div>
             </div>
         </div>

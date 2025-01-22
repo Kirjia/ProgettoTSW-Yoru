@@ -48,7 +48,7 @@
 						<!-- Product Image -->
 						<div class="part-1">
 							<!-- Link intorno all'immagine del prodotto -->
-							<a href="Item?sku=${prodotto.SKU}"> <img
+							<a href="Item?sku=${prodotto.SKU}" rel="noopener noreferrer"> <img
 								alt="${prodotto.nome}" onerror="this.src='files/images/err.png'"
 								src="files/images/${prodotto.SKU}.png"
 								class="product-image <c:out value='${prodotto.quantità <= 0 ? "out-of-stock" : ""}'/>">
@@ -110,7 +110,7 @@
 		<ul class="pagination justify-content-center">
 			<c:forEach var="i" begin="1" end="${totalPages}">
 				<li class="page-item ${i == currentPage ? 'active' : ''}"><a
-					class="page-link" href="GetAllBook?page=${i}">${i}</a></li>
+					class="page-link" href="GetAllBook?page=${i}" rel="noopener noreferrer">${i}</a></li>
 			</c:forEach>
 		</ul>
 	</nav>
@@ -135,7 +135,7 @@
 					<button type="button" class="btn btn-secondary"
 						data-bs-dismiss="modal">Continua lo shopping</button>
 					<a href="${pageContext.request.contextPath}/carrello.jsp"
-						class="btn btn-primary">Vai al carrello</a>
+						class="btn btn-primary" rel="noopener noreferrer">Vai al carrello</a>
 				</div>
 			</div>
 		</div>
