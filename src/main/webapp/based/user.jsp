@@ -49,9 +49,7 @@ if (ordini == null) {
                         <span id="telefono-value"><%=user.getTelefono()%></span>
                         <i class="fas fa-edit text-primary"  id="edit-telefono"></i>
                     </p> 
-                       <div class="container mt-5">
-        						<button class="btn btn-primary" id="open-modal">Aggiungi Indirizzo</button>
-        			    </div>               
+        						<button class="btn btn-primary" id="open-modal">Aggiungi Indirizzo</button>              
                     <div id="indirizzi-container"></div>
                 </div>
 

@@ -76,6 +76,53 @@ $(document).ready(function() {
 
         loadAddresses(); // Carica gli indirizzi se l'utente è autenticato
 		
+		 // Apri il modale
+            $('#open-modal').click(function () {
+                $('#addAddressModal').modal('show');
+            });
+     // Gestisci il salvataggio dell'indirizzo
+            $('#submitAddress').click(function () {
+                // Raccogli i dati del form
+                const formData = {
+                    via: $('#via').val(),
+                    provincia: $('#provincia').val(),
+                    citta: $('#citta').val(),
+                    CAP: $('#cap').val()
+                };
+
+                // Controlla che i campi siano validi
+                if (!formData.via || !formData.provincia || !formData.citta || !formData.CAP) {
+                    alert("Compila tutti i campi.");
+                    return;
+                }
+
+                // Chiamata AJAX alla servlet
+                $.ajax({
+                    url: './AddAddress', // Percorso alla servlet
+                    method: 'POST',
+                    data: formData,
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.result) {
+                            alert("Indirizzo aggiunto con successo!");
+                             loadAddresses();  // Ricarica gli indirizzi aggiornati
+                            $('#addAddressModal').modal('hide');
+                            $('#addAddressForm')[0].reset(); // Resetta il form
+                             
+                        } else {
+                            alert("Errore durante l'aggiunta dell'indirizzo. Riprova.");
+                        }
+                    },
+                    error: function () {
+                        alert("Errore durante la chiamata al server.");
+                    }
+                });
+            });
+		
+		
+		
+		
+		
 		$('#confirm-payment').on('click', function(event){
 			event.preventDefault(); 
 			

@@ -58,6 +58,30 @@ body {
 .edit-icon:hover {
   color: #cc5800 !important; /* Un colore leggermente più scuro per l'effetto hover */
 }
+#indirizzi-container{
+	margin-top: 10px;
+}
+#open-modal {
+  background-color: #ff7000; /* Colore arancione per abbinarsi ai titoli */
+  color: #fff; /* Testo bianco */
+  font-weight: 600; /* Testo leggermente più marcato */
+  border: none; /* Rimuove il bordo predefinito */
+  border-radius: 5px; /* Arrotonda i bordi */
+  padding: 10px 20px; /* Margini interni per dimensione confortevole */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Animazioni per hover */
+  
+}
+
+#open-modal:hover {
+  background-color: #cc5800; /* Colore arancione più scuro per hover */
+  transform: scale(1.05); /* Leggero zoom per effetto di enfasi */
+}
+
+#open-modal:focus {
+  outline: none; /* Rimuove il bordo di focus predefinito */
+  box-shadow: 0 0 5px 2px rgba(255, 112, 0, 0.5); /* Glow arancione per focus */
+}
+
 
 /* Responsività */
 @media (max-width: 767px) {

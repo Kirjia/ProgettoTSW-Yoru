@@ -11,11 +11,12 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/css/Cart.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/css/Checkout.css" rel="stylesheet">
 </head>
 <body>
 
     <%@ include file="/header.jsp" %>
+	<%@ include file="/html/addAdressM.html" %>
 
     <!-- Contenitore principale -->
     <div class="container mt-5">
@@ -41,6 +42,7 @@
                     <!-- Indirizzi -->
                     <div class="user-addresses mb-4">
                         <h5>Indirizzi</h5>
+                        <button class="btn btn-primary" id="open-modal">Aggiungi Indirizzo</button>
                         <select id="addressDropdown" class="select-custom" name="selectedAddress">
                             <!-- Le opzioni verranno popolate dinamicamente -->
                         </select>

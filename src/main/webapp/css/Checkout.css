@@ -39,6 +39,7 @@
 }
 /* Stile generale per il select */
 .select-custom {
+	margin-top:10px;
     appearance: none; /* Rimuove lo stile di default del browser */
     -webkit-appearance: none; /* Per Safari */
     -moz-appearance: none; /* Per Firefox */
@@ -53,6 +54,26 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ombra leggera */
     transition: all 0.3s ease-in-out; /* Transizione per hover e focus */
     cursor: pointer; /* Indica che è cliccabile */
+}
+#open-modal {
+  background-color: #ff7000; /* Colore arancione per abbinarsi ai titoli */
+  color: #fff; /* Testo bianco */
+  font-weight: 600; /* Testo leggermente più marcato */
+  border: none; /* Rimuove il bordo predefinito */
+  border-radius: 5px; /* Arrotonda i bordi */
+  padding: 10px 20px; /* Margini interni per dimensione confortevole */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Animazioni per hover */
+  
+}
+
+#open-modal:hover {
+  background-color: #cc5800; /* Colore arancione più scuro per hover */
+  transform: scale(1.05); /* Leggero zoom per effetto di enfasi */
+}
+
+#open-modal:focus {
+  outline: none; /* Rimuove il bordo di focus predefinito */
+  box-shadow: 0 0 5px 2px rgba(255, 112, 0, 0.5); /* Glow arancione per focus */
 }
 
 /* Icona della freccia */
@@ -134,7 +155,7 @@
 
 /* Pulsante di conferma */
 #confirm-payment {
-    background-color: #28a745;
+    background-color: #ff7000;
     color: white;
     font-size: 1.1rem;
     border-radius: 25px;

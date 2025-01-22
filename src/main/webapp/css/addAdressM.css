@@ -1,0 +1,102 @@
+/* Modal */
+.modal-content {
+    border-radius: 15px; /* Bordi arrotondati */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1); /* Ombra leggera */
+    border: none; /* Nessun bordo */
+}
+
+.modal-header {
+    background-color: #343a40; /* Sfondo scuro */
+    color: #ff7000;  /* Colore giallo */
+    border-top-left-radius: 15px; /* Arrotonda gli angoli superiori */
+    border-top-right-radius: 15px;
+    padding: 20px; /* Margini interni */
+}
+
+.modal-header .btn-close {
+    color: #ffffff; /* Colore bianco per il pulsante di chiusura */
+    opacity: 1; /* Rende il pulsante completamente visibile */
+}
+
+.modal-title {
+    font-size: 1.5rem; /* Dimensione maggiore per il titolo */
+    font-weight: bold; /* Testo in grassetto */
+}
+
+.modal-body {
+    background-color: #f8f9fa; /* Sfondo chiaro */
+    padding: 20px; /* Margini interni */
+}
+
+.modal-footer {
+    background-color: #f8f9fa; /* Sfondo chiaro */
+    border-top: 1px solid #e9ecef; /* Bordo superiore */
+    padding: 15px; /* Margini interni */
+}
+
+/* Input */
+.form-control {
+    border-radius: 8px; /* Bordi arrotondati */
+    border: 1px solid #ced4da; /* Bordo grigio */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ombra leggera */
+    padding: 10px; /* Spaziatura interna */
+    transition: all 0.3s ease-in-out; /* Transizioni per hover e focus */
+}
+
+.form-control:focus {
+    border-color: #007bff; /* Colore blu per il bordo */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Glow blu */
+    outline: none; /* Rimuove i contorni */
+}
+
+/* Etichette */
+.form-label {
+    font-size: 1rem; /* Dimensione standard */
+    font-weight: bold; /* Testo in grassetto */
+    color: #495057; /* Grigio scuro */
+}
+
+/* Pulsanti */
+.btn-secondary {
+    background-color: #6c757d; /* Grigio scuro */
+    border: none; /* Rimuove il bordo */
+    border-radius: 5px; /* Arrotonda i bordi */
+    padding: 10px 20px; /* Dimensioni comode */
+    font-weight: bold; /* Testo in grassetto */
+    transition: background-color 0.3s ease; /* Transizione per hover */
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268; /* Grigio più scuro */
+    transform: scale(1.05); /* Leggero ingrandimento */
+}
+
+.btn-primary {
+    background-color: #ff7000 !important; /* Colore arancione */
+    border: none !important; /* Rimuove il bordo */
+    border-radius: 5px; /* Arrotonda i bordi */
+    padding: 10px 20px; /* Dimensioni comode */
+    font-weight: bold; /* Testo in grassetto */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Transizioni */
+}
+
+.btn-primary:hover {
+    background-color: #cc5800; /* Arancione più scuro */
+    transform: scale(1.05); /* Leggero ingrandimento */
+}
+
+/* Titoli del modulo */
+#addAddressForm .mb-3 {
+    margin-bottom: 20px; /* Spazio tra i campi */
+}
+
+#addAddressForm .form-label {
+    font-size: 1.1rem; /* Etichette leggermente più grandi */
+    color: #343a40; /* Grigio scuro */
+}
+
+/* Spaziatura complessiva */
+.modal-dialog {
+    margin-top: 100px; /* Distanza dall'alto */
+}
+
