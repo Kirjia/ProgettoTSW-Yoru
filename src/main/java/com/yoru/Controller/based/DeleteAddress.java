@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.sql.DataSource;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,7 +23,7 @@ import com.yoru.model.Entity.User;
 /**
  * Servlet implementation class DeleteAddress
  */
-@WebServlet("/DeleteAddress")
+@WebServlet("/based/DeleteAddress")
 public class DeleteAddress extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOGGER = Logger.getLogger(DeleteAddress.class.getName());
@@ -34,7 +35,12 @@ public class DeleteAddress extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-	
+    @Override
+    public void init() throws ServletException {
+
+        DataSource dSource = (DataSource) super.getServletContext().getAttribute("DataSource");
+        dao = new AddressDAO(dSource);
+    }
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}

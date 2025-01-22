@@ -33,7 +33,7 @@ if (ordini == null) {
 <body>
 
     <%@ include file="/header.jsp"%>
-
+	<%@ include file="/html/addAdressM.html" %>
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-lg-8 col-md-10 col-sm-12">
@@ -48,13 +48,16 @@ if (ordini == null) {
                         <b>Telefono:</b> 
                         <span id="telefono-value"><%=user.getTelefono()%></span>
                         <i class="fas fa-edit text-primary"  id="edit-telefono"></i>
-                    </p>
+                    </p> 
+                       <div class="container mt-5">
+        						<button class="btn btn-primary" id="open-modal">Aggiungi Indirizzo</button>
+        			    </div>               
                     <div id="indirizzi-container"></div>
                 </div>
 
                 <!-- Order History Section -->
                 <div class="order-history p-3 mb-4 border rounded shadow-sm">
-                    <h4 class="mt-4" ><b><a name="cronologia">La tua Cronologia Ordini<a></a></b></h4>
+                    <h4 class="mt-4" ><b><a name="cronologia">La tua Cronologia Ordini</a></b></h4>
                     <hr>
                     <c:forEach items="${historyOrders}" var="ordine">
                         <div class="order-card p-3 mb-3 border rounded shadow-sm">
@@ -91,7 +94,6 @@ if (ordini == null) {
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script src="${pageContext.request.contextPath}/js/user.js" type="text/javascript"></script>
-   
 
 </body>
 </html>
