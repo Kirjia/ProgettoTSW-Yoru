@@ -53,22 +53,33 @@ public class UpdateProfile extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("application/json");
+		String numString = request.getParameter("upNumber");
 		String passwordString = request.getParameter("upPassword");
 		
-		String numString = request.getParameter("upNumber");
+		
 		JSONObject jsonObject = new JSONObject();
 		
+		boolean doit = false;
 		
 		
-		if(passwordString != null && numString != null) {
-			HttpSession session = request.getSession(false);
-			if (session != null) {
-				User updateUser = (User) session.getAttribute("user");
-				updateUser.setPassword(Argon2Hashing.hashPassword(passwordString));
-				updateUser.setTelefono(numString);
+		HttpSession session = request.getSession(false);
+		if (session != null) {
+			User updateUser = (User) session.getAttribute("user");
+			
+			
 
+			if(passwordString != null) {
+				updateUser.setPassword(Argon2Hashing.hashPassword(passwordString));
+				doit = true;
+			}
+			
+			if(numString != null) {
+				updateUser.setTelefono(numString);
+				doit = true;
+			}
 			
 			
+			if(doit) {
 
 			
 				try {
@@ -84,9 +95,10 @@ public class UpdateProfile extends HttpServlet {
 					LOGGER.log(Level.WARNING, "json fallito: " + e.getMessage());
 				}
 			}
-			
-			
 		}
+			
+			
+		
 		
 		response.getWriter().print(jsonObject);
 		

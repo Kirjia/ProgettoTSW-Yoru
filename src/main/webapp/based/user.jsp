@@ -70,17 +70,17 @@ if (ordini == null) {
                 <form id="editProfileForm">
                     <div class="mb-3">
                         <label for="telefono" class="form-label">Nuovo Numero di Telefono</label>
-                        <input type="text" class="form-control" id="telefono" placeholder="Inserisci il nuovo numero" value="<%=user.getTelefono()%>" required>
+                        <input type="text" class="form-control" id="telefono" placeholder="Inserisci il nuovo numero" value="<%=user.getTelefono()%>">
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Nuova Password</label>
-                        <input type="password" class="form-control" id="password" placeholder="Inserisci la nuova password" required>
+                        <input type="password" class="form-control" id="password" placeholder="Inserisci la nuova password">
                     </div>
                     <div class="mb-3">
                         <label for="confirm-password" class="form-label">Conferma Password</label>
-                        <input type="password" class="form-control" id="confirm-password" placeholder="Conferma la nuova password" required>
+                        <input type="password" class="form-control" id="confirm-password" placeholder="Conferma la nuova password">
                     </div>
-                    <button type="submit" class="btn btn-primary w-100">Salva Modifiche</button>
+                    <button class="btn btn-primary w-100">Salva Modifiche</button>
                 </form>
             </div>
         </div>

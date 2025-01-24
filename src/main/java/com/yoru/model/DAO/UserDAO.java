@@ -162,39 +162,34 @@ public class UserDAO implements GenericDBOp<User> {
 
     @Override
     public synchronized boolean update(User user)throws SQLException{
-        Connection connection =null;
-        PreparedStatement ps = null;
-        boolean statement = false;
 
+        String sql = "UPDATE "+ UserDAO.TABLE_NAME + " SET telefono=? where email= ?";
+        String passSql = "UPDATE "+ UserDAO.TABLE_NAME + " SET password=? where email= ?";
 
-        try {
-            connection = ds.getConnection();
-            String sql = "UPDATE "+ UserDAO.TABLE_NAME + " SET password = ?, telefono=? where email= ?";
-            ps = connection.prepareStatement(sql);
-            ps.setString(1, user.getPassword());
-            ps.setString(2, user.getTelefono());
-            ps.setString(3, user.getEmail());
+        try(Connection conn = ds.getConnection();
+        		PreparedStatement ps = conn.prepareStatement(sql);
+        		PreparedStatement psPass = conn.prepareStatement(passSql);) {
+        	
+            ps.setString(1, user.getTelefono());
+            ps.setString(2, user.getEmail());
             
-
 
             int result = ps.executeUpdate();
 
-            if (result > 0) {
-                System.out.println("Inserimento effettuato con successo\n");
-                statement = true;
+            if(!user.getPassword().isBlank() && user.getPassword() != null) {
+            	psPass.setString(1, user.getPassword());
+            	psPass.setString(2, user.getEmail());
+            	
+            	if(psPass.executeUpdate() > 0)
+            		return true;
+            	else
+            		return false;
             }
-            else
-                System.out.println("Impossibile inserire il record \n");
-
-
-        } finally {
-
-            if (ps != null)
-                ps.close();
-            connection.close();
-             
+            
+            if(result > 0)
+            	return true;
         }
-        return statement;
+        return false;
     }
 
     @Override

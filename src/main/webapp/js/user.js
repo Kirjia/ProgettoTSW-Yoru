@@ -146,20 +146,29 @@ $(document).ready(function() {
         const nuovaPassword = $('#password').val();
         const confermaPassword = $('#confirm-password').val();
 
+		let formData;
+		if(nuovoTelefono !== "")
+			formData = {upNumber: nuovoTelefono}
+		
+		
         // Verifica che le password coincidano
         if (nuovaPassword !== confermaPassword) {
             alert('Le password non coincidono.');
             return;
         }
 
+		
+		// Verifica che le password coincidano
+		       if (nuovaPassword ===  confermaPassword && nuovaPassword !== "") {
+		           formData.upPassword = nuovaPassword
+		       }
         // Invio della richiesta AJAX alla servlet
         $.ajax({
             url: 'UpdateProfile', // URL della servlet
             method: 'POST',
-            data: {
-                upNumber: nuovoTelefono,  // Nome parametro corrispondente alla servlet
-                upPassword: nuovaPassword // Nome parametro corrispondente alla servlet
-            },
+			 
+            data: formData,
+			
             success: function (response) {
                 if (response.result == true) { // Controlla il risultato dalla risposta JSON   
                     $('#editProfileModal').modal('hide');
