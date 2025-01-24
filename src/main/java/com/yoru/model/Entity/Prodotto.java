@@ -3,6 +3,7 @@ package com.yoru.model.Entity;
 
 public class Prodotto {
 
+	public static final String CLOUMNLABEL_DELETD = "is_deleted";
     public static final String COLUMNLABEL1 = "SKU";
     public static final String COLUMNLABEL2 = "nome";
     public static final String COLUMNLABEL4 = "prezzo";
@@ -18,6 +19,7 @@ public class Prodotto {
     private int id_produttore;
     private ItemType itemType;
     private String descrizione;
+    private int deleted;
     
     public enum ItemType{
     	LIBRO,
@@ -28,10 +30,24 @@ public class Prodotto {
         SKU=-1;
         nome=null;
         id_produttore=-1;
+        deleted = 0;
     }
 
+    
 
-    public int getSKU() {
+    public int getDeleted() {
+		return deleted;
+	}
+
+
+
+	public void setDeleted(int deleted) {
+		this.deleted = deleted;
+	}
+
+
+
+	public int getSKU() {
         return SKU;
     }
 

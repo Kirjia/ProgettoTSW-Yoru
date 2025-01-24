@@ -103,6 +103,7 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
                 item.setPrezzo(rs.getFloat(COLUMNLABEL4));
                 item.setQuantità(rs.getInt(COLUMNLABEL5));
                 item.setId_produttore(rs.getInt(COLUMNLABEL6));
+                item.setDeleted(rs.getInt(CLOUMNLABEL_DELETD));
                 item.setItemType(rs.getString("Category"));
 
                 items.add(item);
