@@ -32,6 +32,19 @@ body {
   font-weight: 600;
   color: #ff7000;
 }
+.modal-title {
+    color: #ff7000; /* Colore arancione per il titolo del modale */
+    font-weight: 600;
+}
+
+#editProfileModal .btn-primary {
+    background-color: #ff7000; /* Stesso arancione dei pulsanti principali */
+    border: none;
+}
+
+#editProfileModal .btn-primary:hover {
+    background-color: #cc5800; /* Arancione più scuro per hover */
+}
 
 .order-card ul {
   list-style: none;

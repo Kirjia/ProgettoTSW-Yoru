@@ -42,23 +42,33 @@
 				</thead>
 				<tbody>
 			<c:forEach var="prodotto" items="${items}">
-	<tr>
-		<td><c:out value="${prodotto.SKU}" /></td>
-		<td><c:out value="${prodotto.itemType}" /></td>
-		<td><c:out value="${prodotto.nome}" /></td>
-		<td><c:out value="${prodotto.quantità}" /></td>
-		<td>€ <fmt:formatNumber value="${prodotto.prezzo}" minFractionDigits="2" maxFractionDigits="2" /></td>
-		<td>
-			<button class="btn btn-warning orange-button" 
-				data-sku="${prodotto.SKU}" 
-				data-nome="${prodotto.nome}" 
-				data-prezzo="${prodotto.prezzo}" 
-				data-quantita="${prodotto.quantità}">
-				<i class="bi bi-pencil-square"></i>
-			</button>
-		</td>
-	</tr>
+    <tr class="${prodotto.deleted != 0 ? 'row-dark' : ''}">
+        <td><c:out value="${prodotto.SKU}" /></td>
+        <td><c:out value="${prodotto.itemType}" /></td>
+        <td><c:out value="${prodotto.nome}" /></td>
+        <td><c:out value="${prodotto.quantità}" /></td>
+        <td>€ <fmt:formatNumber value="${prodotto.prezzo}" minFractionDigits="2" maxFractionDigits="2" /></td>
+        <td>
+            <div class="action-buttons">
+                  <button class="btn btn-warning orange-button" 
+                    data-sku="${prodotto.SKU}" 
+                    data-nome="${prodotto.nome}" 
+                    data-prezzo="${prodotto.prezzo}" 
+                    data-quantita="${prodotto.quantità}"
+                    ${prodotto.deleted != 0 ? 'disabled' : ''}>
+                    <i class="bi bi-pencil-square"></i>
+                </button>
+                <button class="btn btn-danger red-button" 
+                    data-sku="${prodotto.SKU}" 
+                    data-nome="${prodotto.nome}"
+                    ${prodotto.deleted != 0 ? 'disabled' : ''}>
+                    <i class="bi bi-trash"></i>
+                </button>
+            </div>
+        </td>
+    </tr>
 </c:forEach>
+
 				</tbody>
 			</table>
 		</div>

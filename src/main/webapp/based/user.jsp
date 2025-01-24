@@ -38,20 +38,55 @@ if (ordini == null) {
         <div class="row justify-content-center">
             <div class="col-lg-8 col-md-10 col-sm-12">
                 <!-- User Info Card -->
-                <div class="profile-card p-3 mb-4 border rounded shadow-sm">
-                    <h4><b>Profilo Utente</b></h4>
-                    <hr>
-                    <p><b>Nome:</b> <%=user.getNome()%></p>
-                    <p><b>Cognome:</b> <%=user.getCognome()%></p>
-                    <p><b>Email:</b> <%=user.getEmail()%></p>
-                    <p>
-                        <b>Telefono:</b> 
-                        <span id="telefono-value"><%=user.getTelefono()%></span>
-                        <i class="fas fa-edit text-primary"  id="edit-telefono"></i>
-                    </p> 
-        						<button class="btn btn-primary" id="open-modal">Aggiungi Indirizzo</button>              
-                    <div id="indirizzi-container"></div>
-                </div>
+               <div class="profile-card p-3 mb-4 border rounded shadow-sm">
+    <div class="d-flex justify-content-between align-items-center">
+        <h4><b>Profilo Utente</b></h4>
+        <!-- Pulsante per aprire il modale -->
+        <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+            Modifica Dati
+        </button>
+    </div>
+    <hr>
+    <p><b>Nome:</b> <%=user.getNome()%></p>
+    <p><b>Cognome:</b> <%=user.getCognome()%></p>
+    <p><b>Email:</b> <%=user.getEmail()%></p>
+    <p>
+        <b>Telefono:</b> 
+        <span id="telefono-value"><%=user.getTelefono()%></span>
+    </p> 
+    <button class="btn btn-primary" id="open-modal">Aggiungi Indirizzo</button>              
+    <div id="indirizzi-container"></div>
+</div>
+
+<!-- Modale per modificare i dati -->
+<div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editProfileModalLabel">Modifica Profilo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editProfileForm">
+                    <div class="mb-3">
+                        <label for="telefono" class="form-label">Nuovo Numero di Telefono</label>
+                        <input type="text" class="form-control" id="telefono" placeholder="Inserisci il nuovo numero" value="<%=user.getTelefono()%>" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Nuova Password</label>
+                        <input type="password" class="form-control" id="password" placeholder="Inserisci la nuova password" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirm-password" class="form-label">Conferma Password</label>
+                        <input type="password" class="form-control" id="confirm-password" placeholder="Conferma la nuova password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Salva Modifiche</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 
                 <!-- Order History Section -->
                 <div class="order-history p-3 mb-4 border rounded shadow-sm">

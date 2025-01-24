@@ -12,10 +12,10 @@
   }
 }
 
-                    body{
+body{
   margin: 0px;
   padding: 0px;
-                        }
+  }
 
 header {
   background-color: #343a40;
@@ -154,25 +154,6 @@ li.drop {
 .slider-menu li.icon  a i {
     color: inherit; /* Inherit per usare il colore del link */
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
      

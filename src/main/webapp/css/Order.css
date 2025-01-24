@@ -1,18 +1,20 @@
 /* Contenitore centrato per la tabella */
-.center-table { 
-    display: flex; 
-    justify-content: center; 
-    margin-top: 20px; 
-    margin-bottom: 20px;
+.center-table {
+    display: flex;
+    justify-content: center;
+    margin: 20px auto;
+    width: 100%;
 }
 
 /* Stile per la tabella */
 table {
-    width: 80%; /* Più stretto per evidenziare la centratura */
+    width: 90%; /* Adattato per schermi piccoli */
+    max-width: 1200px;
     border-collapse: collapse;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Aggiunta di ombra */
     border-radius: 8px; /* Angoli arrotondati */
     overflow: hidden; /* Per gestire i bordi arrotondati */
+    margin: 0 auto;
 }
 
 /* Stile per intestazione della tabella */
@@ -56,55 +58,54 @@ tr:hover {
     font-style: italic;
     color: #666;
 }
+
+/* Stile per colonne ordinabili */
 .sortable {
     cursor: pointer;
     position: relative;
 }
+
 .sortable::after {
-    content: ' ⬍'; /* Indicazione di ordinabilità */
+    content: ' \2195'; /* Indicazione di ordinabilità */
     font-size: 12px;
     color: #666;
     position: absolute;
     right: 5px;
 }
 
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    table {
+        width: 100%;
+    }
 
+    th, td {
+        font-size: 12px;
+        padding: 8px;
+    }
 
-#ordersTable tr:hover {
-    background-color: #f1f1f1;
-    cursor: pointer;
+    .sortable::after {
+        font-size: 10px;
+    }
+
+    .details-cell {
+        font-size: 12px;
+        padding: 10px;
+    }
 }
 
-/* Righe principali degli ordini */
-.order-row {
-    background-color: #ffffff;
-    transition: background-color 0.3s ease;
-}
+@media screen and (max-width: 480px) {
+    th, td {
+        font-size: 10px;
+        padding: 6px;
+    }
 
-.order-row.active {
-    background-color: #e8f5e9; /* Verde chiaro per evidenziare la riga attiva */
-}
+    .details-cell {
+        font-size: 10px;
+        padding: 8px;
+    }
 
-/* Righe dei dettagli */
-.details-row {
-    display: none; /* Nascosta di default */
-    background-color: #f9f9f9; /* Grigio chiaro per distinguere i dettagli */
-}
-
-.details-row .details-cell {
-    padding: 15px;
-    font-size: 14px;
-    color: #555;
-    border-left: 4px solid #4caf50; /* Barra laterale colorata */
-}
-
-.details-row ul {
-    margin: 0;
-    padding: 0 20px;
-    list-style-type: none;
-}
-
-.details-row li {
-    margin: 5px 0;
-    font-size: 14px;
+    .sortable::after {
+        display: none;
+    }
 }

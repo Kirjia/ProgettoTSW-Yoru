@@ -172,8 +172,8 @@ public class UserDAO implements GenericDBOp<User> {
             String sql = "UPDATE "+ UserDAO.TABLE_NAME + " SET password = ?, telefono=? where email= ?";
             ps = connection.prepareStatement(sql);
             ps.setString(1, user.getPassword());
-            ps.setString(5, user.getTelefono());
-            ps.setString(6, user.getEmail());
+            ps.setString(2, user.getTelefono());
+            ps.setString(3, user.getEmail());
             
 
 

@@ -73,7 +73,7 @@ public class UpdateProfile extends HttpServlet {
 			
 				try {
 					Boolean result = userDAO.update(updateUser);
-					jsonObject.append("result", result);
+					jsonObject.put("result", result);
 					if (result) {
 						session.setAttribute("Profile", updateUser);
 					}

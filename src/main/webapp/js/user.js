@@ -138,13 +138,43 @@ $(document).ready(function() {
            }
        });
 
-       // Gestione modifica numero di telefono
-       $('#edit-telefono').click(function() {
-           var currentPhone = $('#telefono-value').text();
-           var newPhone = prompt("Inserisci il nuovo numero di telefono:", currentPhone);
-           if (newPhone !== null && newPhone !== "") {
-               $('#telefono-value').text(newPhone);
-               // Qui potresti aggiungere una chiamata AJAX per salvare il nuovo numero
-           }
-       });
+      $(document).ready(function () {
+    $('#editProfileForm').submit(function (e) {
+        e.preventDefault();
+
+        const nuovoTelefono = $('#telefono').val();
+        const nuovaPassword = $('#password').val();
+        const confermaPassword = $('#confirm-password').val();
+
+        // Verifica che le password coincidano
+        if (nuovaPassword !== confermaPassword) {
+            alert('Le password non coincidono.');
+            return;
+        }
+
+        // Invio della richiesta AJAX alla servlet
+        $.ajax({
+            url: 'UpdateProfile', // URL della servlet
+            method: 'POST',
+            data: {
+                upNumber: nuovoTelefono,  // Nome parametro corrispondente alla servlet
+                upPassword: nuovaPassword // Nome parametro corrispondente alla servlet
+            },
+            success: function (response) {
+                if (response.result == true) { // Controlla il risultato dalla risposta JSON   
+                    $('#editProfileModal').modal('hide');
+                    $('#telefono-value').text(nuovoTelefono); // Aggiorna il numero di telefono nella vista
+                    location.reload();
+                } else {
+                    alert('Errore durante l\'aggiornamento del profilo. Riprova più tardi.');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Errore durante l\'aggiornamento del profilo:', error);
+                alert('Si è verificato un errore. Controlla la connessione o riprova più tardi.');
+            }
+        });
+    });
+});
+
    });
