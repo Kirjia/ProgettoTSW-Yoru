@@ -53,3 +53,19 @@ $(document).ready(function() {
         });
     });
 });
+
+
+// Elimina un prodotto
+    function deleteProduct(sku) {
+        $.ajax({
+            url: 'DeleteItem', // Servlet per eliminare un prodotto
+            method: 'POST',
+            data: { sku: sku },
+            success: function(response) {
+                location.reload();
+            },
+            error: function(error) {
+                console.error('Errore durante l\'eliminazione del prodotto', error);
+            }
+        });
+    }

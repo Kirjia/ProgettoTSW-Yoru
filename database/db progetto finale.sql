@@ -32,6 +32,7 @@ CREATE TABLE Prodotto(
     ID_casa_produttrice int unsigned,
     category enum("LIBRO", "GADGET"),
     descrizione varchar (300),
+    is_deleted int NOT NULL default 0,
     
     constraint PK_Prodotto
 		primary key(SKU),
@@ -265,13 +266,13 @@ CREATE TABLE Costituito(
 
 DROP VIEW IF EXISTS LibriView;
 CREATE VIEW LibriView AS
-	select p.SKU as SKU,
+	select p.SKU as SKU, is_deleted,
 		nome, prezzo, quantità, ID_casa_produttrice, descrizione,  l.ISBN, l.pagine, l.lingua
 		from Prodotto p inner JOIN Libro l on p.SKU = l.SKU;
         
 DROP VIEW IF EXISTS GadgetView;
 CREATE VIEW GadgetView AS
-	SELECT p.SKU as SKU,
+	SELECT p.SKU as SKU, is_deleted,
 		nome, prezzo, quantità, ID_casa_produttrice, descrizione, g.modello, g.Marchio FROM Prodotto p INNER JOIN gadgets g on p.SKU = g.SKU;
         
 		

@@ -47,7 +47,7 @@ if (admin == null) {
    				<h4><b>Gestione Prodotti</b></h4>
    					 <div class="d-flex justify-content-center gap-2 flex-wrap">
        					 <button class="btn btn-success" id="add-product-btn">Aggiungi Nuovo Prodotto</button>
-        				 <a href="${pageContext.request.contextPath}/GestioneProdotti.jsp" class="btn btn-primary">Visualizza Prodotti</a>
+        				 <a href="${pageContext.request.contextPath}/admin/GestioneProdotti.jsp" class="btn btn-primary">Visualizza Prodotti</a>
     				</div>
 			</div>
 			
@@ -136,7 +136,7 @@ if (admin == null) {
 	 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 	<script
-		src="${pageContext.request.contextPath}/js/admin.js"></script>
+		src="${pageContext.request.contextPath}/js/admin/admin.js"></script>
 
 
 	

@@ -89,58 +89,7 @@ $(document).ready(function() {
 	    }
 	});
 
-	
-	
-        // Carica i prodotti
-    function loadProducts() {
-        $.ajax({
-            url: '${pageContext.request.contextPath}/Prodotti', // Servlet che restituisce prodotti in formato JSON
-            method: 'POST',
-            dataType: 'json',
-            success: function(data) {
-                $('#products-list').empty();
-                data.forEach(function(prodotto) {
-                    $('#products-list').append(`
-                        <div class="col-md-4">
-                            <div class="card mb-4">
-                                <div class="card-body">
-                                    <h5 class="card-title">${prodotto.nome}</h5>
-                                    <p class="card-text">Prezzo: €${prodotto.prezzo}</p>
-                                    <button class="btn btn-danger delete-product" data-id="${prodotto.SKU}">Elimina</button>
-                                </div>
-                            </div>
-                        </div>
-                    `);
-                });
-
-                // Listener per il pulsante "Elimina"
-                $('.delete-product').click(function() {
-                    const sku = $(this).data('id');
-                    deleteProduct(sku);
-                });
-            },
-            error: function(error) {
-                console.error('Errore durante il caricamento dei prodotti', error);
-            }
-        });
-    }
-
-    // Elimina un prodotto
-    function deleteProduct(sku) {
-        $.ajax({
-            url: 'DeleteProduct', // Servlet per eliminare un prodotto
-            method: 'POST',
-            data: { sku: sku },
-            success: function(response) {
-                alert('Prodotto eliminato con successo!');
-                loadProducts(); // Ricarica i prodotti
-            },
-            error: function(error) {
-                console.error('Errore durante l\'eliminazione del prodotto', error);
-            }
-        });
-    }
-
+   
         
         
         	$('#add-product-btn').click(function() {
@@ -252,17 +201,4 @@ $(document).ready(function() {
 
 var orderBy = "data"
 
-$.ajax({
-    url: '/admin/AllOrders', // Servlet per eliminare un prodotto
-    method: 'POST',
-    data: { orderBy: orderBy },
-    success: function(data) {
-        if(data == null)
-			return;
-		
-		
-    },
-    error: function(error) {
-        console.error('Errore durante l\'eliminazione del prodotto', error);
-    }
-});
+

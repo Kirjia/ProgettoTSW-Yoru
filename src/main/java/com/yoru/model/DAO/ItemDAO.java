@@ -124,7 +124,7 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
     	List<Prodotto> booksList = new ArrayList<>();
     	ResultSet resultSet = null;
     	
-    	String sql = "SELECT SKU, nome FROM shiru.libriview order by SKU desc limit ?";
+    	String sql = "SELECT SKU, nome FROM shiru.libriview WHERE is_deleted = 0 order by SKU desc limit ? ";
     
     	try(Connection connection = dSource.getConnection();
     			PreparedStatement pStatement = connection.prepareStatement(sql)){
@@ -152,7 +152,7 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
     	List<Prodotto> gadgetList = new ArrayList<>();
     	ResultSet resultSet = null;
     	
-    	String sql = "SELECT SKU, nome FROM shiru.gadgetview order by SKU desc limit ?";
+    	String sql = "SELECT SKU, nome FROM shiru.gadgetview WHERE is_deleted = 0 order by SKU desc limit ?";
     
     	try(Connection connection = dSource.getConnection();
     			PreparedStatement pStatement = connection.prepareStatement(sql)){
@@ -181,7 +181,7 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
     	Connection connection = null;
     	ResultSet resultSet = null;
     	String sql = "SELECT sum(o.quantità) as vendite, p.* from " + OrderItem.TABLE_NAME + " o inner join " + Prodotto.TABLE_NAME +
-    				" p on o.SKU=p.SKU WHERE p.category = ? group by p.sku  order by vendite desc limit ?";
+    				" p on o.SKU=p.SKU WHERE p.category = ? AND p.is_deleted = 0 group by p.sku  order by vendite desc limit ?";
     	List<Prodotto> books = new ArrayList<>();
     	try {
 			connection = dSource.getConnection();
@@ -273,7 +273,7 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
         int offset = (page - 1)*limit;
         String queryString = "SELECT SKU, nome, prezzo, quantità FROM "+ LIBRIVIEW + "\r\n"
         		+ "    INNER JOIN (\r\n"
-        		+ "      SELECT SKU FROM " + LIBRIVIEW + " ORDER BY SKU LIMIT ? OFFSET ?\r\n"
+        		+ "      SELECT SKU FROM " + LIBRIVIEW + " WHERE is_deleted = 0  ORDER BY SKU LIMIT ? OFFSET ?\r\n"
         		+ "    ) AS tmp USING (SKU)\r\n"
         		+ "ORDER BY\r\n"
         		+ "  SKU";
@@ -316,7 +316,7 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
         int offset = (page - 1)*limit;
         String queryString = "SELECT SKU, nome, prezzo, quantità FROM "+ TABLE_GADGET + "\r\n"
         		+ "    INNER JOIN (\r\n"
-        		+ "      SELECT SKU FROM " + TABLE_GADGET + " ORDER BY SKU LIMIT ? OFFSET ?\r\n"
+        		+ "      SELECT SKU FROM " + TABLE_GADGET + " WHERE is_deleted = 0 ORDER BY SKU LIMIT ? OFFSET ?\r\n"
         		+ "    ) AS tmp USING (SKU)\r\n"
         		+ "ORDER BY\r\n"
         		+ "  SKU";
@@ -353,7 +353,7 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
 
     @Override
     public Prodotto getById(int id)throws SQLException{
-        String item_sql = "SELECT category FROM prodotto WHERE SKU = ?";
+        String item_sql = "SELECT category FROM prodotto WHERE SKU = ? AND is_deleted = 0";
 
         
         ResultSet itemSet = null;
@@ -389,7 +389,7 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
     
     private Libro getBook(int sku) throws SQLException{
     	
-    	String book_sql = "SELECT * FROM libriview WHERE SKU = ?";
+    	String book_sql = "SELECT * FROM libriview WHERE SKU = ? AND is_deleted = 0";
     	String autors_sql = "SELECT a.* FROM autori a LEFT JOIN realizza r ON r.ID_autore = a.ID_autore WHERE r.SKU = ?";
     	ResultSet resultSet = null;
     	ResultSet autoriSet = null;
@@ -445,7 +445,7 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
     }
     
     private Gadgets getGadget(int sku) throws SQLException{
-    	String gadget_sql = "SELECT * FROM GadgetView WHERE SKU = ?";
+    	String gadget_sql = "SELECT * FROM GadgetView WHERE SKU = ? AND is_deleted = 0";
     	String materials_sql = "SELECT s.Materiale FROM struttura s INNER JOIN costituito c ON c.Materiale = s.Materiale WHERE c.SKU = ?;";
     	ResultSet resultSet = null;
     	ResultSet materialSet = null;
@@ -736,7 +736,23 @@ public class ItemDAO implements GenericDBOp<Prodotto> {
     }
 
     @Override
-    public synchronized boolean remove(Prodotto entity) {
-        return false;
+    public synchronized boolean remove(Prodotto entity) throws SQLException {
+    	
+    	boolean  op = false;
+    	
+    	String sql = "UPDATE " + TABLE_NAME +" SET  is_deleted = 1 WHERE prodotto.SKU = ?";
+    	
+    	try(Connection conn = dSource.getConnection();
+    			PreparedStatement ps = conn.prepareStatement(sql);){
+    		
+    		ps.setInt(1, entity.getSKU());
+    		
+    		if(ps.executeUpdate() > 0) 
+    			op = true;
+    		
+    		
+    	}
+    	
+        return op;
     }
 }

@@ -26,7 +26,7 @@ import com.yoru.model.Entity.Prodotto;
 /**
  * Servlet implementation class GetAllItem
  */
-@WebServlet("/GetAllItem")
+@WebServlet("/admin/GetAllItem")
 public class GetAllItem extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOGGER = Logger.getLogger(GetAllBook.class.getName());

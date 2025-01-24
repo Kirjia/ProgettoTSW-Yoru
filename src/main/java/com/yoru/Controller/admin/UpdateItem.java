@@ -25,7 +25,7 @@ import com.yoru.model.Entity.User;
 /**
  * Servlet implementation class UpdateItem
  */
-@WebServlet("/UpdateItem")
+@WebServlet("/admin/UpdateItem")
 public class UpdateItem extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOGGER = Logger.getLogger(UpdateItem.class.getName()); 
