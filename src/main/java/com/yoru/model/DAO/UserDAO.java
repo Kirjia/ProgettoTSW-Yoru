@@ -169,15 +169,11 @@ public class UserDAO implements GenericDBOp<User> {
 
         try {
             connection = ds.getConnection();
-            connection.setAutoCommit(false);
-            String sql = "UPDATE "+ UserDAO.TABLE_NAME + " SET password = sha2(?, ?), nome=?, cognome=?, telefono=? where id= ?";
+            String sql = "UPDATE "+ UserDAO.TABLE_NAME + " SET password = ?, telefono=? where email= ?";
             ps = connection.prepareStatement(sql);
             ps.setString(1, user.getPassword());
-            ps.setInt(2, passCode);
-            ps.setString(3, user.getNome());
-            ps.setString(4, user.getCognome());
             ps.setString(5, user.getTelefono());
-            ps.setInt(6, user.getId());
+            ps.setString(6, user.getEmail());
             
 
 
@@ -190,7 +186,6 @@ public class UserDAO implements GenericDBOp<User> {
             else
                 System.out.println("Impossibile inserire il record \n");
 
-            connection.commit();
 
         } finally {
 

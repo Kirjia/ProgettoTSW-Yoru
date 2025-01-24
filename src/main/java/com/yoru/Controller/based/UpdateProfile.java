@@ -16,9 +16,10 @@ import javax.sql.DataSource;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.mysql.cj.util.Util;
 import com.yoru.model.DAO.UserDAO;
 import com.yoru.model.Entity.User;
-
+import Util.Argon2Hashing;
 
 @WebServlet("/based/UpdateProfile")
 public class UpdateProfile extends HttpServlet {
@@ -53,20 +54,17 @@ public class UpdateProfile extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("application/json");
 		String passwordString = request.getParameter("upPassword");
-		String nameString = request.getParameter("upName");
-		String surnameString = request.getParameter("upSurname");
+		
 		String numString = request.getParameter("upNumber");
 		JSONObject jsonObject = new JSONObject();
 		
 		
 		
-		if(passwordString != null && nameString != null && surnameString != null) {
+		if(passwordString != null && numString != null) {
 			HttpSession session = request.getSession(false);
 			if (session != null) {
 				User updateUser = (User) session.getAttribute("user");
-				updateUser.setNome(nameString);
-				updateUser.setCognome(surnameString);
-				updateUser.setPassword(passwordString);
+				updateUser.setPassword(Argon2Hashing.hashPassword(passwordString));
 				updateUser.setTelefono(numString);
 
 			
